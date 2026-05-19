@@ -1,0 +1,193 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - {{ parent() }}{% endblock %}
+
+{% block header %}
+    {% include 'menu/menu_deconnecte.html.twig' %}
+{% endblock %}
+
+{% block body %}
+
+			<!-- Début section Hero -->
+			<section class="gg-hero">
+				<div class="container-fluid h-100">
+					<article>
+						<div class="row h-100">
+							<div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+								<div class="container" style="width:362px;padding-auto;">
+									<h1 class="mb-4">Bienvenue</h1>
+									<p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable.</p>
+									<p>Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
+								</div>
+							</div>
+							<div class="col12 col-md-6 p-0 m-0">
+								<img src="images/mask group.png" alt="" height="751" class="w-100 image-fluid"/>
+							</div>	
+						</div>
+					</article>
+				</div>
+			</section><!-- Fin Section HERO -->
+			
+			<section class="nosProduits">
+				<div class="text-start" style="padding:30px 100px;height:81px;width:100%;background:#FFFDF7">
+					<h3>Nos produits </h3>
+				</div>
+			</section>
+			
+			<!-- Début section PRODUITS -->
+			<section class="gg-produits" style="background-color:#FFFDF7;">
+				<div class="container-fluid p-0 m-0">
+
+					<div class="row p-0 m-0" style="background-color:#FFFDF7;">
+						<div class="col-12 col-md-6 col-lg-4 p-0 m-0">
+							<div class="card">
+								<!-- image produit -->
+								<img src="{{ asset('images/Rectangle 4.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<!-- div Titre / Description - Prix - Bouton "Voir le produit" -->
+									<div class="desc">
+										<h4 class="card-title">Kit d'hygiène recyclable </h4>
+										<p class="card-text">FPour une salle de bain éco-friendly</p>
+									</div>
+									<!-- Prix -->
+									<h4 class="card-title">24,99€</h4>
+									<!-- bouton "voir le produit" placer en bas de la zone -->
+									<div class="d-flex mt-auto align-items-end p-0">
+										<a href="#" class="btn custom3-btn " role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>		
+						</div>
+
+						<div class="col-12 col-md-6 col-lg-4 p-0 m-0"> <!-- style="height:692px;background-color:#FFFDF7;"> -->
+							<div class="card">
+								<img src="{{ asset('images/Rectangle 4-3.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<div class="desc">
+										<h4 class="card-title">Shot Tropical</h4>
+										<p class="card-text">Fruits frais, pressés à froid</p>
+									</div>
+									<h4 class="card-title">4,50€</h4>
+									<div class="d-flex mt-auto align-items-end p-0">
+										<a href="#" class="btn custom3-btn" role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>		
+						</div>
+						
+						<div class="col-12 col-md-6 col-lg-4 p-0 m-0"> <!-- style="height:692px;background-color:#FFFDF7;"> -->
+							<div class="card">
+								<img src="{{ asset('images/Rectangle 4-6.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<div class="desc">
+										<h4 class="card-title">Gourde en bois</h4>
+										<p class="card-text">50cl, bois d’olivier</p>
+									</div>
+									<h4 class="card-title">16,90€</h4>
+									<div class="d-flex mt-auto align-items-end p-0">
+										<a href="#" class="btn custom3-btn " role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>		
+						</div>
+					 <!--</div>
+					
+					deuxieme ligne 
+					<div class="row text-center p-0 m-0" style="background-color:#FFFDF7;">
+					-->
+						<div class="col-12 col-md-6 col-lg-4 h-100 p-0 m-0" >
+							<div class="card">
+								<img src="{{ asset('images/Rectangle 4-1.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<div class="desc">
+										<h4 class="card-title">Disques Démaquillants x3</h4>
+										<p class="card-text">Solution efficace pour vous démaquiller en douceur</p>
+									</div>
+									<h4 class="card-title">19,90€</h4>
+									<div class="d-flex mt-auto align-items-end p-0">
+										<a href="#" class="btn custom3-btn" role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>			
+						</div>
+						
+						<div class="col-12 col-md-6 col-lg-4 h-100 p-0 m-0">
+							<div class="card">
+								<img src="{{ asset('images/Rectangle 4-4.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<div class="desc">
+										<h4 class="card-title">Bougie Lavande & Patchouli</h4>
+										<p class="card-text">Cire naturelle</p>
+									</div>
+									<h4 class="card-title">32€</h4>
+									<div class="d-flex mt-auto align-items-end p-0">
+										<a href="#" class="btn custom3-btn" role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>			
+						</div>
+
+						<div class="col-12 col-md-6 col-lg-4 h-100 p-0 m-0"> 
+							<div class="card">
+								<img src="{{ asset('images/Rectangle 4-7.png') }}" class="card-img-top" alt="Photo produit">
+								<div class="card-body d-flex flex-column">
+									<div class="desc">
+										<h4 class="card-title">Brosse à dent</h4>
+										<p class="card-text">Bois de hêtre rouge issu de forêts gérées durablement</p>
+									</div>
+									<h4 class="card-title">5,40€</h4>
+									<div class="d-flex mt-auto align-items-end p-0" style="height:4.8125rem;">
+										<a href="#" class="btn custom3-btn" role="button" style="">Voir le produit</a>
+									</div>
+								</div>
+							</div>							
+						</div>
+						
+					</div>
+				</div>
+			</section><!-- Fin Section PRODUITS -->
+			
+			
+			<!-- Début section VALUES -->
+			<section class="gg-values">
+				<article class="bg1">
+					<div class="container-fluid m-0 p-0 w-100 h-100">
+						<div class="row m-0 p-0 w-100 h-100">
+							<div class="col-12 col-md-6 col-lg-8 p-0 m-0 text-start align-self-end">
+								<div class="mx-3 ps-4 pe-0 pb-4" style="width:425px;">
+									<h2>NOTRE CONVICTION</h2>
+									<p>
+										Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique.
+									</p>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4 p-0" style="background:blue">
+								<img src="{{ asset('images/Mask group-1.png') }}" alt="" height="646"class="w-100 image-fluid"/>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="bg2">
+					<div class="container-fluid m-0 p-0 w-100 h-100">
+						<div class="row m-0 p-0 w-100 h-100">
+							<div class="col-12 col-md-6 col-lg-4 m-0 p-0">
+								<img src="{{ asset('images/Mask group-2.png') }}" alt="" height="646" class="w-100 image-fluid"/>
+							</div>
+							<div class="col-12 col-md-6 col-lg-8 p-0 m-0 d-flex text-start align-self-end justify-content-end">
+								<div class="me-3 pe-4 pb-4" style="width:465px;">
+									<h2>NOS VALEURS</h2>
+									<p>
+										Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.<br/>
+										Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.<br/>
+										Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</article>
+
+			</section><!-- Fin Section VALUES -->
+
+{% endblock %}

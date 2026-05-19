@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - {{ parent() }}{% endblock %}
+
+{% block header %}
+    {% include 'menu/menu_connecte.html.twig' %}
+{% endblock %}
+
+{% block body %}
+			<!-- Début section MONCOMPTE -->
+			<section class="gg-compte">
+				<div class="container-fluid h-100">
+					<article>
+						<div class="row" style="height:1147px;">
+							<div class="col-3" style="background:#F7F1EC;">
+								
+							</div>
+							<div class="col-6 " style="background:#F7F1EC;padding: 0 58px">
+								<div style="margin-bottm:5px;">
+									<h2 class="text-center" style="font-size:20px;font-weight:500;margin-top:46px;">Mon compte</h2>
+									<div class="" style="background: #FFFDF7;height:220px;padding:60px;margin-top:43px;margin-bottom:15px;height:498px;">
+										<h2 class="" style="width:100%;font-size:14px;font-weight:600;margin-bottom:1rem;">Mes commandes</h2>
+										<div class="d-flex">
+                                            <table class="table-responsive mx-auto">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-start">N°</th>
+                                                        <th scope="col" class="text-center">Date</th>
+                                                        <th scope="col" class="text-end">Prix</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="align-top text-start">01</td>
+                                                        <td class="align-top text-center">01/01/2024</td>
+                                                        <td class="align-top text-end">185.50€</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-top text-start">02</td>
+                                                        <td class="align-top text-center">01/01/2024</td>
+                                                        <td class="align-top text-end">185.50€</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-top text-start">03</td>
+                                                        <td class="align-top text-center">01/01/2024</td>
+                                                        <td class="align-top text-end">185.50€</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-top text-start">04</td>
+                                                        <td class="align-top text-center">01/01/2024</td>
+                                                        <td class="align-top text-end">185.50€</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-top text-start">05</td>
+                                                        <td class="align-top text-center">01/01/2024</td>
+                                                        <td class="align-top text-end">185.50€</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+									</div>
+								</div>
+								<div class="text-end" style="background: #FFFDF7;padding:60px;margin-bottom:15px;height:244px">
+									<h4 class="text-start" style="font-size:14px;font-weight:600;margin-bottom:30px;">Mon accès API</h4> 
+									<div class="d-flex p-0 m-0 justity-content-center">
+										<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Activer mon accès API</a>
+									</div>								
+								</div>
+								
+								<div class="text-end" style="background: #FFFDF7;padding:60px;margin-bottom:77px;height:197px">
+									<div class="d-flex p-0 m-0 justity-content-center">
+										<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Supprimer mon compte</a>
+									</div>
+								</div>
+							
+							</div>
+							<div class="col-3" style="background:#F7F1EC;">
+								
+							</div>
+						</div>
+					</article>
+				</div>
+			</section><!-- Fin Section MONCOMPTE -->
+
+{% endblock %}

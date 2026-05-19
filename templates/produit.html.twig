@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit - {{ parent() }}{% endblock %}
+
+{% block header %}
+    {% include 'menu/menu_connecte.html.twig' %}
+{% endblock %}
+
+{% block body %}
+			<div class="container-fluid p-0 m-0">
+
+				<!-- Début section PRODUIT -->
+				<section class="gg-produit" style="background:#FFFDF7;">
+					<article>
+						<div class="container-fluid">
+							<div class="row" style="height:686px;">
+								<div class="col-md-6 p-0">
+									<img src="{{ asset('images/Rectangle 6.png') }}" height="686" class="image-fluid w-100" alt="Image">
+								</div>
+
+								<div class="col-md-6 p-0 m-0 mh-100">
+									<div class="d-flex p-0 m-0 align-items-center flex-column" style="height:686px;">
+										<div class="container p-0 m-0 mt-5" style="width:465px;">
+											<h2 class="mb-3" style="margin-top:2.43rem;">Nécessaire, déodorant Bio</h2>
+											<p class="prix mb-3" style="margin-top:1.5rem;">8,50€</p>
+											<p class="desc mb-3" style="margin-top:3.125rem;">Description</p>
+											<p class="my-3">
+												Déodorant Nécessaire, une formule révolutionnaire composée exclusivement d'ingrédients naturels pour une protection efficace et bienfaisante.
+											</p>
+											<p class="my-3">
+											
+												Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la 	journée.											
+											</p>
+											<p class="my-3">
+												Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.
+											</p>					
+										</div>
+											<!-- Ligne 2 : bouton centré en bas -->
+										<div class="container p-0 m-0 mt-auto" style="width:465px;">
+											<div class="p-0 m-0" >
+												<a href="#" class="btn custom-btn custom2-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Ajouter au panier</a>
+											</div>
+										</div>
+									</div>	
+
+
+								</div>
+							</div>
+						</div>				
+					</article>
+				</section><!-- Fin Section Produit -->
+			</div>
+{% endblock %}
