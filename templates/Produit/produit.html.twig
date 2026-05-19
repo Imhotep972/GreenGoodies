@@ -35,12 +35,13 @@
 												Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.
 											</p>					
 										</div>
-											<!-- Ligne 2 : bouton centré en bas -->
+										{% if is_granted('USER') %}
 										<div class="container p-0 m-0 mt-auto" style="width:465px;">
 											<div class="p-0 m-0" >
 												<a href="#" class="btn custom-btn custom2-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Ajouter au panier</a>
 											</div>
 										</div>
+										{% endif %}
 									</div>	
 
 
