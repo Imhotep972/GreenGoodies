@@ -8,26 +8,8 @@
 
 {% block body %}
 
-			<!-- Début section Hero -->
-			<section class="gg-hero">
-				<div class="container-fluid h-100">
-					<article>
-						<div class="row h-100">
-							<div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-								<div class="container" style="width:362px;padding-auto;">
-									<h1 class="mb-4">Bienvenue</h1>
-									<p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable.</p>
-									<p>Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
-								</div>
-							</div>
-							<div class="col12 col-md-6 p-0 m-0">
-								<img src="images/mask group.png" alt="" height="751" class="w-100 image-fluid"/>
-							</div>	
-						</div>
-					</article>
-				</div>
-			</section><!-- Fin Section HERO -->
-			
+{% include "Main/hero.html.twig" %}
+
 			<section class="nosProduits">
 				<div class="text-start" style="padding:30px 100px;height:81px;width:100%;background:#FFFDF7">
 					<h3>Nos produits </h3>
@@ -147,47 +129,6 @@
 				</div>
 			</section><!-- Fin Section PRODUITS -->
 			
-			
-			<!-- Début section VALUES -->
-			<section class="gg-values">
-				<article class="bg1">
-					<div class="container-fluid m-0 p-0 w-100 h-100">
-						<div class="row m-0 p-0 w-100 h-100">
-							<div class="col-12 col-md-6 col-lg-8 p-0 m-0 text-start align-self-end">
-								<div class="mx-3 ps-4 pe-0 pb-4" style="width:425px;">
-									<h2>NOTRE CONVICTION</h2>
-									<p>
-										Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique.
-									</p>
-								</div>
-							</div>
-							<div class="col-12 col-md-6 col-lg-4 p-0" style="background:blue">
-								<img src="{{ asset('images/Mask group-1.png') }}" alt="" height="646"class="w-100 image-fluid"/>
-							</div>
-						</div>
-					</div>
-				</article>
-
-				<article class="bg2">
-					<div class="container-fluid m-0 p-0 w-100 h-100">
-						<div class="row m-0 p-0 w-100 h-100">
-							<div class="col-12 col-md-6 col-lg-4 m-0 p-0">
-								<img src="{{ asset('images/Mask group-2.png') }}" alt="" height="646" class="w-100 image-fluid"/>
-							</div>
-							<div class="col-12 col-md-6 col-lg-8 p-0 m-0 d-flex text-start align-self-end justify-content-end">
-								<div class="me-3 pe-4 pb-4" style="width:465px;">
-									<h2>NOS VALEURS</h2>
-									<p>
-										Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.<br/>
-										Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.<br/>
-										Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</article>
-
-			</section><!-- Fin Section VALUES -->
+			{% include "Main/values.html.twig" %}
 
 {% endblock %}
