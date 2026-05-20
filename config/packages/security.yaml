@@ -24,7 +24,9 @@ security:
                 check_path: app_gg_login
                 enable_csrf: true
             logout:
-                target: app_gg_accueil
+                path: app_gg_logout
+                # where to redirect after logout
+                # target: app_any_route
             # Activate different ways to authenticate:
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -34,8 +36,8 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/compte, roles: ROLE_USER }
-         - { path: ^/panier, roles: ROLE_USER }
+         #- { path: ^/compte, roles: ROLE_USER }
+         #- { path: ^/panier, roles: ROLE_USER }
 
 when@test:
     security:

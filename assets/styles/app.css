@@ -1,412 +1,392 @@
-body {
-    			html {
-				font-size: 16px;		/* 1rem */
-				font-family: "Inter", sans-serif;
-				font-optical-sizing: auto;
-				line-height: 150%;
-				color: #333333;
-				margin: auto;
-				padding: 0;
-				max-width:1440px;
-			}
-			
-			body {
-				background:grey;
-			}
-			
-			.fw-bolder { font-weight: 600 !important}
-			.fw-bold { font-weight: 500 !important }
-			.fw-normal { font-weight: 400 !important }
-			.fw-lighter { font-weight: 300 !important	}
-			
+
+	html {
+		font-size: 16px;		/* 1rem */
+		font-family: "Inter", sans-serif;
+		font-optical-sizing: auto;
+		line-height: 150%;
+		color: #333333;
+		margin: auto;
+		padding: 0;
+		max-width:1440px;
+		background-color:#FFFDF7;
+	}
+	
+	.bg-primary {
+		background-color:#FFFDF7 !important;	
+	} 
+	.bg-secondary {
+		background-color:#EBE3D3 !important;	;	
+	} 	
+	.bg-tertiary {
+		background-color:#E8F0E3 !important;	;	
+	} 	
+	.bg-compte {
+		background-color: #F7F1EC;
+	}
+	
+	.fw-bolder { font-weight: 600 !important}
+	.fw-bold { font-weight: 500 !important }
+	.fw-normal { font-weight: 400 !important }
+	.fw-lighter { font-weight: 300 !important	}
+	
 /*			.fs-1 { font-size: 4rem !important}			
-			.fs-2 { font-size: 1.875rem !important }			
-			.fs-3 { font-size: 1.25rem !important	}			
-			.fs-4 { font-size: 1.125rem !important }			
-			.fs-5 { font-size: 1rem !important }			
-			.fs-6 { font-size: 0.875rem !important }	
-			.fs-7 { font-size: 0.75rem !important }
-			.fs-8 { font-size: 0.625rem !important }    */	
-			.fs-1 { font-size: 64px !important}			/* 64px */
-			.fs-2 { font-size: 30px !important }		/* 30px */		
-			.fs-3 { font-size: 20px !important	}		/* 20px */		
-			.fs-4 { font-size: 18px !important }		/* 18px */		
-			.fs-5 { font-size: 16px !important }		/* 16px */	
-			.fs-6 { font-size: 14px !important }		/* 14px */
-			.fs-7 { font-size: 12px !important }		/* 12px */
-			.fs-8 { font-size: 10px !important }		/* 10px */
-			
-			/* <h1> - Bienvenue (accueil) : fs-1 fw-bold (500 - 64px) */
-			/* <p.prix< - prix en euros (produit) : fs-2 fw-light (300 - 30px) */
-			/* <h2> - titre 2 fs-3 fw-bold (500 - 20px) */
-			/* <.gg-hero p> - paragraphe (accueil) fs-4 fw-light (300 - 18px) */
-			/* titre (accueil -> produits) fs-5 fw-bolder (600 - 16px) */
-			/* <h3> Nos produits (accueil) fs-6 fw-bold (500 - 14px) */
-			/* <p> <a> texte paragraphe / menu / footer  fs-6 fw-normal (400 - 14px) */
-			/* fs-6 fw-light (300 - 14px) */
-			/* <desc> - description (produit) fs-7 fw-normal (400 - 10px) */
-			
-			h1 { /* bienvenue (accueil) */
-				font-size: 4rem ;
-				font-weight: 500;
-			}
-			
-			h2 { /* titre (inscription, connexion, produit, mon compte, mon panier) */
-				font-size: 1.25rem;
-				font-weight: 500;
-			}
-			
-			h3 { /* Nos Produits (accueil) */
-				font-size: 0.875rem;
-				font-weight: 500;
-				text-transform: uppercase;
-			}
-						
-			p { /* paragraphe */
-				font-size: 0.875rem ;
-				font-weight: 400;
-				line-height: 120%;
-			}
-			
-			p.prix { /* prix (produit) */
-				font-size: 1.875rem;
-				font-weight: 300
-			}
-			
-			p.desc { /* description (produit) */
-				font-size: 0.625rem;
-			}
-			
-			/* Formulaire Custom */
-			.custom-btn { /* Inscription (S'enregister) - Connexion (Se connecter) - Mon Panier (Valider la commande) - Mon compte (Activer) (Supprimer) */
-				width: 29.93rem;
-				height:4.815rem;
-				background-color:#565656;
-				border-color:#565656;
-				border-radius:0;
-				margin-bottom:1.8rem;
-				color:#ffffff;
-				transition-duration: 0.30ms;
-				transition-timing-function: ease-out;
-				transition-property: background-color;
-            }
-
-			.custom2-btn { /* Produit (Ajouter au panier) */
-				width: 29.06rem;
-			}
-			
-			.custom3-btn { /* Accueil (afficher produit) */
-				width: 30rem;
-				background-color: #FFFDF7;
-				color: #000000 !important;
-				border:0;
-				height: 4.815rem;
-				border-radius:0;
-				transition-duration: 0.30s;
-				transition-timing-function: ease-out;
-				transition-property: background-color;
-			}
-			
-			.custom-btn:hover , .custom-btn:focus, .custom-btn:active {
-				background-color:#000000 !important;
-				border:1px solid #000000 !important;
-				color:#ffffff !important;
-			}
-			
-			.custom3-btn:hover , .custom3-btn:focus, .custom3-btn:active {
-				background-color:#333333 !important;
-				border-color:#333333 !important;
-				color:#FFFDF7 !important;
-			}
-			
-			.customInput {
-				width:29.93rem;
-				height:4.1875rem;
-				border:1px solid #666666;
-				background:#FFFDF7;
-				border-radius:0;
-				margin-bottom: 1.8rem;
-			}
-			
-			.customInput:focus {
-				border-color: #000000 !important;   
-			}
-			
-			/* Style normal */
-			.custom-check {
-				width: 1.1875rem !important;
-				height: 1.1875rem  !important;
-				background-color: #ffffff;
-				border: 1px solid #666666;
-				border-radius: 0 !important;
-				cursor: pointer;
-				box-shadow: none !important;
-				margin-right:0.5rem;
-			}
-
-			/* Hover */
-			.custom-check:hover {
-				border-color: #000000;
-			}
-
-			/* Focus (supprime le bleu Bootstrap) */
-			.custom-check:focus {
-				box-shadow: none !important;
-				border-color: #000000;
-			}
-
-			/* Quand cochée */
-			.custom-check:checked {
-				background-color: #ffffff !important;
-				border-color: #000000 !important;
-			}
-
-			/* Coche blanche */
-			.custom-check:checked[type=checkbox] {
-				background-image: url("/images/rectangle 16.svg") !important;
-				background-size: 0.9375rem 0.9375rem;
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-			
-			table {
-				width:485px;
-			}
-			
-			tr {
-				width:485px;
-			}
-			
-			th {
-				font-size:14px;
-				font-weight:400;
-				color:#666666;
-				height:47px;
-				text-align:center;
+	.fs-2 { font-size: 1.875rem !important }			
+	.fs-3 { font-size: 1.25rem !important	}			
+	.fs-4 { font-size: 1.125rem !important }			
+	.fs-5 { font-size: 1rem !important }			
+	.fs-6 { font-size: 0.875rem !important }	
+	.fs-7 { font-size: 0.75rem !important }
+	.fs-8 { font-size: 0.625rem !important }    */	
+	.fs-1 { font-size: 64px !important}			/* 64px */
+	.fs-2 { font-size: 30px !important }		/* 30px */		
+	.fs-3 { font-size: 20px !important	}		/* 20px */		
+	.fs-4 { font-size: 18px !important }		/* 18px */		
+	.fs-5 { font-size: 16px !important }		/* 16px */	
+	.fs-6 { font-size: 14px !important }		/* 14px */
+	.fs-7 { font-size: 12px !important }		/* 12px */
+	.fs-8 { font-size: 10px !important }		/* 10px */
+	
+	/* titre (accueil -> produits) fs-5 fw-bolder (600 - 16px) */
+	/* fs-6 fw-light (300 - 14px) */
+	
+	h1 { /* bienvenue (accueil) */
+		font-size: 4rem ;
+		font-weight: 500;
+	}
+	
+	h2 { /* titre (inscription, connexion, produit, mon compte, mon panier) */
+		font-size: 1.25rem;
+		font-weight: 500;
+	}
+	
+	h3 { /* Nos Produits (accueil) */
+		font-size: 0.875rem;
+		font-weight: 500;
+		text-transform: uppercase;
+	}
 				
-			}
-			
-			td {
-				font-size:14px;
-				font-weight:500;
-				height:47px;
-				text-align:center;
-			}
-			
-			tr:not(:first-child) td {
-				padding-top: 20px;
-				height:67px;
-			}
-			tr:not(:last-child) td {
-				border-bottom: 1px solid #ccc;
-			}
-			
-			header {
-				background:#FFFDF7;
-				border: 1px solid #F6F5F0;
-				width:100%;
-			}
-			
-			header img {
-				height: 1.25rem;
-			}
-			
-			header .container {
-				padding: 1.9375rem 100px;
-				height: 5.06rem;
-				max-width:1440px;
-			}
-			
-			header nav {
-				height:100%;
-			}			
-			
-			header nav a.nav-link {
-				font-size: 0.875rem !important;
-				font-weight: 400 !important;
-				color:#333333 !important;
-				margin-left:1.65rem !important;
-				margin-right:1.65rem !important;
-				
-				transition-duration: 0.30s !important;
-				transition-timing-function: ease-out !important;
-				transition-property: color !important;
-			}
-			
-			header nav a:hover {
-				font-size: 0.875rem !important;
-				font-weight: 500 !important;
-				color:#666666 !important;
-			}			
-			
-			section a {
-				text-decoration:underline;
-				color:#666666;
-			}
-			
-			
-			/* 	Page Accueil 	*/
-			section.gg-hero {
-				background:#E8F0E3;
-				height:751px;
-				width:100%;
-			}
-			section.gg-hero p { /* paragraphe HERO*/
-				font-size: 1.125rem;
-				font-weight: 300;
-			}
-			section.gg-produits {
-				background:#E8F0E3;
-				width:100%;
-			}
-			.card {
-				height:43.25rem;
-				background:#FFFDF7;
-				border:0 !important;
-				text-align: center;
-			}
-			.card .card-img-top {
-				 border-top-left-radius:0 !important;
-				 border-top-right-radius:0 !important;
-			}
-			.card-body {
-				height:13.625rem;
-				margin:0;
-				padding:0;
-			}
-			.card h4 {
-				font-weight:400;
-				font-size:0.875rem;
-				color:#333333;
-			}
-			.card .desc {
-				height:2.75rem;
-				margin-bottom:1.25rem;
-				margin-top:2.5rem;
-			}
-			.card .desc h4 {
-				font-weight:600;
-				font-size:1rem;
-				color:#000000;
-				margin-bottom:0.5rem;
-			}
-			.card .desc p {
-				font-weight:400;
-				font-size:0.875rem;
-				color:#666666;
-			}
-			.card a {
-				color:#ffffff;
-				border-radius:0;
-				padding:1.875rem 0;
-				height:4.8125rem;
-			}
+	p { /* paragraphe */
+		font-size: 0.875rem ;
+		font-weight: 400;
+		line-height: 120%;
+	}
+	
+	p.prix { /* prix (produit) */
+		font-size: 1.875rem;
+		font-weight: 300
+	}
+	
+	p.desc { /* description (produit) */
+		font-size: 0.625rem;
+	}
+	
+	/* Formulaire Custom */
+	.custom-btn { /* Inscription (S'enregister) - Connexion (Se connecter) - Mon Panier (Valider la commande) - Mon compte (Activer) (Supprimer) */
+		width: 29.93rem;
+		height:4.815rem;
+		background-color:#565656;
+		border-color:#565656;
+		border-radius:0;
+		margin-bottom:1.8rem;
+		color:#ffffff;
+		transition-duration: 0.30ms;
+		transition-timing-function: ease-out;
+		transition-property: background-color;
+	}
+
+	.custom2-btn { /* Produit (Ajouter au panier) */
+		width: 29.06rem;
+	}
+	
+	.custom3-btn { /* Accueil (afficher produit) */
+		width: 30rem;
+		background-color: #FFFDF7;
+		color: #000000 !important;
+		border:0;
+		height: 4.815rem;
+		border-radius:0;
+		transition-duration: 0.30s;
+		transition-timing-function: ease-out;
+		transition-property: background-color;
+	}
+	
+	.custom-btn:hover , .custom-btn:focus, .custom-btn:active {
+		background-color:#000000 !important;
+		border:1px solid #000000 !important;
+		color:#ffffff !important;
+	}
+	
+	.custom3-btn:hover , .custom3-btn:focus, .custom3-btn:active {
+		background-color:#333333 !important;
+		border-color:#333333 !important;
+		color:#FFFDF7 !important;
+	}
+	
+	.customInput {
+		width:29.93rem;
+		height:4.1875rem;
+		border:1px solid #666666;
+		background:#FFFDF7;
+		border-radius:0;
+		margin-bottom: 1.8rem;
+	}
+	
+	.customInput:focus, .customInput:active {
+		border-color: #000000 !important;   
+		box-shadow: none !important;
+	}
+	
+	/* Style normal */
+	.custom-check {
+		width: 1.1875rem !important;
+		height: 1.1875rem  !important;
+		background-color: #ffffff;
+		border: 1px solid #666666;
+		border-radius: 0 !important;
+		cursor: pointer;
+		box-shadow: none !important;
+		margin-right:0.5rem;
+	}
+
+	/* Hover */
+	.custom-check:hover {
+		border-color: #000000;
+	}
+
+	/* Focus (supprime le bleu Bootstrap) */
+	.custom-check:focus {
+		box-shadow: none !important;
+		border-color: #000000;
+	}
+
+	/* Quand cochée */
+	.custom-check:checked {
+		background-color: #ffffff !important;
+		border-color: #000000 !important;
+	}
+
+	/* Coche blanche */
+	.custom-check:checked[type=checkbox] {
+		background-image: url("../images/check.svg") !important;
+		background-size: 0.9375rem 0.9375rem;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	
+
+	section.gg-compte .mesCommandes {
+		background: #FFFDF7;
+		height:220px;
+		padding:60px;
+		margin-top:43px;
+		margin-bottom:15px;
+		height:498px;
+	}
+	.mesCommandes h3 {
+		 width:100%;
+		 font-weight:600;
+		 margin-bottom:1rem;
+	}
+	.mesCommandes table {
+		/*width:30.3125rem;*/
+		font-size: 0.875rem;
+	}
+	
+	.mesCommandes table th {
+		font-weight:400;
+		color:#666666;
+		height:2.9375rem;
+		text-align:center;
+		background-color:#FFFDF7;	
+	}
+
+	.mesCommandes table tr td {
+		font-weight:500;
+		color:#333333;
+		height:2.9375rem;
+		text-align:center;
+		background-color:#FFFDF7;	
+	}
+	
+	.mesCommandes table tr:not(:first-child) td {
+		padding-top: 1.25rem;
+		height:4.1875rem;
+	}
+	.mesCommandes table tr:not(:last-child) td {
+		border-bottom: 1px solid #ccc;
+	}
+	
+	header {
+		background:#FFFDF7;
+		border-bottom: 1px solid #F6F5F0;
+		width:100%;
+	}
+	
+	header img {
+		height: 1.25rem;
+	}
+	
+	header .container {
+		padding: 1.9375rem 100px;
+		height: 5.06rem;
+		max-width:1440px;
+	}
+	
+	header nav {
+		height:100%;
+	}			
+	
+	header .navbar-nav a.nav-link {
+		font-size: 0.875rem !important;
+		font-weight: 400 !important;
+		color:#333333 !important;
+		margin-left:1.65rem !important;
+		margin-right:1.65rem !important;
+		transition-duration: 0.30s !important;
+		transition-timing-function: ease-out !important;
+		transition-property: color !important;
+	}
 		
-			
-			section.gg-values article {
-				height:646px;
-				width:100%;
-			}
-			section.gg-values .bg1 { background:#EBE3D3;}
-			section.gg-values .bg2 { background:#E8F0E3;}
-			
-			/* 	Page Connexion	*/
-			section.gg-connexion {
-				height:988px;
-				width:100%;
-				background:#FFFDF7;
-			}
-			section.gg-connexion form {
-				/*border:1px solid #666666;*/
-				width:479px;
-				height:437px;
-			}
-			section.gg-connexion form input {
-				width:479px;
-				height:67px;
-				border:1px solid #666666;
-				background:#FFFDF7;
-				border-radius:0;
-				margin-bottom: 1.8rem;
-			}
-			section.gg-connexion form button {
-				width:479px;
-				height:77px;
-				background:#565656;
-				border-radius:0;
-				margin-bottom:1.8rem;
-			}
-			section.gg-connexion form label {
-				height:17px;
-				margin-bottom:0.625rem;
-			}
-			
-			
-			/*	Page Inscription*/
-			section.gg-inscription {
-				height:1104px;
-				width:100%;
-				background:#FFFDF7;
-			}
-			section.gg-inscription form {
-				/*border:1px solid #666666;*/
-				width:479px;
-				height:437px;
-			}
-			section.gg-inscription form input {
-				width:479px;
-				height:67px;
-				border:1px solid #666666;
-				background:#FFFDF7;
-				border-radius:0;
-				margin-bottom: 1.8rem;
-			}
-			section.gg-inscription form label {
-				height:17px;
-				margin-bottom:0.625rem;
-			}
-			
-			
-			/*	Page Produit	*/
-			section.gg-produit {
-				height:907px;
-				width:100%;
-				background:#FFFDF7;
-			}
-			/*section.gg-produit {
-				width:465px;
-			}*/
-			
-			/*	Page panier*/
-			section.gg-panier {
-				background:#EBE3D3;
-				
-			}
-			
-			a.panier {
-				color:#666666;
-				font-size:14px; 
-				font-weight:400;
-				margin-bottom:17px;
-				text-decoration:none;
-			}
-			a.panier:hover {
-				text-decoration:underline !important;
-				font-weight:500;
-			}
+	header .navbar-nav a:hover {
+		font-size: 0.875rem !important;
+		font-weight: 500 !important;
+		color:#666666 !important;
+	}			
+	
+	section a {
+		text-decoration:underline;
+		color:#666666;
+	}
+	
+	
+	/* 	Page Accueil 	*/
+	section.gg-hero {
+		background:#E8F0E3;
+		height:751px;
+		width:100%;
+	}
+	section.gg-hero p { /* paragraphe HERO*/
+		font-size: 1.125rem;
+		font-weight: 300;
+	}
 
-			/*	FOOTER	*/
-			footer {
-				background: #FFFFFF;
-				border-bottom:1px solid #F6F5F0;
-				width:100%;
-				height:81px;
-				padding:31px 100px;
-			}
-			footer p {
-				width:347px;
-				height:17px;
-			}
+	section.nosProduits {
+		padding:30px 100px;
+		height:81px;
+		width:100%;
+	}
+	section.gg-produits {
+		background:#E8F0E3;
+		width:100%;
+	}
+	.card {
+		height:43.25rem;
+		background:#FFFDF7;
+		border:0 !important;
+		text-align: center;
+	}
+	.card .card-img-top {
+			border-top-left-radius:0 !important;
+			border-top-right-radius:0 !important;
+	}
+	.card-body {
+		height:13.625rem;
+		margin:0;
+		padding:2.5rem 0rem 0rem 0rem;
+		gap:1.25rem;
+		flex-grow:0;
+	}
+	.card .desc {
+		height:2.75rem;
+		margin:0;
+	}
+	.card .desc h4 {
+		font-weight:600;
+		font-size:1rem;
+		color:#000000;
+		margin-bottom:0.5rem;
+	}
+	.card .desc p {
+		font-weight:400;
+		font-size:0.875rem;
+		color:#666666;
+	}
+	.card h4 {
+		font-weight:400;
+		font-size:0.875rem;
+		color:#333333;
+		margin:0;
+	}
+	.card a {
+		color:#ffffff;
+		border-radius:0;
+		padding:1.875rem 0;
+		height:4.8125rem;
+	}
 
-}
+	
+
+
+
+	
+	section.gg-values article {
+		height:646px;
+		width:100%;
+	}
+	section.gg-values .bg1 { background:#EBE3D3;}
+	section.gg-values .bg2 { background:#E8F0E3;}
+	
+	/* 	Page Connexion	*/
+	section.gg-connexion {
+		height:988px;
+		width:100%;
+		background:#FFFDF7;
+	}
+	
+	/*	Page Inscription*/
+	section.gg-inscription {
+		height:1104px;
+		width:100%;
+		background:#FFFDF7;
+	}
+	
+	/*	Page Produit	*/
+	section.gg-produit {
+		height:907px;
+		width:100%;
+		background:#FFFDF7;
+	}
+
+	/*	Page panier*/
+	section.gg-panier {
+		background:#EBE3D3;
+		
+	}
+	
+	a.panier {
+		color:#666666;
+		font-size:14px; 
+		font-weight:400;
+		margin-bottom:17px;
+		text-decoration:none;
+	}
+	a.panier:hover {
+		text-decoration:underline !important;
+		font-weight:500;
+	}
+
+	/*	FOOTER	*/
+	footer {
+		background: #FFFFFF;
+		border-bottom:1px solid #F6F5F0;
+		width:100%;
+		height:81px;
+		padding:31px 100px;
+	}
+	footer p {
+		width:347px;
+		height:17px;
+	}
+
+
 
