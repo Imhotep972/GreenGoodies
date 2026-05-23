@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit - {{ parent() }}{% endblock %}
-
-{% block header %}
-    {% include 'menu/menu_connecte.html.twig' %}
-{% endblock %}
-
+{% block title %}Produit{% endblock %}
 {% block body %}
 			<div class="container-fluid p-0 m-0">
 
@@ -13,39 +8,31 @@
 				<section class="gg-produit" style="background:#FFFDF7;">
 					<article>
 						<div class="container-fluid">
-							<div class="row" style="height:686px;">
-								<div class="col-md-6 p-0">
-									<img src="{{ asset('images/Rectangle 6.png') }}" height="686" class="image-fluid w-100" alt="Image">
+							<div class="row">
+								<div class="col col-md-7 p-0 imgProduit" style="max-width:734px;">
+									<img src="{{ asset('images/produits/'~product.photo)}}" class="flex-fill w-100 h-100" alt="{{ product.name }}" style="object-fit:cover;object-position:center;">
 								</div>
 
-								<div class="col-md-6 p-0 m-0 mh-100">
-									<div class="d-flex p-0 m-0 align-items-center flex-column" style="height:686px;">
-										<div class="container p-0 m-0 mt-5" style="width:465px;">
-											<h2 class="mb-3" style="margin-top:2.43rem;">Nécessaire, déodorant Bio</h2>
-											<p class="prix mb-3" style="margin-top:1.5rem;">8,50€</p>
-											<p class="desc mb-3" style="margin-top:3.125rem;">Description</p>
-											<p class="my-3">
-												Déodorant Nécessaire, une formule révolutionnaire composée exclusivement d'ingrédients naturels pour une protection efficace et bienfaisante.
-											</p>
-											<p class="my-3">
-											
-												Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la 	journée.											
-											</p>
-											<p class="my-3">
-												Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.
-											</p>					
-										</div>
-										{% if is_granted('USER') %}
-										<div class="container p-0 m-0 mt-auto" style="width:465px;">
-											<div class="p-0 m-0" >
-												<a href="#" class="btn custom-btn custom2-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Ajouter au panier</a>
-											</div>
-										</div>
-										{% endif %}
-									</div>	
+								<div class="col col-md-5 d-flex flex-column p-0 mx-auto mh-100" style="max-width:465px;">
+									<div class="container p-0 m-0 mt-5">
+										<h2 class="produit mb-3">{{ product.name}}</h2>
+										<p class="prix mb-3">{{ product.prix | number_format(2,',',' ') }}€</p>
+										<p class="desc mb-3">Description</p>
+										{# On structure le texte selon les CRLF -> <p></p>p> #}
+										{% for ligne in tabDesc %}
+												<p class="my-3">{{ ligne|trim }}</p>
+										{% endfor %}
+									</div>
+									{# si non connecté, on n'afiche pas les= bouton ajouter au panier #}
+									{% if is_granted('ROLE_USER') %}
 
-
-								</div>
+									<div class="container p-0 m-0 mt-auto">
+										<div class="p-0 m-0" >
+											<a href="{{ path('app_gg_cart_add',{id: product.id}) }}" class="btn custom-btn custom2-btn mx-auto mb-0" id="ajoutPanier" style="color:#ffffff;border-radius:0;padding:30px 0">Ajouter au panier</a>
+										</div>
+									</div>
+									{% endif %}
+								</div>	
 							</div>
 						</div>				
 					</article>

@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\ProductRepository;
-//use App\Entity\Product;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
+
+#[Route('/produit',name: 'app_gg_product_')]
 
 final class ProductController extends AbstractController
 {
@@ -16,13 +17,27 @@ final class ProductController extends AbstractController
  
     }
    
-    #[Route('/produit/{id}', name: 'app_gg_product',requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function produit(int $id): Response
+    #[Route('/produit/{id}', name: 'show',requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function showProduit(int $id, Product $produit)
     {
-        //$produit= $this->ProductRepository->find($id);
+        $produit = $this->productRepository->find($id);
+
+        $description = str_replace(["\r\n","<br>","<br/>"],"\n",$produit->getDescription());
+        $tabDesc = explode("\n",$description);
 
         return $this->render('Produit/produit.html.twig', [
-            'controller_name' => 'ProductController',
+            'product' => $produit,
+            'tabDesc' => $tabDesc,
+        ]);
+    }
+
+    #[Route('/produit', name: 'index',)]
+    public function showProduits()
+    {
+        $produits = $this->productRepository->findAll();
+
+        return $this->render('Produit/listeproduits.html.twig', [
+            'products' => $produits,
         ]);
     }
 }

@@ -356,7 +356,30 @@
 		width:100%;
 		background:#FFFDF7;
 	}
+	.imgProduit {
+		height:686px;
+		text-align:left;
+		overflow: hidden;
+	}
 
+	section.gg_produit h2 {
+		margin-top:2.43rem;
+	}
+	section.gg_produit p.prix {
+		margin-top:1.5rem;	
+	}
+	section.gg_produit p.desc {
+		margin-top:3.125rem;
+	}
+
+	section.gg_produit .row {
+		height:686px;
+	}
+	section.gg_produit .col img {
+		object-fit: cover !important; 
+		object-position: center !important;
+	}
+	
 	/*	Page panier*/
 	section.gg-panier {
 		background:#EBE3D3;

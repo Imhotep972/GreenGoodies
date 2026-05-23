@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier {% endblock %}
+
+{% block body %}
+			<!-- Début section PANIER -->
+			<section class="gg-panier">
+				<div class="container-fluid h-100">
+					<article>
+						<div class="row" style="height:732px;">
+							<div class="col-3" style="background:#F7F1EC;">
+								
+							</div>
+							<div class="col-6 " style="background:#F7F1EC;padding: 0 58px">
+								<div style="margin-bottm:5px;">
+									<h2 class="text-center" style="font-size:20px;font-weight:500;margin-top:102px;">Mon Panier</h2>
+
+									{% if produits is not empty %}
+										<a href="{{ path('app_gg_cart_empty') }}" class="text-start panier" style="color:#666666;font-size:14px; font-weight:400;margin-bottom:17px;">x Vider le panier</a>
+										{% for produit in produits %}
+										<div class="d-flex" style="background: #FFFDF7;height:220px;padding:40px;margin-top:17px;margin-bottom:5px">
+											<img src="{{ asset('images/produits/'~produit.photo) }}" height="133" width="142">	
+											<div style="padding-left:40px;padding-top:32px;">
+												<h4 class="w-100" style="font-size:14px;font-weight:600">{{produit.name}}</h4>
+												<p class="w-100" style="font-size:14px;font-weight:400">{{panier[produit.id]}}  </p>
+												<h4 style="font-size:18px;font-weight:500">{{ produit.sousTotal |  number_format(2,'.',' ')}}€</h4>
+												<a href="{{ path('app_gg_cart_add',{id:produit.id}) }}" class="btn btn-succes">+</a>
+												<a href="{{ path('app_gg_cart_remove',{id:produit.id}) }}" class="btn btn-warning">-</a>
+												<a href="{{ path('app_gg_cart_delete',{id:produit.id}) }}" role="button" class="btn btn-danger">Supprimer</a>
+											</div>
+										</div>
+										{% endfor %}
+									{%else %}
+										<div class="d-flex" style="background: #FFFDF7;height:220px;padding:40px;margin-top:17px;margin-bottom:5px">
+											<div style="padding-left:40px;padding-top:32px;">
+												<h4 class="w-100" style="font-size:14px;font-weight:600">Votre panier est vide</h4>
+											</div>
+										</div>
+									{% endif %}
+								</div>
+								<div class="text-end" style="background: #FFFDF7B2;padding:20px 40px;margin-bottom:29px;opacity:0.7;">
+									<p class="w-100" style="font-size:14px;font-weight:500">Total panier : 
+									<span style="font-size:20px;font-weight:400;">{{ prixTotal | number_format(2,'.',' ')}}€</span><br/>
+									<span style="font-size:12px;font-weight:400;">Frais de livraison offerts</span>
+									</p>	
+								</div>
+								<div class="d-flex p-0 m-0 justity-content-center">
+									<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Valider la commande</a>
+								</div>
+								
+							</div>
+							<div class="col-3" style="background:#F7F1EC;">
+								
+							</div>
+						</div>
+					</article>
+				</div>
+			</section><!-- Fin Section PANIER -->
+
+
+{% endblock %}

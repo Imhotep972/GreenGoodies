@@ -1,5 +1,6 @@
 import './stimulus_bootstrap.js';
 import { Alert } from 'bootstrap';
+import './panier.js';
 /*
  * Welcome to your app's main JavaScript file!
  *

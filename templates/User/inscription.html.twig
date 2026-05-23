@@ -6,47 +6,46 @@
     {% include 'menu/menu_deconnecte.html.twig' %}
 {% endblock%}
 {% block body %}
+
 			<!-- Début section INSCRIPTION -->
 			<section class="gg-inscription">
 				<article class="h-100 w-100">
 					<div class="container-fluid h-100 w-100">
 						<div class="row h-100">
 							<div class="col-12 col-md-6 p-0 ">
-								<img src="{{ asset('images/Mask group-4.png') }}" alt="Images" class="w-100 h-100 image_fluid"/>
+								<img src="{{ asset('images/value_1_img.png') }}" alt="Images" class="w-100 h-100 image_fluid"/>
 							</div>
 							<div class="col-12 col-md-6 mt-4 d-flex justify-content-center">
-								<form class="w-75 px-4">
+								{#<form method="post" class="w-75 px-4">#}
+								{{ form_start(form) }}
+								 	{{ form_errors(form) }}
 									<h2 class="mt-5 fs-3 fw-bold">Inscription</h2>
-									<p class="fs-7 fw-normal">Tous les champs sont obligatoires.</p>
 									<div class="mb-3">
-										<label for="nom" class="form-label fs-6">Nom</label>
-										<input type="text" class="form-control customInput" id="nom">
+									{{ form_row(form.prenom)}}
 									</div>
 									<div class="mb-3">
-										<label for="prenom" class="form-label fs-6">Prénom</label>
-										<input type="text" class="form-control customInput" id="prenom">
+										{{form_row(form.nom)}}
 									</div>
 									<div class="mb-3">
-										<label for="email" class="form-label fs-6">Adresse email</label>
-										<input type="email" class="form-control customInput" id="email">
+										{{form_row(form.email)}}
 									</div>
 									<div class="mb-3">
-										<label for="password1" class="form-label fs-6">Mot de passe</label>
-										<input type="password" class="form-control customInput" id="password1">
-									</div>
-									<div class="mb-3">
-										<label for="password2" class="form-label fs-6">Confirmation mot de passe</label>
-										<input type="password" class="form-control customInput" id="password2">
+										{{form_row(form.password)}}
 									</div>
 									<div class="form-check">
-										<input class="form-check-input custom-check" type="checkbox" id="flexCheck">
-										<label class="form-check-label fs-6 fw-normal" for="flexCheck"> J’accepte les CGU de Green Goodies</label>
+										{{ form_widget(form.CGU)}}
+										{{ form_label(form.CGU) }}
 									</div>									
+
 									<button type="submit" class="btn custom-btn mt-3 fs-6 fw-normal ">S'inscrire</button>
+									{{ form_row(form._token) }}
+								
+
 									<div class="w-100 text-center">
 										<a href="{{ path('app_gg_login') }}" class="fs-6 fw-normal">Déjà un compte ? Se connecter</a>
 									</div>
-								</form>
+								{{ form_end(form) }}
+
 							</div>	
 						</div>
 					</div>
