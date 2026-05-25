@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,24 +12,37 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[Route('/compte',name: 'app_gg_account_')]
 final class UserController extends AbstractController
 {
-    public function __construct(private UserRepository $employeRepository, private EntityManagerInterface $entityManager, )
+    public function __construct(private UserRepository $userRepository, private EntityManagerInterface $entityManager, )
     {
-
     }
 
-    #[Route('/compte', name: 'app_gg_account')]
-    public function index(): Response
+    #[Route('/', name: 'index')]
+    public function index(OrderRepository $orderRepository): Response
     {
+        // recuperation des commandes
+        $user = $this->getUser();
+        $orders = $orderRepository->findBy(['user'=> $user->getId()]);
+        $totalCommandes = array();
+        $orderLines = array();
+        foreach ($orders as $i => $order) {
+            $totalCommandes[$i] = $order->getTotal();
+            $orderLines[$i] = $order->getOrderLines();
+        }
         return $this->render('User/compte.html.twig', [
+            'orders' => $orders,
+            'orderlines' => $orderLines,
+            'totalorders' => $totalCommandes,
         ]);
     }
 
 
-    #[Route('/inscription', name: 'app_gg_register')]
+    #[Route('/inscription', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $hasher): Response
     {
         // nouvel utilisateur
@@ -52,13 +64,14 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/deconnexion', name: 'app_gg_logout')]
+    #[IsGranted('ROLE_USER')]
+    #[Route(path: '/deconnexion', name: 'logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path: '/connexion', name: 'app_gg_login')]
+    #[Route(path: '/connexion', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
@@ -66,6 +79,9 @@ final class UserController extends AbstractController
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        if (!empty($this->getUser()))
+            return $this->redirectToRoute('app_gg_accueil');   
 
         return $this->render('User/login.html.twig', [
             'last_username' => $lastUsername,

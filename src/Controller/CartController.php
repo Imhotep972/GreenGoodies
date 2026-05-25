@@ -7,11 +7,13 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/cart',name: 'app_gg_cart_')]
+#[IsGranted('ROLE_USER')]
+#[Route('/panier',name: 'app_gg_cart_')]
 final class CartController extends AbstractController
 {
-    public function __construct(private ProductRepository $productRepository, )
+    public function __construct(private ProductRepository $productRepository,)
     {
  
     }
@@ -48,7 +50,7 @@ final class CartController extends AbstractController
             else
                 $panier[$id] = 1;                   // sinon on l'a met a 1
             // on sauvegarde dans la session
-            $session->set('panier',$panier);
+           $session->set('panier',$panier);
 
             // redirection vers le pannier
             return $this->redirectToRoute('app_gg_cart_index');
@@ -100,7 +102,7 @@ final class CartController extends AbstractController
         }
     }
 
-    #[Route('/empty',name: 'empty', methods: ['GET'])]
+    #[Route('/empty',name: 'empty')]
     public function empty(SessionInterface $session)
     {   
         // on supprime le panier de la session
@@ -109,4 +111,5 @@ final class CartController extends AbstractController
         // redirection vers le pannier
         return $this->redirectToRoute('app_gg_cart_index');
     }
+
 }

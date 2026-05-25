@@ -10,8 +10,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Order;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -47,14 +49,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nom = null;
 
     /**
-     * @var Collection<int, Commande>
+     * @var Collection<int, Order>
      */
-    #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'users')]
-    private Collection $commandes;
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
+    private Collection $orders;
 
     public function __construct()
     {
-        $this->commandes = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,29 +159,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Commande>
+     * @return Collection<int, Order>
      */
-    public function getCommandes(): Collection
+    public function getOrders(): Collection
     {
-        return $this->commandes;
+        return $this->orders;
     }
 
-    public function addCommande(Commande $commande): static
+    public function addOrder(Order $order): static
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->addUser($this);
+        if (!$this->orders->contains($order)) 
+        {
+            $this->orders->add($order);
+            $order->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): static
+    public function removeOrder(Order $order): static
     {
-        if ($this->commandes->removeElement($commande)) {
-            $commande->removeUser($this);
+        if ($this->orders->removeElement($order)) 
+        {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) 
+            {
+                $order->setUser(null);
+            }
         }
 
         return $this;
     }
+
 }

@@ -4,54 +4,52 @@
 
 {% block body %}
 			<!-- Début section PANIER -->
-			<section class="gg-panier">
-				<div class="container-fluid h-100">
+			<section class="gg-cart bg-cart">
+				<div class="container-fluid">
 					<article>
-						<div class="row" style="height:732px;">
-							<div class="col-3" style="background:#F7F1EC;">
-								
-							</div>
-							<div class="col-6 " style="background:#F7F1EC;padding: 0 58px">
-								<div style="margin-bottm:5px;">
-									<h2 class="text-center" style="font-size:20px;font-weight:500;margin-top:102px;">Mon Panier</h2>
+						<div class="row">
+							<div class="col-1 col-lg-3"></div>
 
-									{% if produits is not empty %}
-										<a href="{{ path('app_gg_cart_empty') }}" class="text-start panier" style="color:#666666;font-size:14px; font-weight:400;margin-bottom:17px;">x Vider le panier</a>
-										{% for produit in produits %}
-										<div class="d-flex" style="background: #FFFDF7;height:220px;padding:40px;margin-top:17px;margin-bottom:5px">
-											<img src="{{ asset('images/produits/'~produit.photo) }}" height="133" width="142">	
-											<div style="padding-left:40px;padding-top:32px;">
-												<h4 class="w-100" style="font-size:14px;font-weight:600">{{produit.name}}</h4>
-												<p class="w-100" style="font-size:14px;font-weight:400">{{panier[produit.id]}}  </p>
-												<h4 style="font-size:18px;font-weight:500">{{ produit.sousTotal |  number_format(2,'.',' ')}}€</h4>
-												<a href="{{ path('app_gg_cart_add',{id:produit.id}) }}" class="btn btn-succes">+</a>
-												<a href="{{ path('app_gg_cart_remove',{id:produit.id}) }}" class="btn btn-warning">-</a>
-												<a href="{{ path('app_gg_cart_delete',{id:produit.id}) }}" role="button" class="btn btn-danger">Supprimer</a>
+							<div class="col-10 col-lg-6 px-auto">
+								<div class="gg-cart-container">
+    								<h2 class="gg-cart-title text-center">Mon Panier</h2>
+							{% if produits is not empty %}
+   		 							<a href="{{ path('app_gg_cart_empty') }}" class="gg-cart-empty">× Vider le panier</a>
+    							{% for produit in produits %}
+        							<div class="gg-cart-item d-flex">
+            							<img src="{{ asset('images/produits/'~produit.photo) }}" class="gg-cart-image">
+            							<div class="gg-cart-info w-100">
+							                <h4 class="fw-bolder">{{ produit.name }}</h4>
+							                <p class="gg-cart-qty">Quantité : {{ panier[produit.id] }} </p>
+							                <h3 class="mb-3">{{ produit.sousTotal |  number_format(2,'.',' ')}}€</h3>
+
+                							<div class="gg-cart-actions">
+												<a href="{{ path('app_gg_cart_remove', {id: produit.id}) }}" title="Supprimer 1" class="btn gg-btn-cart">−</a>
+												<a href="{{ path('app_gg_cart_add', {id: produit.id}) }}" title="Ajouter 1" class="btn gg-btn-cart">+</a>
+												<a href="{{ path('app_gg_cart_delete', {id: produit.id}) }}" title="Supprimer l'article"  class="btn gg-btn-cart">X</a>
 											</div>
 										</div>
-										{% endfor %}
-									{%else %}
-										<div class="d-flex" style="background: #FFFDF7;height:220px;padding:40px;margin-top:17px;margin-bottom:5px">
-											<div style="padding-left:40px;padding-top:32px;">
-												<h4 class="w-100" style="font-size:14px;font-weight:600">Votre panier est vide</h4>
-											</div>
+									</div>
+    							{% endfor %}
+							{%else %}
+									<div class="gg-cart-item d-flex">
+            							<div class="gg-cart-info">
+											<h4 class="w-100 fw-bolder">Votre panier est vide</h4>
 										</div>
-									{% endif %}
+									</div>
+							{% endif %}
 								</div>
-								<div class="text-end" style="background: #FFFDF7B2;padding:20px 40px;margin-bottom:29px;opacity:0.7;">
-									<p class="w-100" style="font-size:14px;font-weight:500">Total panier : 
-									<span style="font-size:20px;font-weight:400;">{{ prixTotal | number_format(2,'.',' ')}}€</span><br/>
-									<span style="font-size:12px;font-weight:400;">Frais de livraison offerts</span>
-									</p>	
+
+								<div class="gg-cart-total text-end">
+									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ prixTotal | number_format(2,'.',' ')}}€</span><br>
+									<span class="fs-7 fw-normal">Frais de livraison offerts</small></p>
 								</div>
-								<div class="d-flex p-0 m-0 justity-content-center">
-									<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Valider la commande</a>
-								</div>
-								
+
+								<div class="gg-cart-validOrder">
+									<a href="{{ path('app_gg_order_create') }}" class="btn custom-btn">Valider la commande</a>
+								</div>					
 							</div>
-							<div class="col-3" style="background:#F7F1EC;">
-								
-							</div>
+							<div class="col-1 col-lg-3"></div>
 						</div>
 					</article>
 				</div>

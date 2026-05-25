@@ -1,0 +1,32 @@
+									<div class="mesCommandes">
+										<h3>Mes commandes</h3>
+										<div class="d-flex">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-start">N°</th>
+                                                        <th scope="col" class="text-center">Date</th>
+                                                        <th scope="col" class="text-end">Prix</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if orders is empty %}
+                                                     <tr>
+                                                        <td class="align-top text-center" colspan="3">Vous n'avez pas de commandes</td>
+                                                    </tr>
+                                               
+                                                {% else %}
+                                                    {% set index = 0 %}
+                                                    {% for order in orders %}
+                                                    {% set index = index + 1 %}
+                                                    <tr>
+                                                        <td class="align-top text-start">{{ "%02d" | format(index) }}</td>
+                                                        <td class="align-top text-center">{{ order.createdat | date('d/m/Y') }}</td>
+                                                        <td class="align-top text-end">{{totalorders[index-1] | number_format(2,'.',' ') }}€</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+									</div>

@@ -20,11 +20,11 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
-                login_path: app_gg_login
-                check_path: app_gg_login
+                login_path: app_gg_account_login
+                check_path: app_gg_account_login
                 enable_csrf: true
             logout:
-                path: app_gg_logout
+                path: app_gg_account_logout
                 # where to redirect after logout
                 # target: app_any_route
             # Activate different ways to authenticate:
@@ -36,8 +36,9 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-         #- { path: ^/compte, roles: ROLE_USER }
-         #- { path: ^/panier, roles: ROLE_USER }
+        # - { path: ^/compte, roles: ROLE_USER }
+         - { path: ^/panier, roles: ROLE_USER }
+         - { path: ^/commande, roles: ROLE_USER }
 
 when@test:
     security:

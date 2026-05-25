@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\OrderLine;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Table(name: '`product`')]
 class Product
 {
     #[ORM\Id]
@@ -37,14 +39,14 @@ class Product
     private ?string $photo = null;
 
     /**
-     * @var Collection<int, Commande>
+     * @var Collection<int, OrderLine>
      */
-    #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'products')]
-    private Collection $commandes;
+    #[ORM\OneToMany(targetEntity: OrderLine::class, mappedBy: 'product')]
+    private Collection $orderLines;
 
     public function __construct()
     {
-        $this->commandes = new ArrayCollection();
+        $this->orderLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,29 +114,34 @@ class Product
         return $this;
     }
 
-
-
     /**
-     * @return Collection<int, Commande>
+     * @return Collection<int, OrderLine>
      */
-    public function getCommandes(): Collection
+    public function getOrderLines(): Collection
     {
-        return $this->commandes;
+        return $this->orderLines;
     }
 
-    public function addCommande(Commande $commande): static
+    public function addOrderLine(OrderLine $orderLine): static
     {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
+        if (!$this->orderLines->contains($orderLine)) {
+            $this->orderLines->add($orderLine);
+            $orderLine->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeCommande(Commande $commande): static
+    public function removeOrderLine(OrderLine $orderLine): static
     {
-        $this->commandes->removeElement($commande);
+        if ($this->orderLines->removeElement($orderLine)) {
+            // set the owning side to null (unless already changed)
+            if ($orderLine->getProduct() === $this) {
+                $orderLine->setProduct(null);
+            }
+        }
 
         return $this;
     }
+
 }
