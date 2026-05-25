@@ -1,31 +1,28 @@
 
-			<div class="container-fluid p-0 m-0">
-				<!-- Début section PRODUITS -->
-				<section class="gg-produits bg-primary">
-					<div class="container-fluid p-0 m-0">
-						<div class="row p-0 m-0">
-							{% for product in products %}
-							<div class="col-12 col-md-6 col-lg-4 p-0 m-0">
-								<div class="card">
-									<!-- image produit -->
-									<img src="{{ asset('images/produits/'~product.photo) }}" class="card-img-top" alt="{{product.name}}">
-									<div class="card-body d-flex flex-column">
-										<!-- div Titre / Description - Prix - Bouton "Voir le produit" -->
-										<div class="desc px-3">
-											<h4 class="card-title">{{ product.name}} </h4>
-											<p class="card-text">{{ product.shortdesc}}</p>
-										</div>
-										<!-- Prix -->
-										<h4 class="card-title">{{product.prix|number_format(2,'.',' ')}}€</h4>
-										<!-- bouton "voir le produit" placer en bas de la zone -->
-										<div class="d-flex">
-											<a href="{{ path('app_gg_product_show',{'id':product.id}) }}" class="btn custom3-btn " role="button">Voir le produit</a>
-										</div>
+			<!-- Début section PANIER -->
+			<section class="gg-produits bg-primary">
+				<div class="container-fluid">
+					<div class="row p-0 m-0">
+					{% for product in products %}
+						<div class="col-12 col-md-6 col-lg-4 p-0 m-0">
+							<div class="card d-flex">
+								<!-- image produit -->
+								<img src="{{ asset('images/produits/'~product.photo) }}" class="card-img h-100" alt="{{product.name}}">
+								<div class="card-body d-flex flex-column">
+									<!-- div Titre / Description - Prix - Bouton "Voir le produit" -->
+									<div class="desc px-3">
+										<h4 class="card-title">{{ product.name}} </h4>
+										<p class="card-text">{{ product.shortdesc}}</p>
 									</div>
-								</div>		
-							</div>
-							{% endfor %}					
+									<!-- Prix -->
+									<h4 class="card-title">{{product.prix|number_format(2,'.',' ')}}€</h4>
+									<!-- bouton "voir le produit" placer en bas de la zone -->
+									<div class="d-flex">
+										<a href="{{ path('app_gg_product_show',{'id':product.id}) }}" class="btn custom3-btn " role="button">Voir le produit</a>
+									</div>
+								</div>
+							</div>		
 						</div>
-					</div>
-				</section><!-- Fin Section PRODUITS -->
-			</div>
+					{% endfor %}					
+				</div>
+			</section><!-- Fin Section PRODUITS -->
