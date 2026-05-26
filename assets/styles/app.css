@@ -268,11 +268,12 @@
 		text-align: center;
 	}
 	.card-img {
-		width: 480px;
+		max-width: 480px;
 		height: 474px;
 		object-fit: cover ;
 		object-position: center;
-		aspect-ratio: 3/4;
+		aspect-ratio: 1;
+		border-radius: 0 !important;
 	}
 	.card-body {
 		max-height:13.625rem;
@@ -326,33 +327,32 @@
 	/********************/
 	/*	Page Produit	*/
 	/********************/
-	section.gg-produit {
-		height:907px;
+	section.gg-product {
+		min-height:907px;
 		width:100%;
 		background:#FFFDF7;
 	}
-	.imgProduit {
-		height:686px;
-		text-align:left;
-		overflow: hidden;
+	.gg-product-image {
+		max-width:734px;
+		max-height:686px;
+		aspect-ratio: 1;
+		object-fit: cover;
+		object-position: center;
+		border-radius: 0 !important;
 	}
 
-	section.gg_produit h2 {
+	.gg_product h2 {
 		margin-top:2.43rem;
 	}
-	section.gg_produit p.prix {
+	.gg_pproduct p.price {
 		margin-top:1.5rem;	
 	}
-	section.gg_produit p.desc {
+	.gg_product p.desc {
 		margin-top:3.125rem;
 	}
 
-	section.gg_produit .row {
-		height:686px;
-	}
-	section.gg_produit .col img {
-		object-fit: cover !important; 
-		object-position: center !important;
+	.gg_product .row {
+		min-height:686px;
 	}
 	
 	/****************/

@@ -10,8 +10,8 @@
 						<div class="row">
 							<div class="col-1 col-lg-3"></div>
 
-							<div class="col-10 col-lg-6 px-auto">
-								<div class="gg-cart-container">
+							<div class="col-10 col-lg-6 px-auto  mx-auto">
+								<div class="gg-cart-container mx-auto">
     								<h2 class="gg-cart-title text-center">Mon Panier</h2>
 							{% if produits is not empty %}
    		 							<a href="{{ path('app_gg_cart_empty') }}" class="gg-cart-empty">× Vider le panier</a>
@@ -39,15 +39,15 @@
 									</div>
 							{% endif %}
 								</div>
-
-								<div class="gg-cart-total text-end">
+								<div class="gg-cart-total text-end mx-auto">
 									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ prixTotal | number_format(2,'.',' ')}}€</span><br>
 									<span class="fs-7 fw-normal">Frais de livraison offerts</small></p>
 								</div>
-
-								<div class="gg-cart-validOrder">
+								{% if app.user.archive is empty %}	
+								<div class="gg-cart-validOrder mx-auto">
 									<a href="{{ path('app_gg_order_create') }}" class="btn custom-btn">Valider la commande</a>
-								</div>					
+								</div>	
+								{% endif %}				
 							</div>
 							<div class="col-1 col-lg-3"></div>
 						</div>

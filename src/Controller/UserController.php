@@ -22,6 +22,7 @@ final class UserController extends AbstractController
     {
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/', name: 'index')]
     public function index(OrderRepository $orderRepository): Response
     {
@@ -38,6 +39,7 @@ final class UserController extends AbstractController
             'orders' => $orders,
             'orderlines' => $orderLines,
             'totalorders' => $totalCommandes,
+            'user' =>  $user,
         ]);
     }
 
@@ -89,5 +91,28 @@ final class UserController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
+    #[Route(path: '/accessAPI/', name: 'accesAPI', methods: ['GET'])] //,requirements: ['id' => '\d+'], methods: ['GET'])])]
+    public function accessAPI(): Response
+    {
+        $user = $this->getUser();
+        ($user->getAPI()) ?  $user->SetAPI(false) : $user->SetAPI(true);
 
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_gg_account_index'); 
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route(path: '/delete/', name: 'delete', )] 
+    public function delete(): Response
+    {
+        $user = $this->getUser();
+        $user->setArchive(true);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_gg_account_index'); 
+    }
 }

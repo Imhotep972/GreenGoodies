@@ -15,22 +15,24 @@
 							<div class="col-1 col-lg-3"></div>
 
 							<div class="col-10 col-lg-6 px-auto">
-								<div class="gg-account-container">
+								<div class="gg-account-container mx-auto">
 
-    								<h2 class="gg-account-title text-center">Mon compte</h2>
+    								<h2 class="gg-account-title text-center">Mon compte {{ (user.archive) ? '(Supprimé)' }} </h2>
 
 									{% include "Order/orders_user.html.twig" %}
 
+									{% if app.user.archive is empty %}	
 									<div class="gg-account-validButton">
 										<h4 class="fw-bolder text-start d-block">Mon accès API</h4>
 										<div class="d-flex">
-											<a href="#" class="btn custom-btn mx-auto px-auto">Activer mon accès API</a>
+											<a href="{{ path('app_gg_account_accesAPI') }}" class="btn custom-btn mx-auto px-auto">{{ (user.API) ? 'Désactiver mon accès API' : 'Activer mon accès API' }}</a>
 										</div>
 									</div>
 
 									<div class="gg-account-validButton d-flex">
-										<a href="#" class="btn custom-btn mx-auto px-auto">Supprimer mon compte</a>
+										<a href="{{ path('app_gg_account_delete') }}" class="btn custom-btn mx-auto px-auto">Supprimer mon compte</a>
 									</div>
+									{% endif %}
 								</div>
 							</div>
 

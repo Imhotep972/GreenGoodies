@@ -54,6 +54,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
     private Collection $orders;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $API = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $archive = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -187,6 +193,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAPI(): ?int
+    {
+        return $this->API;
+    }
+
+    public function setAPI(?int $API): static
+    {
+        $this->API = $API;
+
+        return $this;
+    }
+
+    public function getArchive(): ?int
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(int $archive): static
+    {
+        $this->archive = $archive;
 
         return $this;
     }
