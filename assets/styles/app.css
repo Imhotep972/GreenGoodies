@@ -11,7 +11,7 @@
 		background-color:#FFFDF7;
 	}
 
-	
+	/* COULEURS */
 	.bg-primary {
 		background-color:#FFFDF7 !important;	
 	} 
@@ -21,7 +21,7 @@
 	.bg-tertiary {
 		background-color:#E8F0E3 !important;	;	
 	} 	
-	.bg-compte, .bg-cart {
+	.bg-account, .bg-cart {
 		background-color: #F7F1EC;
 	}
 	
@@ -184,49 +184,6 @@
 		background-position: center;
 	}
 	
-
-	section.gg-compte .mesCommandes {
-		background: #FFFDF7;
-		height:220px;
-		padding:60px;
-		margin-top:43px;
-		margin-bottom:15px;
-		height:498px;
-	}
-	.mesCommandes h3 {
-		 width:100%;
-		 font-weight:600;
-		 margin-bottom:1rem;
-	}
-	.mesCommandes table {
-		/*width:30.3125rem;*/
-		font-size: 0.875rem;
-	}
-	
-	.mesCommandes table th {
-		font-weight:400;
-		color:#666666;
-		height:2.9375rem;
-		text-align:center;
-		background-color:#FFFDF7;	
-	}
-
-	.mesCommandes table tr td {
-		font-weight:500;
-		color:#333333;
-		height:2.9375rem;
-		text-align:center;
-		background-color:#FFFDF7;	
-	}
-	
-	.mesCommandes table tr:not(:first-child) td {
-		padding-top: 1.25rem;
-		height:4.1875rem;
-	}
-	.mesCommandes table tr:not(:last-child) td {
-		border-bottom: 1px solid #ccc;
-	}
-	
 	header {
 		background:#FFFDF7;
 		border-bottom: 1px solid #F6F5F0;
@@ -271,8 +228,9 @@
 		font-weight:400;
 	}
 	
-	
+	/********************/	
 	/* 	Page Accueil 	*/
+	/********************/	
 	section.gg-hero {
 		background:#E8F0E3;
 		height:751px;
@@ -288,6 +246,14 @@
 		height:81px;
 		width:100%;
 	}
+
+	section.gg-values article {
+		height:646px;
+		width:100%;
+	}
+	section.gg-values .bg1 { background:#EBE3D3;}
+	section.gg-values .bg2 { background:#E8F0E3;}
+
 	/************/
 	/* produitS */
 	/************/
@@ -307,8 +273,6 @@
 		object-fit: cover ;
 		object-position: center;
 		aspect-ratio: 3/4;
-		/*border-top-left-radius:0 !important;
-		border-top-right-radius:0 !important;*/
 	}
 	.card-body {
 		max-height:13.625rem;
@@ -344,18 +308,6 @@
 		padding:1.875rem 0;
 		height:4.8125rem;
 	}
-
-	
-
-
-
-	
-	section.gg-values article {
-		height:646px;
-		width:100%;
-	}
-	section.gg-values .bg1 { background:#EBE3D3;}
-	section.gg-values .bg2 { background:#E8F0E3;}
 	
 	/* 	Page Connexion	*/
 	section.gg-connexion {
@@ -488,6 +440,51 @@
 		min-width:479px;
 		text-align:center;
 	}
+
+	/****************/
+	/*	Page panier */
+	/****************/
+	section.gg-account { 
+		background-color: #F7F1EC;
+	}
+	.gg-account .mh-account {
+		min-height:1147px;
+	}
+	.gg-account-container {
+		margin-top:60px;
+		max-width:604px;
+		min-width:479px;
+	}
+	.gg-account .myOrders {
+		margin-top:2rem;
+		margin-bottom:1rem;
+		background:#FFFDF7;
+		padding: 60px;
+		min-height: 489px;
+	}
+	.gg-account-orders-title { /* block titre colonne commande */
+		height:1rem;
+		margin-top:1.5rem;
+		margin-bottom:1.25rem;
+	}
+	.gg-account-orders-info { /* block 1 ligne par commande */
+		height:47px;
+		margin-bottom:1.25rem;
+		border-bottom:1px solid #cccccc;
+	}
+	.gg-account-validButton {
+		background: #FFFDF7;
+		max-width:604px;
+		padding:60px;
+		margin-bottom:15px;
+		text-align:center;
+	}
+	.gg-account-validButton h4 {
+		margin-bottom:2rem;
+	}
+
+
+
 	/************/	
 	/*	FOOTER	*/	
 	/************/	

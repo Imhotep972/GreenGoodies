@@ -8,31 +8,33 @@
 
 {% block body %}
 			<!-- Début section MONCOMPTE -->
-			<section class="gg-compte bg-compte">
-				<div class="container-fluid h-100">
+			<section class="gg-account"> 
+				<div class="container-fluid p-0 m-0">
 					<article>
-						<div class="row" style="height:1147px;">
-							<div class="col-3 bg-compte"></div>
-							<div class="col-6  bg-compte" style="padding: 45px 58px 0">
-								<div>
-									<h2 class="text-center">Mon compte</h2>
-									{% include "Order/index.html.twig" %}
-								</div>
-								<div class="text-end" style="background: #FFFDF7;padding:60px;margin-bottom:15px;height:244px">
-									<h4 class="text-start" style="font-size:14px;font-weight:600;margin-bottom:30px;">Mon accès API</h4> 
-									<div class="d-flex p-0 m-0 justity-content-center">
-										<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Activer mon accès API</a>
-									</div>								
-								</div>
-								
-								<div class="text-end" style="background: #FFFDF7;padding:60px;margin-bottom:77px;height:197px">
-									<div class="d-flex p-0 m-0 justity-content-center">
-										<a href="#" class="btn custom-btn mx-auto mb-0" style="color:#ffffff;border-radius:0;padding:30px 0">Supprimer mon compte</a>
+						<div class="row mh-account">
+							<div class="col-1 col-lg-3"></div>
+
+							<div class="col-10 col-lg-6 px-auto">
+								<div class="gg-account-container">
+
+    								<h2 class="gg-account-title text-center">Mon compte</h2>
+
+									{% include "Order/orders_user.html.twig" %}
+
+									<div class="gg-account-validButton">
+										<h4 class="fw-bolder text-start d-block">Mon accès API</h4>
+										<div class="d-flex">
+											<a href="#" class="btn custom-btn mx-auto px-auto">Activer mon accès API</a>
+										</div>
+									</div>
+
+									<div class="gg-account-validButton d-flex">
+										<a href="#" class="btn custom-btn mx-auto px-auto">Supprimer mon compte</a>
 									</div>
 								</div>
-							
 							</div>
-							<div class="col-3  bg-compte"></div>
+
+							<div class="col-1 col-lg-3"></div>
 						</div>
 					</article>
 				</div>

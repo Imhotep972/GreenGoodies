@@ -1,0 +1,26 @@
+									<div class="myOrders fs-6 fw-normal">
+										<h4 class="fw-bolder">Mes commandes</h4>
+										<div class="d-flex flex-column">
+                                            <div class="row text-center gg-account-orders-title"> <!-- ligne titre -->
+                                                <div class="col-2">N°</div>
+                                                <div class="col-6">Date</div>
+                                                <div class="col-4">Prix</div>
+                                            </div>
+                                    {% if orders is empty %}
+                                            <div class="row align-items-start fw-bold text-start gg-account-orders-info"> <!-- 1e ligne commande -->
+                                                <div class="col-12 fw-bold">Vous n'avez pas de commandes</div>
+
+                                            </div>                                    
+                                    {% else %}
+                                            {% set index = 0 %}
+                                            {% for order in orders %}
+                                            {% set index = index + 1 %}                                            
+                                            <div class="row align-items-start fw-bold text-start gg-account-orders-info"> <!-- 1e ligne commande -->
+                                                <div class="col-2">{{"%04d" | format (index) }}</div>
+                                                <div class="col-6 text-center">{{ order.createdat | date('d/m/Y') }}</div>
+                                                <div class="col-4 text-end">{{totalorders[index-1] | number_format(2,'.',' ') }}€</div>
+                                            </div>
+                                            {% endfor %}
+                                    {% endif %} 
+                                        </div>
+                                    </div>
