@@ -51,12 +51,12 @@
 	/* fs-6 fw-light (300 - 14px) */
 	
 	h1 { /* bienvenue (accueil) */
-		font-size: 4rem ;
+		font-size: 4rem !important;
 		font-weight: 500;
 	}
 	
 	h2 { /* titre (inscription, connexion, produit, mon compte, mon panier) */
-		font-size: 1.25rem;
+		font-size: 1.25rem !important;
 		font-weight: 500;
 	}
 	
@@ -80,7 +80,7 @@
 		line-height: 120%;
 	}
 	
-	p.prix { /* prix (produit) */
+	p.price { /* prix (produit) */
 		font-size: 1.875rem;
 		font-weight: 300
 	}
@@ -231,28 +231,53 @@
 	/********************/	
 	/* 	Page Accueil 	*/
 	/********************/	
+
+	/* Hero */
 	section.gg-hero {
+		max-height: 751px;
 		background:#E8F0E3;
-		height:751px;
 		width:100%;
+	}	
+	.gg-hero-image {
+		max-width:731px;
+		max-height:751px;
+		aspect-ratio: 0.97;
+		object-fit: cover;
+		object-position:center;
 	}
-	section.gg-hero p { /* paragraphe HERO*/
+	.gg-hero p { /* paragraphe HERO*/
 		font-size: 1.125rem;
 		font-weight: 300;
 	}
-
-	section.nosProduits {
+	
+	/* titre 'nos produits' */
+	.gg-acceuil-titre {
 		padding:30px 100px;
 		height:81px;
 		width:100%;
 	}
 
-	section.gg-values article {
-		height:646px;
-		width:100%;
+	/* VALUES */
+	.gg-values {
+		min-height: 646px;
+		background:#E8F0E3;
+	}	
+	.gg-values .bg1 {
+		background: #EBE3D3;
 	}
-	section.gg-values .bg1 { background:#EBE3D3;}
-	section.gg-values .bg2 { background:#E8F0E3;}
+	.gg-values .bg2 {
+		background: #E8F0E3;
+	}
+	.gg-values article .container-fluid {
+		max-height: 646px;
+		width:100%;
+	}	
+	.gg-values-image {
+		max-width:487px;
+		max-height:646px;
+		object-fit: cover;
+		object-position:center;
+	}	
 
 	/************/
 	/* produitS */
@@ -340,21 +365,44 @@
 		object-position: center;
 		border-radius: 0 !important;
 	}
-
-	.gg_product h2 {
-		margin-top:2.43rem;
-	}
-	.gg_pproduct p.price {
-		margin-top:1.5rem;	
-	}
-	.gg_product p.desc {
-		margin-top:3.125rem;
-	}
-
-	.gg_product .row {
+	.gg-product .row {
 		min-height:686px;
 	}
-	
+	@media (min-width:992px) {
+		.gg-product-info {
+			padding-top:3rem;
+		}
+		.gg-product-info p.desc {
+			margin-top:1.5rem;
+		}
+		.gg-product-info p.price {
+			margin-top:1rem;	
+		}
+		.gg-product-addcart {
+			min-width:465px;
+			text-align:center;
+			margin-top:1.6rem;
+		}
+	}
+
+	@media (min-width:1200px) {
+		.gg-product-info {
+			padding-top:5.5rem;
+		}
+		.gg-product-info p.desc {
+			margin-top:3.125rem;
+		}
+		.gg-product-addcart {
+			margin-top:4rem;
+		}
+	}
+	@media (min-width:1400px) {
+		.gg-product-addcart {
+			margin-top:9.5rem;
+		}
+	}
+
+
 	/****************/
 	/*	Page panier */
 	/****************/

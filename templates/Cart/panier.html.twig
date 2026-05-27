@@ -43,7 +43,7 @@
 									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ prixTotal | number_format(2,'.',' ')}}€</span><br>
 									<span class="fs-7 fw-normal">Frais de livraison offerts</small></p>
 								</div>
-								{% if app.user.archive is empty %}	
+								{% if app.user.archive == false %}	
 								<div class="gg-cart-validOrder mx-auto">
 									<a href="{{ path('app_gg_order_create') }}" class="btn custom-btn">Valider la commande</a>
 								</div>	

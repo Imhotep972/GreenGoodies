@@ -21,7 +21,7 @@
 
 									{% include "Order/orders_user.html.twig" %}
 
-									{% if app.user.archive is empty %}	
+									{% if app.user.archive == false %}	
 									<div class="gg-account-validButton">
 										<h4 class="fw-bolder text-start d-block">Mon accès API</h4>
 										<div class="d-flex">
