@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\OrderLine;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\OrderLine;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: '`product`')]
@@ -16,26 +17,32 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('getProduct')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups('getProduct')]
     private ?string $name = null;
 
     #[ORM\Column]
     #[Assert\NotNull()]
+    #[Groups('getProduct')]
     private ?float $prix = null;
 
     #[ORM\Column(length: 70)]
     #[Assert\NotBlank]
+    #[Groups('getProduct')]
     private ?string $shortdesc = null;
 
     #[ORM\Column(length: 1500)]
     #[Assert\NotBlank]
+    #[Groups('getProduct')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups('getProduct')]
     private ?string $photo = null;
 
     /**

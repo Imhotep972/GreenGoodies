@@ -12,6 +12,19 @@ security:
                 property: email
 
     firewalls:
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_(profiler|wdt)|assets|build|css|images|js)/
@@ -37,8 +50,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/compte, roles: ROLE_USER }
-         - { path: ^/panier, roles: ROLE_USER }
-         - { path: ^/commande, roles: ROLE_USER }
+        - { path: ^/panier, roles: ROLE_USER }
+        - { path: ^/commande, roles: ROLE_USER }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+
 
 when@test:
     security:

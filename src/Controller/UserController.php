@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Form\UserFormType;
-use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/compte',name: 'app_gg_account_')]
 final class UserController extends AbstractController
@@ -90,7 +90,7 @@ final class UserController extends AbstractController
             'error' => $error,
         ]);
     }
-
+    
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/accessAPI/', name: 'accesAPI', methods: ['GET'])] //,requirements: ['id' => '\d+'], methods: ['GET'])])]
     public function accessAPI(): Response
@@ -115,4 +115,5 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('app_gg_account_index'); 
     }
+
 }

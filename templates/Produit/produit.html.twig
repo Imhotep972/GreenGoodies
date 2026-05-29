@@ -18,9 +18,8 @@
 										{% for ligne in tabDesc %}
 											<p class="my-3">{{ ligne|trim }}</p>
 											{% endfor %}
-									
 									{# si non connecté, on n'afiche pas les= bouton ajouter au panier #}
-									{% if is_granted('ROLE_USER') and app.user.archive is empty %} 
+									{% if is_granted('ROLE_USER') and app.user.archive == false %} 
 										<div class="gg-product-addcart mx-auto align-items-end">
 											<a href="{{ path('app_gg_cart_add',{id: product.id}) }}" class="btn custom-btn custom2-btn">Ajouter au panier</a>
 										</div>	
