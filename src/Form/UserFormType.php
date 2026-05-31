@@ -20,17 +20,17 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('prenom',TextType::class,[
-                'label'=> 'Prénom',
+                'label'=> 'Prénom *',
                 'label_attr' => ['class'=>'form_label fs-6'],
                  'attr' => ['class' => 'form-control customInput'],
             ])
             ->add('nom',TextType::class,[
-                'label'=> 'Nom',
+                'label'=> 'Nom *',
                 'label_attr' => ['class'=>'form_label fs-6'],
                 'attr' => ['class' => 'form-control customInput'],
             ])
             ->add('email',EmailType::class,[
-                'label'=> 'Adresse email',
+                'label'=> 'Adresse email *',
                 'label_attr' => ['class'=>'form_label fs-6'],
                 'attr' => ['class' => 'form-control customInput'],
             ])
@@ -39,8 +39,8 @@ class UserFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'form-control customInput password-field'],'label_attr' => ['class' => 'form_label fs-6']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation mot de passe'],    
+                'first_options'  => ['label' => 'Mot de passe *'],
+                'second_options' => ['label' => 'Confirmation mot de passe *'],    
                 'constraints' => [
                     new NotBlank(
                         message: 'Veuillez indiquer votre mot de passe',
@@ -54,7 +54,7 @@ class UserFormType extends AbstractType
                 ],
             ])
             ->add('CGU', CheckboxType::class, [
-                'label'    => "J’accepte les CGU de Green Goodies",
+                'label'    => "J’accepte les CGU de Green Goodies *",
                 'label_attr' => ['class'=>'form-check-label fs-6 fw-normal'],
                 'attr' => ['class' => 'form-check-input custom-check'],
                 'required' => true,

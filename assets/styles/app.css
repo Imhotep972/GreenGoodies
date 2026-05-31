@@ -349,6 +349,15 @@
 		background:#FFFDF7;
 	}
 	
+	form ul {
+		background-color: lightcoral;
+		border:1px solid #f00;
+	}
+
+	form ul li {
+		list-style: none;
+	}
+	
 	/********************/
 	/*	Page Produit	*/
 	/********************/

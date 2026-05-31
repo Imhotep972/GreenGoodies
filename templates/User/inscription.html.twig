@@ -13,12 +13,13 @@
 					<div class="container-fluid h-100 w-100">
 						<div class="row h-100">
 							<div class="col-12 col-md-6 p-0 ">
-								<img src="{{ asset('images/value_1_img.webp') }}" alt="Images" class="w-100 h-100 image_fluid"/>
+								<img src="{{ asset('images/inscription_img.webp') }}" alt="Images" class="w-100 h-100 image_fluid"/>
 							</div>
 							<div class="col-12 col-md-6 mt-4 d-flex justify-content-center">
 								{#<form method="post" class="w-75 px-4">#}
-								{{ form_start(form) }}
-								 	{{ form_errors(form) }}
+								{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+									<div id="jsError" class="invisible alert alert-danger"><p></p></div>
+								 	{{ form_errors(form) }} 
 									<h2 class="mt-5 fs-3 fw-bold">Inscription</h2>
 									<div class="mb-3">
 									{{ form_row(form.prenom)}}
@@ -36,7 +37,7 @@
 										{{ form_widget(form.CGU)}}
 										{{ form_label(form.CGU) }}
 									</div>									
-
+									<p class="text-center">Les champs avec un * sont obligatoires</p>
 									<button type="submit" class="btn custom-btn mt-3 fs-6 fw-normal ">S'inscrire</button>
 									{{ form_row(form._token) }}
 								

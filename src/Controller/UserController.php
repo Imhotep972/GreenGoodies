@@ -50,7 +50,8 @@ final class UserController extends AbstractController
         // nouvel utilisateur
         $user = new User();
         $user->setRoles(array('ROLE_USER'));
-
+        $user->setArchive(false);
+        
         // on cree le formulaire
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
