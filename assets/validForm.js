@@ -1,54 +1,59 @@
-const form = document.querySelector("form");
-        
-var erreurs = [];
-var divError=null;
-var pError=null;
 
-if (form) {
-    form.addEventListener("submit", (e) => {
-        // On empêche le comportement par défaut (submit)
-        e.preventDefault();
+// on verifie qu'on soit bien sur la pasge inscription
+let inscription = document.querySelector("section.gg_inscription");
 
-        erreurs = [];
-        let textError = '';
+if (inscription) {
+    var erreurs = [];
+    var divError=null;
+    var pError=null;   
 
-        let divError = document.getElementById("jsError");
-        let pError = document.querySelector('div#jsError p');
+    let form = document.querySelector("form");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            // On empêche le comportement par défaut (submit)
+            e.preventDefault();
 
-        let user_form_prenom = document.getElementById('user_form_prenom');
-        let user_form_nom = document.getElementById('user_form_nom');
-        let user_form_email= document.getElementById('user_form_email');
-        let user_form_password_first= document.getElementById('user_form_password_first');
-        let user_form_password_second= document.getElementById('user_form_password_second');
-        let user_form_CGU= document.getElementById('user_form_CGU');
+            erreurs = [];
+            let textError = '';
 
-        let erreurJS = '';
-        if (!validateNom(user_form_prenom)){
-            user_form_prenom.classList.add('border-danger');
-            erreurJS += " prenom";    
-        } 
-        if (!validateNom(user_form_nom)) erreurJS += " nom";
-        if (!validateEmail(user_form_email)) erreurJS += " email";
-        if (!validatePassword(user_form_password_first,user_form_password_second)) erreurJS += " password";
-        if (!validateCGU(user_form_CGU)) erreurJS += " CGU";
-        if (erreurJS) {
-            console.log('Erreurs sur le(s) champs suivant(s) : '+ erreurJS );
-        }
+            let divError = document.getElementById("jsError");
+            let pError = document.querySelector('div#jsError p');
 
-        if (erreurs.length)
-        {
-            for (let i=0; i<erreurs.length;i++) {
-                textError = textError.concat('<br/>',erreurs[i]);
+            let user_form_prenom = document.getElementById('user_form_prenom');
+            let user_form_nom = document.getElementById('user_form_nom');
+            let user_form_email= document.getElementById('user_form_email');
+            let user_form_password_first= document.getElementById('user_form_password_first');
+            let user_form_password_second= document.getElementById('user_form_password_second');
+            let user_form_CGU= document.getElementById('user_form_CGU');
+
+            let erreurJS = '';
+            if (!validateNom(user_form_prenom)){
+                user_form_prenom.classList.add('border-danger');
+                erreurJS += " prenom";    
+            } 
+            if (!validateNom(user_form_nom)) erreurJS += " nom";
+            if (!validateEmail(user_form_email)) erreurJS += " email";
+            if (!validatePassword(user_form_password_first,user_form_password_second)) erreurJS += " password";
+            if (!validateCGU(user_form_CGU)) erreurJS += " CGU";
+            if (erreurJS) {
+                console.log('Erreurs sur le(s) champs suivant(s) : '+ erreurJS );
             }
-            pError.innerHTML = textError;
-            divError.classList.remove('invisible');
-        }
-        else {
-            divError.classList.add('invisible');
-            pError.innerHTML = '';
-            form.submit();
-        }
-    })
+
+            if (erreurs.length)
+            {
+                for (let i=0; i<erreurs.length;i++) {
+                    textError = textError.concat('<br/>',erreurs[i]);
+                }
+                pError.innerHTML = textError;
+                divError.classList.remove('invisible');
+            }
+            else {
+                divError.classList.add('invisible');
+                pError.innerHTML = '';
+                form.submit();
+            }
+        })
+    }
 }
 
 function validateNom(nom) {
