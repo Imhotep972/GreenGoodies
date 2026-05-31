@@ -16,12 +16,17 @@ final class APIController extends AbstractController
     {
         $user=$this->getUser();
         if (empty($user))
-        {// pas connecte
+        {// pas connecte, a priori courtcircuiter par JWT (message dans Body)
             $errorMessage = "Identifiants incorrect";
             $codestatus = Response::HTTP_UNAUTHORIZED;
             return new JsonResponse(null,$codestatus, ['error'=> $errorMessage] );
         }
-        dump($user);
+        if ($user->getArchive())
+        { // compte supprimé donc plus d'acces
+            $errorMessage = "Compte supprime";
+            $codestatus = Response::HTTP_UNAUTHORIZED;
+            return new JsonResponse(null,$codestatus, ['error'=> $errorMessage] );
+        }
         if ($user->getAPI())
         {
             $productList = $pr->findAll();

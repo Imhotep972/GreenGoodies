@@ -49,8 +49,12 @@ final class UserController extends AbstractController
     {
         // nouvel utilisateur
         $user = new User();
-        $user->setRoles(array('ROLE_USER'));
+        // role ROLE_USER par defaut
+        $user->setRoles(array('ROLE_USER')); 
+        // compte non supprimé
         $user->setArchive(false);
+        // compte sans acces API par defaut
+        $user->setAPI(false); 
         
         // on cree le formulaire
         $form = $this->createForm(UserFormType::class, $user);
@@ -110,11 +114,22 @@ final class UserController extends AbstractController
     public function delete(): Response
     {
         $user = $this->getUser();
-        $user->setArchive(true);
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
 
-        return $this->redirectToRoute('app_gg_account_index'); 
+        if (empty($user->getOrders()))
+        { // l'utilisateur n'a pas de commandes, on peut supprimer l'utilisateur, on le deconnecte
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_gg_account_logout');        
+        }
+        else
+        { // l'utilisateur a des commandes, on peu donc pas le supprimer, on le passe en archive
+            $user->setArchive(true);
+            $user->setAPI(false);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_gg_account_index');         
+        }
+
     }
 
 }
