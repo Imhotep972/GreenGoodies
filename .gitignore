@@ -25,4 +25,5 @@
 ###< lexik/jwt-authentication-bundle ###
 greengoodies.sql
 GreenGoodies.zip
+public/adminer.php
 
