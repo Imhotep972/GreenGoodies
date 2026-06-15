@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier - {{ parent() }}{% endblock %}
+
+{% block body %}
+			<!-- Début section PANIER -->
+			<section class="gg-cart bg-cart">
+				<div class="container-fluid">
+					<article>
+						<div class="row">
+							<div class="col-1 col-lg-3"></div>
+
+							<div class="col-10 col-lg-6 px-auto  mx-auto">
+								<div class="gg-cart-container mx-auto">
+    								<h2 class="gg-cart-title text-center">Mon Panier</h2>
+									{# On affiche les messages si il y en a #}
+									{% for label, messages in app.flashes(['cart']) %}
+										{% for message in messages %}
+											<div class="flash-{{ label }}">
+												{{ message }}
+											</div>
+										{% endfor %}
+									{% endfor %}   
+							{% if products is not empty %}
+   		 							<a href="{{ path('app_cart_empty') }}" class="gg-cart-empty">× Vider le panier</a>
+    							{% for product in products %}
+        							<div class="gg-cart-item d-flex">
+            							<img src="{{ asset('images/produits/'~product.photo) }}" class="gg-cart-image">
+            							<div class="gg-cart-info w-100">
+							                <h4 class="fw-bolder">{{ product.name }}</h4>
+							                <p class="gg-cart-qty">Quantité : {{ cart[product.id] }} </p>
+							                <h3 class="mb-3">{{ (product.sousTotal/100) |  number_format(2,'.',' ')}}€</h3>
+
+                							<div class="gg-cart-actions">
+												<a href="{{ path('app_cart_remove', {id: product.id}) }}" title="Supprimer 1" class="btn gg-btn-cart">−</a>
+												<a href="{{ path('app_cart_add', {id: product.id}) }}" title="Ajouter 1" class="btn gg-btn-cart">+</a>
+												<a href="{{ path('app_cart_delete', {id: product.id}) }}" title="Supprimer l'article"  class="btn gg-btn-cart">X</a>
+											</div>
+										</div>
+									</div>
+    							{% endfor %}
+							{%else %}
+									<div class="gg-cart-item d-flex">
+            							<div class="gg-cart-info">
+											<h4 class="w-100 fw-bolder">Votre panier est vide</h4>
+										</div>
+									</div>
+							{% endif %}
+								</div>
+								<div class="gg-cart-total text-end mx-auto">
+									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ (totalamount/100) | number_format(2,'.',' ')}}€</span><br>
+									<span class="fs-7 fw-normal">Frais de livraison offerts</small></p>
+								</div>
+								{% if app.user.archive == false %}	
+								<div class="gg-cart-validOrder mx-auto">
+									<a href="{{ path('app_order_create') }}" class="btn custom-btn">Valider la commande</a>
+								</div>	
+								{% endif %}				
+							</div>
+							<div class="col-1 col-lg-3"></div>
+						</div>
+					</article>
+				</div>
+			</section><!-- Fin Section PANIER -->
+{% endblock %}

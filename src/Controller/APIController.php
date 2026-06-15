@@ -14,6 +14,7 @@ final class APIController extends AbstractController
    #[Route('/api/products',name:'api_product',methods:['GET'])]
     public function getListProducts(SerializerInterface $serializer, ProductRepository $pr) : JsonResponse
     {
+        /** @var \App\entity\User $user */
         $user=$this->getUser();
         if (empty($user))
         {// pas connecte, a priori courtcircuiter par JWT (message dans Body)
