@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}Produit - {{ parent() }}{% endblock %}
+
 {% block body %}
 				<section class="gg-product">
 					<article>
@@ -12,19 +13,19 @@
 								<div class="col d-flex flex-column p-0 m-0 justify-content-start mh-100 mx-auto" style="width:465px;">
 									<div class="gg-product-info align-items-start" style="height:686px;">
 										<h2 class="mb-3">{{ product.name}}</h2>
-										<p class="price mb-3">{{ product.prix | number_format(2,',',' ') }}€</p>
+										<p class="price mb-3">{{ (product.price/100) | number_format(2,',',' ') }}€</p>
 										<p class="desc mb-3">Description</p>
 										{# On structure le texte selon les CRLF -> <p></p>p> #}
 										{% for ligne in tabDesc %}
 											<p class="my-3">{{ ligne|trim }}</p>
 											{% endfor %}
-									{# si non connecté, on n'afiche pas les= bouton ajouter au panier #}
+									{# si non connecté, on n'afiche pas le bouton "Ajouter au panier" #}
 									{% if is_granted('ROLE_USER') and app.user.archive == false %} 
 										<div class="gg-product-addcart mx-auto align-items-end">
-											<a href="{{ path('app_gg_cart_add',{id: product.id}) }}" class="btn custom-btn custom2-btn">Ajouter au panier</a>
+											<a href="{{ path('app_cart_add',{id: product.id}) }}" class="btn custom-btn custom2-btn">Ajouter au panier</a>
 										</div>	
 									</div>
-								{% endif %}
+									{% endif %}
 								</div>									
 							</div>
 						</div>

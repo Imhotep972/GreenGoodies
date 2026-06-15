@@ -16,6 +16,35 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    /**
+     * @ return new reference Order  Returns a string (last reference with motif 'FA<YYYY><NNNN>')
+     */
+    public function getNewReference($value): ?string
+    { // $sql -> SELECT reference FROM orders where reference like "FA2026%" ORDER BY reference DESC Limite 1
+        $qb = $this->createQueryBuilder('o')
+            ->select('o.reference')
+            ->where('o.reference like :val')
+            ->setParameter('val', $value.'%')
+            ->orderBy('o.reference', 'DESC')
+            ->setMaxResults(1)
+       ;
+
+        $query = $qb->getQuery();
+        $result = $query->getOneOrNullResult();
+
+        if(empty($result['reference'])) // premiere facture de l'année
+            $newReference = $value.\sprintf("%04d",1);
+        else
+        { 
+            $numOrder = intval(strtok($result['reference'],$value)); // on recupere juste la partie numerique de la reference
+            $newReference = $value.\sprintf("%04d",$numOrder+1);
+        }           
+
+        return $newReference;
+    }
+
+
+
 //    /**
 //     * @return Orders[] Returns an array of Orders objects
 //     */

@@ -1,17 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil - {{ parent() }}{% endblock %}
 
 {% block body %}
+			{# On affiche les messages si il y en a #}
+			{% for label, messages in app.flashes(['home']) %}
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}   
 
-			{% include "Main/hero.html.twig" %}
+			{% include "Main/SectionHero.html.twig" %}
 
 			<section class="gg-acceuil-titre bg-primary">
 				<h4>Nos produits </h4> 
 			</section>
 
-			{% include "Produit/produits.html.twig" %}
+			{% include "Produit/Produits.html.twig" %}
 
-			{% include "Main/values.html.twig" %}
+			{% include "Main/SectionValues.html.twig" %}
 
 {% endblock %}

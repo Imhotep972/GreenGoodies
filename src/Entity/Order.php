@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Enum\OrderStatut;
 use App\Repository\OrderRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,21 +19,35 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Type(\DateTimeImmutable::class)] 
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(length: 50)]
-    private string $status = 'pending';
+    #[ORM\Column(nullable: true,enumType: OrderStatut::class)]
+    #[Assert\NotBlank()]
+    private ? OrderStatut $status = null;
+
+    #[ORM\Column]
+    #[Assert\NotNull()]
+    private ?int $amount = null;
+
+    #[ORM\Column(length: 20)]
+    #[Assert\NotBlank()]
+    private ?string $reference = null;
     
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderLine::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    /**
+    * @var Collection<int, OrderLine>
+    */
+    #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrderLine::class, cascade: ['persist', 'remove'], orphanRemoval: false)]
     private Collection $orderLines;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->status = OrderStatut::Pending;
         $this->orderLines = new ArrayCollection();
     }
 
@@ -52,17 +68,42 @@ class Order
         return $this;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?OrderStatut
     {
-        return $this->status;
+        return  $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(OrderStatut $status): static
     {
         $this->status = $status;
+
         return $this;
     }
 
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount): static
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }    
+    
     public function getUser(): ?User
     {
         return $this->user;
@@ -87,7 +128,7 @@ class Order
     {
         if (!$this->orderLines->contains($orderLine)) {
             $this->orderLines->add($orderLine);
-            $orderLine->setOrder($this);
+            $orderLine->setOrders($this);
         }
 
         return $this;
@@ -97,20 +138,13 @@ class Order
     {
         if ($this->orderLines->removeElement($orderLine)) {
             // set the owning side to null (unless already changed)
-            if ($orderLine->getOrder() === $this) {
-                $orderLine->setOrder(null);
+            if ($orderLine->getOrders() === $this) {
+                $orderLine->setOrders(null);
             }
         }
 
         return $this;
     }
 
-    public function getTotal(): float
-    { // on recupere le total de la commande
-        $total = 0;
-        foreach ($this->orderLines as $line) {
-            $total += $line->getProduct()->getPrix() * $line->getQuantite();
-        }
-        return $total;
-    }
+
 }

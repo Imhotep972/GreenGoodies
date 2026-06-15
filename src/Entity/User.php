@@ -2,18 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Order;
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Order;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`users`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -48,11 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]    // teste si c'est vide ou pas
     private ?string $nom = null;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
-    private Collection $orders;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $deletedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $API = null;
@@ -60,9 +62,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $archive = null;
 
+
+
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user')]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->archive = false;
+        $this->API = false;
     }
 
     public function getId(): ?int
@@ -84,7 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserName():string {
         return $this->getUserIdentifier();
     }
-    
+
     /**
      * @see UserInterface
      */
@@ -105,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
 
         return $this;
-    }
+    }    
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -169,6 +181,55 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    
+    public function getDeletedAt(): ?DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(DateTimeImmutable $deletedAt): static
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+    public function getAPI(): ?int
+    {
+        return $this->API;
+    }
+
+    public function setAPI(?int $API): static
+    {
+        $this->API = $API;
+
+        return $this;
+    }
+
+    public function getArchive(): ?int
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(int $archive): static
+    {
+        $this->archive = $archive;
+
+        return $this;
+    }   
+
     /**
      * @return Collection<int, Order>
      */
@@ -202,28 +263,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAPI(): ?int
-    {
-        return $this->API;
-    }
-
-    public function setAPI(?int $API): static
-    {
-        $this->API = $API;
-
-        return $this;
-    }
-
-    public function getArchive(): ?int
-    {
-        return $this->archive;
-    }
-
-    public function setArchive(int $archive): static
-    {
-        $this->archive = $archive;
-
-        return $this;
-    }
 
 }

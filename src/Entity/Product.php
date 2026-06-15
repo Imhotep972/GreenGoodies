@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ORM\Table(name: '`product`')]
+#[ORM\Table(name: '`products`')]
 class Product
 {
     #[ORM\Id]
@@ -28,7 +28,7 @@ class Product
     #[ORM\Column]
     #[Assert\NotNull()]
     #[Groups('getProduct')]
-    private ?float $prix = null;
+    private ?int $price = null;
 
     #[ORM\Column(length: 70)]
     #[Assert\NotBlank]
@@ -73,14 +73,14 @@ class Product
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getPrice(): ?float
     {
-        return $this->prix;
+        return $this->price;
     }
 
-    public function setPrix(float $prix): static
+    public function setPrice(float $price): static
     {
-        $this->prix = $prix;
+        $this->price = $price;
 
         return $this;
     }

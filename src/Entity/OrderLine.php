@@ -6,7 +6,7 @@ use App\Repository\OrderLineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderLineRepository::class)]
-#[ORM\Table(name: '`order_line`')]
+#[ORM\Table(name: '`orderlines`')]
 class OrderLine
 {
     #[ORM\Id]
@@ -15,11 +15,14 @@ class OrderLine
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $quantite = null;
+    private ?int $quantity = null;
+
+    #[ORM\Column]
+    private ?int $price = null;    
 
     #[ORM\ManyToOne(inversedBy: 'orderLines')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Order $order = null;
+    private ?Order $orders = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderLines')]
     #[ORM\JoinColumn(nullable: false)]
@@ -30,26 +33,38 @@ class OrderLine
         return $this->id;
     }
 
-    public function getQuantite(): ?int
+    public function getQuantity(): ?int
     {
-        return $this->quantite;
+        return $this->quantity;
     }
 
-    public function setQuantite(int $quantite): static
+    public function setQuantity(int $quantity): static
     {
-        $this->quantite = $quantite;
+        $this->quantity = $quantity;
 
         return $this;
     }
 
-    public function getOrder(): ?Order
+    public function getPrice(): ?float
     {
-        return $this->order;
+        return $this->price;
     }
 
-    public function setOrder(?Order $order): self
+    public function setPrice(float $price): static
     {
-        $this->order = $order;
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getOrders(): ?Order
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(?Order $orders): self
+    {
+        $this->orders = $orders;
         return $this;
     }
 

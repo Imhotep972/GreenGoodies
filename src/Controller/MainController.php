@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\ProductRepository;
 
 final class MainController extends AbstractController
 {
@@ -13,11 +13,12 @@ final class MainController extends AbstractController
     {
     }
 
-    #[Route('/', name: 'app_gg_accueil')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
+        // $session = $request->getSession();
         $products = $this->productRepository->findAll();
-        return $this->render('Main/accueil.html.twig', [
+        return $this->render('Main/Accueil.html.twig', [
             'products'=> $products,
         ]);
     }

@@ -15,10 +15,10 @@
 										<p class="card-text">{{ product.shortdesc}}</p>
 									</div>
 									<!-- Prix -->
-									<h4 class="card-title">{{product.prix|number_format(2,'.',' ')}}€</h4>
+									<h4 class="card-title">{{(product.price/100) | number_format(2,'.',' ')}}€</h4>
 									<!-- bouton "voir le produit" placer en bas de la zone -->
 									<div class="d-flex">
-										<a href="{{ path('app_gg_product_show',{'id':product.id}) }}" class="btn custom3-btn " role="button">Voir le produit</a>
+										<a href="{{ path('app_product_show',{'id':product.id}) }}" class="btn custom3-btn " role="button">Voir le produit</a>
 									</div>
 								</div>
 							</div>		

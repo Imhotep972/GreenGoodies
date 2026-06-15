@@ -2,10 +2,6 @@
 
 {% block title %}Mon compte - {{ parent() }}{% endblock %}
 
-{% block header %}
-    {% include 'menu/menu_connecte.html.twig' %}
-{% endblock %}
-
 {% block body %}
 			<!-- Début section MONCOMPTE -->
 			<section class="gg-account"> 
@@ -18,19 +14,29 @@
 								<div class="gg-account-container mx-auto">
 
     								<h2 class="gg-account-title text-center">Mon compte {{ (user.archive) ? '(Supprimé)' }} </h2>
+									{# On affiche les messages si il y en a #}
+									{% for label, messages in app.flashes(['account']) %}
+										{% for message in messages %}
+											<div class="flash-{{ label }}">
+												{{ message }}
+											</div>
+										{% endfor %}
+									{% endfor %}   
 
-									{% include "Order/orders_user.html.twig" %}
+									{# on affiche les commabdes si il y en a #}
+									{% include "Order/ListeCommandes.html.twig" %}
 
+									{# on affiche les actions sur le compte uniquemlent si le compte est actif #}
 									{% if app.user.archive == false %}	
 									<div class="gg-account-validButton">
 										<h4 class="fw-bolder text-start d-block">Mon accès API</h4>
 										<div class="d-flex">
-											<a href="{{ path('app_gg_account_accesAPI') }}" class="btn custom-btn mx-auto px-auto">{{ (user.API) ? 'Désactiver mon accès API' : 'Activer mon accès API' }}</a>
+											<a href="{{ path('app_account_API') }}" class="btn custom-btn mx-auto px-auto">{{ (user.API) ? 'Désactiver mon accès API' : 'Activer mon accès API' }}</a>
 										</div>
 									</div>
 
 									<div class="gg-account-validButton d-flex">
-										<a href="{{ path('app_gg_account_delete') }}" class="btn custom-btn mx-auto px-auto">Supprimer mon compte</a>
+										<a href="{{ path('app_account_delete') }}" class="btn custom-btn mx-auto px-auto">Supprimer mon compte</a>
 									</div>
 									{% endif %}
 								</div>
