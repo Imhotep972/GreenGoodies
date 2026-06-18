@@ -56,11 +56,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $deletedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $API = null;
+    #[ORM\Column(nullable: false)]
+    private ?bool $apiEnabled = false;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $archive = null;
+    #[ORM\Column(nullable: false)]
+    private ?bool $archive = false;
 
 
 
@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->orders = new ArrayCollection();
         $this->archive = false;
-        $this->API = false;
+        $this->apiEnabled = false;
     }
 
     public function getId(): ?int
@@ -206,24 +206,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getAPI(): ?int
+    public function getApiEnabled(): ?bool
     {
-        return $this->API;
+        return $this->apiEnabled;
     }
 
-    public function setAPI(?int $API): static
+    public function setApiEnabled(?bool $apiEnabled): static
     {
-        $this->API = $API;
+        $this->apiEnabled = $apiEnabled;
 
         return $this;
     }
 
-    public function getArchive(): ?int
+    public function getArchive(): ?bool
     {
         return $this->archive;
     }
 
-    public function setArchive(int $archive): static
+    public function setArchive(bool $archive): static
     {
         $this->archive = $archive;
 

@@ -28,6 +28,18 @@
 		</header>
 		
  		<main class="w-100 flex-fill">
+					{# On affiche les messages si il y en a #}
+			{% for label, messages in app.flashes() %}
+				{% for message in messages %}
+					<div class="text-center w-100 bg-primary py-2">
+					{% if label== 'erreur' %}
+						<span class="badge text-bg-danger">{{ message }}</span>
+					{%else%}
+						<span class="badge text-bg-success">{{ message }}</span>
+					{%endif%}
+					</div>
+				{% endfor %}
+			{% endfor %}   
    
         {% block body %}{% endblock %}
 
