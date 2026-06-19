@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/produit',name: 'app_product_')]
@@ -26,7 +27,7 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'show',requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function showProduct(int $id,?Product $product)
+    public function showProduct(int $id,?Product $product, SessionInterface $session)
     {
         //$product = $this->productRepository->find($id);
 
@@ -40,6 +41,7 @@ final class ProductController extends AbstractController
             $description = str_replace(["\r\n","<br>","<br/>"],"\n",$product->getDescription());
             $tabDesc = explode("\n",$description);
             
+            //$session->remove('cart');
             return $this->render('Produit/Produit.html.twig', [
             'product' => $product,
             'tabDesc' => $tabDesc,

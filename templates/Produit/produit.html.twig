@@ -22,7 +22,10 @@
 									{# si non connecté, on n'afiche pas le bouton "Ajouter au panier" #}
 									{% if is_granted('ROLE_USER') and app.user.archive == false %} 
 										<div class="gg-product-addcart mx-auto align-items-end">
-											<a href="{{ path('app_cart_add',{id: product.id}) }}" class="btn custom-btn custom2-btn">Ajouter au panier</a>
+											<form action="{{ path('app_cart_add', {id: product.id}) }}" method="POST">
+												<input type="hidden" name="_token" value="{{ csrf_token('app_cart_add') }}">
+												<button class="btn custom-btn custom2-btn">Ajouter au panier</button>
+											</form>										
 										</div>	
 									</div>
 									{% endif %}

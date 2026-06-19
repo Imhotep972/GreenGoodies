@@ -31,16 +31,18 @@
 									<div class="gg-account-validButton">
 										<h4 class="fw-bolder text-start d-block">Mon accès API</h4>
 										<div class="d-flex">
-										{{ form_start(activateApiForm, ) }}
-
-										{{ form_end(activateApiForm)}}
+											<form action="{{ path('app_account_api') }}"  method="POST">
+												<input type="hidden" name="_token" value="{{ csrf_token('app_account_api') }}">
+												<button class="tn custom-btn custom2-btn">{{ (user.getApiEnabled)? "Désactivé l'accès API" : "Activer l'accès API" }}</button>
+											</form>
 										</div>
 									</div>
 
 									<div class="gg-account-validButton d-flex">
-										{{ form_start(deleteForm, ) }}
-
-										{{ form_end(deleteForm)}}
+										<form action="{{ path('app_account_delete') }}"  method="POST">
+											<input type="hidden" name="_token" value="{{ csrf_token('app_account_delete') }}">
+											<button class="tn custom-btn custom2-btn" >Supprimer mon compte</button>
+										</form>
 									</div>
 									{% endif %}
 								</div>

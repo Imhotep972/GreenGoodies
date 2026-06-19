@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserTools
+class UserService
 {
     public function __construct(private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $hasher)
     {

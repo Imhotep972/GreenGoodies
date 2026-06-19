@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -19,123 +21,101 @@ final class CartController extends AbstractController
     }
 
     #[Route('/', name:'index')]
-    public function index(SessionInterface $session)
+    public function index(SessionInterface $session, CartService $cartService)
     {
         $cart = $session->get('cart',[]);
-        $products = [];     // tableau des produits contenu dans le panier
-        $totalAmount = 0;   // tableau du total par produit du panier
-
-        foreach( $cart  as  $id => $quantity)
-        {
-            $products[$id] = $this->productRepository->find($id);
-            $products[$id]->sousTotal = $products[$id]->getPrice() * $quantity;
-            $totalAmount += $products[$id]->sousTotal;
-        }
+        $totalAmount = $cartService->getTotalCart();   // montant totale du panier
 
         return $this->render('Cart/Cart.html.twig', [
             'cart' => $cart,
-            'products' => $products,
             'totalamount' => $totalAmount,
         ]);
     }
 
-    #[Route('/add/{id}',name: 'add',requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function add(int $id, ?Product $product, SessionInterface $session)
+    #[Route('/add/{id}',name: 'add',requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function add(?Product $product,  CartService $cartService, Request $request)
     {   // ajoute 1 au produit selectionné dans le panier ou le cree si il n'existe pas
-
-        //$product = $this->productRepository->find($id);
-        // $product contient les donnees du produit selectionné ou vide si il n'existe pas
-        if ($product)
+        if (!$this->isCsrfTokenValid('app_cart_add', $request->request->get('_token'))) 
         {
-            // on recupere le panier de la session si il existe,  sinon on le cree ([])
-            $cart = $session->get('cart',[]);
-            switch( \array_key_exists($id,$cart)) 
-            {
-                case true:              // si le produit existe, on incremente la quantite
-                    $cart[$id]++ ;      
-                    break;
-                default:                // sinon on met la quantié à 1
-                    $cart[$id] = 1;  
-            }
-
-            // on sauvegarde dans la session
-            $session->set('cart',$cart);
+            throw $this->createAccessDeniedException();
         }
         else
-            $this->addFlash('cart','Erreur le produit n\'existe pas.');
+        {
+            $result = $cartService->addQuantity($product);
+            $this->addFlash($result['statut'],$result['message']);
 
-        // redirection vers le pannier
-        return $this->redirectToRoute('app_cart_index');
+            // redirection vers le pannier
+            return $this->redirectToRoute('app_cart_index');
+        }
     }
 
-    #[Route('/remove/{id}',name: 'remove',requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function remove(int $id,  ?Product $product,SessionInterface $session)
+    #[Route('/remove/{id}',name: 'remove',requirements: ['id' => '\d+'], methods: ['POST'])]
+    public function remove(?Product $product, CartService $cartService,Request $request)
     {   // enleve 1 au produit selectionné dans le panier
-
-        //$product = $this->productRepository->find($id);
-        // $product contient les donnees du produit selectionné ou vide
-        if ($product)
+        if (!$this->isCsrfTokenValid('app_cart_remove', $request->request->get('_token'))) 
         {
-            // on recupere le panier dans la session si il existe
-            $cart = $session->get('cart');
-
-            if (!empty($cart[$id]))
-            { 
-                switch ($cart[$id]) {
-                    case 1 : 
-                        unset($cart[$id]);  // si il n'y a qu'un produit, on le supprime du panier
-                        break;
-                    default:                // sinon on le decremente
-                        $cart[$id]--;
-                        break;
-                }
-            }   
-
-            // on sauvegarde dans la session
-            $session->set('cart',$cart);
+            throw $this->createAccessDeniedException();
         }
         else
-            $this->addFlash('cart','Erreur le produit n\'existe pas.');
+        {
+            $result = $cartService->removeQuantity($product);
+            $this->addFlash($result['statut'],$result['message']);
 
-        // redirection vers le pannier
-        return $this->redirectToRoute('app_cart_index');
+            // redirection vers le pannier
+            return $this->redirectToRoute('app_cart_index');
+        }
     }
 
-    #[Route('/delete/{id}',name: 'delete', methods: ['GET'])]
-    public function delete(int $id,  ?Product $product,SessionInterface $session)
+    #[Route('/delete/{id}',name: 'delete', methods: ['POST'])]
+    public function delete(?Product $product, CartService $cartService,Request $request)
     {   // supprime le produit du panier
- 
-        //$product = $this->productRepository->find($id);
-        // $product contient les donnees du produit selectionné ou vide
-        if ($product)
+        if (!$this->isCsrfTokenValid('app_cart_delete', $request->request->get('_token'))) 
         {
-            // on recupere le panier dans session si il existe
-            $cart = $session->get('cart');
-
-            // on regarde si le produit est dans le panier, si oui on l'enleve
-            if (!empty($cart[$id]))
-                unset($cart[$id]);
-            // on sauvegarde dans la session
-            $session->set('cart',$cart);
+            throw $this->createAccessDeniedException();
         }
         else
-            $this->addFlash('cart','Erreur le produit n\'existe pas.');
+        {
+            $result = $cartService->deleteProduct($product,);
+            $this->addFlash($result['statut'],$result['message']);
 
-        // redirection vers le pannier
-        return $this->redirectToRoute('app_cart_index');
+            // redirection vers le pannier
+            return $this->redirectToRoute('app_cart_index');
+        }
     }
 
-    #[Route('/empty',name: 'empty')]
-    public function empty(SessionInterface $session)
+    #[Route('/empty',name: 'empty',methods: ['POST'])]
+    public function empty(CartService $cartService,Request $request)
     {   // vide le penier
+        if (!$this->isCsrfTokenValid('app_cart_empty', $request->request->get('_token'))) 
+        {
+            throw $this->createAccessDeniedException();
+        }
+        else
+        {
+            $result = $cartService->emptyCart();
+            $this->addFlash($result['statut'],$result['message']);
 
-        // on supprime le panier de la session
-        $session->remove('cart');
-            
-        $this->addFlash('cart','Le panier a été vidé.');
-
-        // redirection vers le pannier
-        return $this->redirectToRoute('app_cart_index');
+            // redirection vers le pannier
+            return $this->redirectToRoute('app_cart_index');
+        }
     }
 
+    #[route('/generate',name:'generate',methods: ['POST'])]
+    public function generate(SessionInterface $session, Request $request, CartService $cartService)
+    {
+        // on recupere le panier depuis la session
+        if (!$this->isCsrfTokenValid('app_cart_generate', $request->request->get('_token'))) 
+        {
+            throw $this->createAccessDeniedException();
+        }
+        else
+        {
+            $result = $cartService->generateOrder();
+            $this->addFlash($result['statut'],$result['message']);
+        }    
+  
+
+        // erreurs on reaffiche le panier
+        return $this->redirectToRoute('app_cart_index');    
+    }
 }

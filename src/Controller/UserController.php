@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserFormType;
-use App\Form\UserDeleteType;
-use App\Form\UserSetApiType;
 use App\Repository\OrderRepository;
 use App\Repository\UserRepository;
-use App\Service\UserTools;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +23,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/inscription', name: 'register')]
-    public function register(Request $request, UserTools $userTools): Response
+    public function register(Request $request, UserService $userService): Response
     {
         // nouvel utilisateur
         $user = new User();
@@ -39,7 +37,7 @@ final class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) 
         {
-            $result = $userTools->createAccount($user);
+            $result = $userService->createAccount($user);
             $this->addFlash($result['statut'],$result['message']);
 
             return $this->redirectToRoute('app_home');
@@ -81,70 +79,49 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         $orders = $orderRepository->findBy(['user'=> $user->getId()]);
 
-        $setApiForm = $this->createForm(UserSetApiType::class, null,[
-            'action' => $this->generateUrl('app_account_api'),
-            'method' => 'POST',
-            'access_enabled' => $user->getApiEnabled(),
-        ]); 
-        $deleteForm = $this->createForm(UserDeleteType::class, $user,[
-            'action' => $this->generateUrl('app_account_delete'),
-            'method' => 'POST',
-        ]); 
-
         return $this->render('User/Compte.html.twig', [
             'orders' => $orders,
             'user' =>  $user,
-            'activateApiForm' => $setApiForm,
-            'deleteForm' => $deleteForm,
-
         ]);         
     }
  
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/api/', name: 'api', methods: ['POST'])] 
-    public function toogleApiAccess(Request $request, UserTools $userTools): Response
+    public function toogleApiAccess(Request $request, UserService $userService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        $setApiForm = $this->createForm(UserSetApiType::class, null,[
-            'action' => $this->generateUrl('app_account_api'),
-            'method' => 'POST',
-            'access_enabled' => $user->getApiEnabled(),
-        ]); 
-        $setApiForm->handleRequest($request);
-        
-        if ($setApiForm->isSubmitted() && $setApiForm->isValid())
+        if (!$this->isCsrfTokenValid('app_account_api', $request->request->get('_token'))) 
         {
-            $result = $userTools->toogleApiAccess($user);
-            $this->addFlash($result['statut'],$result['message']);
+            throw $this->createAccessDeniedException();
         }
         else
-            $this->addFlash('danger','Un problème est survenu lors de l\'activation/desactivation de l\'acces API.');
+        {
+            $result = $userService->toogleApiAccess($user);
+            $this->addFlash($result['statut'],$result['message']);
+        }
 
         return $this->redirectToRoute('app_account_index'); 
     }
 
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/delete/', name: 'delete', methods: ['POST'])] 
-    public function delete(Request $request, UserTools $userTools): Response
+    public function delete(Request $request, UserService $userService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        $deleteForm = $this->createForm(UserDeleteType::class, $user,[
-            'action' => $this->generateUrl('app_account_delete'),
-            'method' => 'POST',
-        ]); 
-        $deleteForm->handleRequest($request);
-
-        if ($deleteForm->isSubmitted() && $deleteForm->isValid())
+        if (!$this->isCsrfTokenValid('app_account_delete', $request->request->get('_token'))) 
         {
-            $result = $userTools->deleteAccount($user);
-            $this->addFlash($result['statut'],$result['message']);
+            throw $this->createAccessDeniedException();
         }
         else
-            $this->addFlash('danger','Un problème est survenu lors de la suppression du compte') ;
+        {
+
+            $result = $userService->deleteAccount($user);
+            $this->addFlash($result['statut'],$result['message']);
+        }
 
         return $this->redirectToRoute('app_account_index');         
     }

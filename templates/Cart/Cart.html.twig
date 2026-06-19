@@ -21,20 +21,32 @@
 											</div>
 										{% endfor %}
 									{% endfor %}   
-							{% if products is not empty %}
-   		 							<a href="{{ path('app_cart_empty') }}" class="gg-cart-empty">× Vider le panier</a>
-    							{% for product in products %}
+							{% if cart is not empty %}
+   		 							<a href="#" class="gg-cart-empty" onclick="event.preventDefault(); document.getElementById('form-empty-cart').submit();">× Vider le panier</a>
+									<form id="form-empty-cart" action="{{ path('app_cart_empty') }}" method="POST" style="display:none;">
+    									<input type="hidden" name="_token" value="{{ csrf_token('cart_action') }}">
+									</form>
+								{% for product in cart %}
         							<div class="gg-cart-item d-flex">
-            							<img src="{{ asset('images/produits/'~product.photo) }}" class="gg-cart-image">
+            							<img src="{{ asset('images/produits/'~product['photo']) }}" class="gg-cart-image">
             							<div class="gg-cart-info w-100">
-							                <h4 class="fw-bolder">{{ product.name }}</h4>
-							                <p class="gg-cart-qty">Quantité : {{ cart[product.id] }} </p>
-							                <h3 class="mb-3">{{ (product.sousTotal/100) |  number_format(2,'.',' ')}}€</h3>
+							                <h4 class="fw-bolder">{{ product['name'] }}</h4>
+							                <p class="gg-cart-qty">Quantité : {{ product['quantity'] }} </p>
+							                <h3 class="mb-3">{{ (product['total']) | price }}</h3>
 
                 							<div class="gg-cart-actions">
-												<a href="{{ path('app_cart_remove', {id: product.id}) }}" title="Supprimer 1" class="btn gg-btn-cart">−</a>
-												<a href="{{ path('app_cart_add', {id: product.id}) }}" title="Ajouter 1" class="btn gg-btn-cart">+</a>
-												<a href="{{ path('app_cart_delete', {id: product.id}) }}" title="Supprimer l'article"  class="btn gg-btn-cart">X</a>
+												<form action="{{ path('app_cart_remove', {id: product['id']}) }}" class="d-inline" method="POST">
+													<input type="hidden" name="_token" value="{{ csrf_token('app_cart_remove') }}">
+													<button class="btn gg-btn-cart fw-bold" title="Enlever 1 article">-</button>
+												</form>
+												<form action="{{ path('app_cart_add', {id: product['id']}) }}" class="d-inline" method="POST">
+													<input type="hidden" name="_token" value="{{ csrf_token('app_cart_add') }}">
+													<button class="btn gg-btn-cart fw-bold" title="Ajouter 1 article">+</button>
+												</form>
+												<form action="{{ path('app_cart_delete', {id: product['id']}) }}" class="d-inline" method="POST">
+													<input type="hidden" name="_token" value="{{ csrf_token('app_cart_delete') }}">
+													<button class="btn gg-btn-cart fw-bold" title="Supprimer l'article">X</button>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -48,12 +60,16 @@
 							{% endif %}
 								</div>
 								<div class="gg-cart-total text-end mx-auto">
-									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ (totalamount/100) | number_format(2,'.',' ')}}€</span><br>
+									<p class="fw-bold">Total panier : <span class="fs-3 fw-bold">{{ (totalamount) | price }}</span><br>
 									<span class="fs-7 fw-normal">Frais de livraison offerts</small></p>
 								</div>
-								{% if app.user.archive == false %}	
+								{% if app.user.archive == false and totalamount >0 %}	
 								<div class="gg-cart-validOrder mx-auto">
-									<a href="{{ path('app_order_create') }}" class="btn custom-btn">Valider la commande</a>
+									<!--<a href="{{ path('app_order_create') }}" class="btn custom-btn">Valider la commande</a> -->
+									<form action="{{ path('app_cart_generate') }}"  method="POST">
+										<input type="hidden" name="_token" value="{{ csrf_token('app_cart_generate') }}">
+										<button class="tn custom-btn custom2-btn" title="Supprimer l'article">Valider la commande</button>
+									</form>
 								</div>	
 								{% endif %}				
 							</div>

@@ -31,16 +31,8 @@ class OrderRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         $result = $query->getOneOrNullResult();
-
-        if(empty($result['reference'])) // premiere facture de l'année
-            $newReference = $value.\sprintf("%04d",1);
-        else
-        { 
-            $numOrder = intval(strtok($result['reference'],$value)); // on recupere juste la partie numerique de la reference
-            $newReference = $value.\sprintf("%04d",$numOrder+1);
-        }           
-
-        return $newReference;
+ 
+        return  $result['reference'];
     }
 
 
