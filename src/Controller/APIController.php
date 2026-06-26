@@ -14,22 +14,14 @@ final class APIController extends AbstractController
    #[Route('/api/products',name:'api_product',methods:['GET'])]
     public function getListProducts(SerializerInterface $serializer, ProductRepository $pr) : JsonResponse
     {
+        // arrive ici ceux qui ont passé avec succès le ApiUserChecker : les comptes actifs avec accès API activé
+    
         /** @var \App\entity\User $user */
         $user=$this->getUser();
-        if (empty($user))
-        {// pas connecte, a priori courtcircuiter par JWT (message dans Body)
-            $errorMessage = "Identifiants incorrect";
-            $codestatus = Response::HTTP_UNAUTHORIZED;
-            return new JsonResponse(null,$codestatus, ['error'=> $errorMessage] );
-        }
-        if ($user->getArchive())
-        { // compte supprimé donc plus d'acces
-            $errorMessage = "Compte supprime";
-            $codestatus = Response::HTTP_UNAUTHORIZED;
-            return new JsonResponse(null,$codestatus, ['error'=> $errorMessage] );
-        }
-        if ($user->getAPI())
-        {
+
+        
+        if ($user->isApiEnabled())
+        { // meme si en principe ceux qui n'ont pas activé API n'arrivent pas ici
             $productList = $pr->findAll();
             $jsonProductList = $serializer->serialize($productList,'json',['groups' => 'getProduct']);
 
@@ -46,7 +38,6 @@ final class APIController extends AbstractController
                 ]);
             }
         }
-        
         // la liste est vide
         $errorMessage = 'Acces API non active';
         $codestatus = Response::HTTP_FORBIDDEN;

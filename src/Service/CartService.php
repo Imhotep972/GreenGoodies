@@ -25,7 +25,7 @@ class CartService
             if (empty($product))
                 return [
                     'statut' => 'danger',
-                    'message' => 'Le produit n\'existe pas',   
+                    'message' => 'Panier : Le produit n\'existe pas',   
                     ];
 
             // on recupere le panier de la session si il existe,  sinon on le cree ([])
@@ -39,9 +39,13 @@ class CartService
                 $cart[$id]['price'] = $product->getPrice();
                 $cart[$id]['photo'] = $product->getPhoto();
                 $cart[$id]['quantity'] = 1;
+                $message = 'Panier : Le produit a été ajouté';
             }
             else        // le produit est deja dans le panier
+            {
                 $cart[$id]['quantity']++;
+                $message = 'Panier : La quantité du produit a été modifiée';
+            }
 
             // on met à jour le sous total pour le produit
             $cart[$id]['total'] = $cart[$id]['price']*$cart[$id]['quantity'];
@@ -51,14 +55,14 @@ class CartService
 
             return [
                 'statut' => 'success',
-                'message' => 'La quantité du produit a bien été modifiée',
+                'message' => $message,
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la modification de la quantité.'
+                'message' => 'Panier : Un problème est survenu lors de l\'ajout/modification du produit'
             ];
         }
     }
@@ -73,7 +77,7 @@ class CartService
                 // le produit n'existe pas ou n'existe pas dans le panier
                 return [
                     'statut' => 'danger',
-                    'message' => 'Le produit n\'existe pas dans le panier',   
+                    'message' => 'Panier : Le produit n\'existe pas',   
                     ];
 
             // on recupeère l'id du produit
@@ -81,11 +85,11 @@ class CartService
             switch($cart[$id]['quantity'])
             {
                 case 1 :    unset($cart[$id]);
-                            $message = 'Le produit a bien été supprimé du panier';
+                            $message = 'Panier : Le produit a été supprimé';
                             break;
                 default :   $cart[$id]['quantity']--;
                             $cart[$id]['total'] = $cart[$id]['price']*$cart[$id]['quantity'];
-                            $message = 'La quantité du produit a bien été modifiée';
+                            $message = 'Panier : La quantité du produit a été modifiée';
                             break;
             }
 
@@ -101,7 +105,7 @@ class CartService
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la modification de la quantité.'
+                'message' => 'Panier : Un problème est survenu lors de la suppression/modification du produit.'
             ];
         }
     }
@@ -117,7 +121,7 @@ class CartService
                 // le produit n'existe pas ou n'existe pas dans le panier
                 return [
                     'statut' => 'danger',
-                    'message' => 'Le produit n\'existe pas dans le panier',   
+                    'message' => 'Panier : Le produit n\'existe pas',   
                     ];
 
             // on recupere le panier de la session 
@@ -131,14 +135,14 @@ class CartService
 
             return [
                 'statut' => 'success',
-                'message' => 'Le produit a bien été supprimé du panier',
+                'message' => 'Panier : Le produit a bien été supprimé',
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la suppression du produit du panier'
+                'message' => 'Panier : Un problème est survenu lors de la suppression du produit'
             ];
         }
     }
@@ -149,14 +153,14 @@ class CartService
             $this->session->remove('cart');
             return [
                 'statut' => 'success',
-                'message' => 'Le panier a été vidé',
+                'message' => 'Panier : Le panier a été vidé',
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la suppression du panier'
+                'message' => 'Panier : Un problème est survenu lors de la suppression du panier'
             ];
         }
     }
@@ -190,14 +194,14 @@ class CartService
             if (empty($cart))
                 return [
                     'statut' => 'danger',
-                    'message' => 'Erreur pendant la génération de la commande, le panier est vide',
+                    'message' => 'Commande : Erreur pendant la génération de la commande, le panier est vide',
                 ];
 
             // nouvelle instance de Order
             $order = New Order();
 
             // reference commande 'FA<YYYY><0number>' max 9999 factur par an
-            $newOrderReference = $this->getNewReference();
+            $newOrderReference = $this->getNewReference("FA".date("Y"));
             $order->setReference($newOrderReference);    
 
             // total de la facture
@@ -229,24 +233,22 @@ class CartService
             // on affiche la page account avec la nouvelle commande
             return [
                 'statut' => 'success',
-                'message' => 'La commande a été générée sans erreur'
+                'message' => 'Commande : La commande a été générée sans erreur'
             ]; 
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la génération de la commande'
+                'message' => 'Commande : Un problème est survenu lors de la génération de la commande'
             ];
         }
     }
 
-    public function getNewReference() : string
+    public function getNewReference($motif) : string
     {
-        $motif = "FA".date("Y");
         $lastReference = $this->orderRepository->getNewReference($motif);
-
-        $newReference = "FA".date("Y").\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
+        $newReference =(empty($lastReference)) ? $motif.\sprintf("%04d",\intval(1)) : $motif.\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
 
         return $newReference;
     }

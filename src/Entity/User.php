@@ -206,7 +206,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getApiEnabled(): ?bool
+    public function isApiEnabled(): ?bool
     {
         return $this->apiEnabled;
     }
@@ -218,7 +218,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getArchive(): ?bool
+    public function isArchive(): ?bool
     {
         return $this->archive;
     }

@@ -31,8 +31,13 @@ class OrderRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         $result = $query->getOneOrNullResult();
- 
-        return  $result['reference'];
+
+
+        if (\count($result))                        // il y a deja eu des factures
+            return $result['reference'];
+        else 
+             return  $result['reference'];          // premiere facture avec ce motif
+
     }
 
 

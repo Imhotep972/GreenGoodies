@@ -65,7 +65,6 @@
 								</div>
 								{% if app.user.archive == false and totalamount >0 %}	
 								<div class="gg-cart-validOrder mx-auto">
-									<!--<a href="{{ path('app_order_create') }}" class="btn custom-btn">Valider la commande</a> -->
 									<form action="{{ path('app_cart_generate') }}"  method="POST">
 										<input type="hidden" name="_token" value="{{ csrf_token('app_cart_generate') }}">
 										<button class="tn custom-btn custom2-btn" title="Supprimer l'article">Valider la commande</button>
