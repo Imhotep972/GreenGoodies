@@ -4,6 +4,7 @@ namespace app\Tests\Entity;
 
 use App\Entity\Order;
 use App\Entity\OrderLine;
+use App\Entity\Product;
 use App\Entity\User;
 use App\Enum\OrderStatut;
 use DateTimeImmutable;
@@ -11,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
 
-class UOrderTest extends TestCase
+class OrderTest extends TestCase
 {
 
     public function testInitNewOrder()
@@ -118,7 +119,7 @@ class UOrderTest extends TestCase
 
     }
 
-    public function testRemoveOrderlines()
+    public function testRemoveOrderLines()
     {
         $order = new Order();
         $orderline = new OrderLine();
@@ -129,7 +130,7 @@ class UOrderTest extends TestCase
         // on supprime orderlin
         $order->removeOrderLine($orderline);
         $this->assertCount(0, $order->getOrderLines(),'GetOrderLine Count 0');
-        $this->assertNull($orderline->getOrders(),'GetOrders doit etre Null');
+        $this->assertEmpty($orderline->getOrders(),'GetOrders doit etre vide');
 
     }
 
@@ -140,5 +141,50 @@ class UOrderTest extends TestCase
 
         $order ->setUser($user);
         $this->assertSame($user,$order->getUser(),'getUser');
+    }
+
+    public function testOrderWithOrderLineProductUser()
+    {
+        $amount = 0;
+        $order = new Order();
+        // CreatedAt / status / orderlines sont iniatlisés dans __construct
+        $order->setReference('FA202600052');
+
+        $user = new User();
+        $order->setUser($user);
+
+        // creation du produit 1 
+        $product1 = new Product();
+        $product1->setPrice(1000);
+        $product1->setName("Produit 1");
+        // creation de la ligne de commande 1 avec le produit 1 x2 20€
+        $orderline1 = new OrderLine();
+        $orderline1->setProduct($product1);
+        $orderline1->setPrice($product1->getPrice());
+        $orderline1->setQuantity(2);
+        $amount+=$orderline1->getPrice() * $orderline1->getQuantity();
+
+        // creation du produit 2 
+        $product2 = new Product();
+        $product2->setPrice(1500);
+        $product2->setName("Produit 2");
+        // creation de la ligne de commande 2 avec le produit 2   x1 15€
+        $orderline2 = new OrderLine();
+        $orderline2->setProduct($product2);
+        $orderline2->setPrice($product2->getPrice());        
+        $orderline2->setQuantity(1);
+        $amount+=$orderline2->getPrice() * $orderline2->getQuantity();
+
+        // ajout des 2 lignes de commandes a la commande
+        $order->addOrderLine($orderline1);
+        $order->addOrderLine($orderline2);
+        $order->setAmount($amount);
+
+        // verifications
+        $this->assertCount(2, $order->getOrderLines(),'Generation Commande GetOrderLine');
+        $this->assertSame($order, $orderline1->getOrders(),'Generation Commande GetOrders');
+        $this->assertSame($order, $orderline2->getOrders(),'Generation Commande GetOrders');
+        $this->assertSame(3500, $order->getAmount(),'Generation Commande GetAmount');
+
     }
 }

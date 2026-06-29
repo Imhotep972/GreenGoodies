@@ -33,11 +33,11 @@ class OrderRepository extends ServiceEntityRepository
         $result = $query->getOneOrNullResult();
 
 
-        if (\count($result))                        // il y a deja eu des factures
-            return $result['reference'];
+        if ($result===null)                     // premiere facture avec ce motif
+            return null;
         else 
-             return  $result['reference'];          // premiere facture avec ce motif
-
+             return $result['reference'];       // il y a deja eu des factures
+            
     }
 
 

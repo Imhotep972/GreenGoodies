@@ -248,7 +248,7 @@ class CartService
     public function getNewReference($motif) : string
     {
         $lastReference = $this->orderRepository->getNewReference($motif);
-        $newReference =(empty($lastReference)) ? $motif.\sprintf("%04d",\intval(1)) : $motif.\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
+        $newReference =($lastReference === null) ? $motif.\sprintf("%04d",\intval(1)) : $motif.\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
 
         return $newReference;
     }
