@@ -6,6 +6,7 @@ use App\Entity\OrderLine;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,26 +23,31 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[Groups('getProduct')]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\PositiveOrZero()]
     #[Assert\NotNull()]
     #[Groups('getProduct')]
     private ?int $price = null;
 
     #[ORM\Column(length: 70)]
     #[Assert\NotBlank]
+    #[Assert\NotNull()]
     #[Groups('getProduct')]
     private ?string $shortdesc = null;
 
     #[ORM\Column(length: 1500)]
     #[Assert\NotBlank]
+    #[Assert\NotNull()]
     #[Groups('getProduct')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\NotNull()]
     #[Groups('getProduct')]
     private ?string $photo = null;
 
@@ -49,6 +55,7 @@ class Product
      * @var Collection<int, OrderLine>
      */
     #[ORM\OneToMany(targetEntity: OrderLine::class, mappedBy: 'product')]
+    #[Assert\NotNull()]
     private Collection $orderLines;
 
     public function __construct()
@@ -68,6 +75,10 @@ class Product
 
     public function setName(string $name): static
     {
+        if (empty($name))
+        {
+           throw new \InvalidArgumentException("Le nom du produit ne doit pas être vide.");    
+        }
         $this->name = $name;
 
         return $this;
@@ -80,6 +91,11 @@ class Product
 
     public function setPrice(int $price): static
     {
+        if ($price < 0)
+        {
+           throw new  \InvalidArgumentException("Le prix du produit doit etre positif ou null.");    
+        }
+
         $this->price = $price;
 
         return $this;
@@ -92,6 +108,10 @@ class Product
 
     public function setShortdesc(string $shortdesc): static
     {
+        if (empty($shortdesc))
+        {
+           throw new \InvalidArgumentException("La description courte ne doit pas etre vide.");    
+        }
         $this->shortdesc = $shortdesc;
 
         return $this;
@@ -104,6 +124,10 @@ class Product
 
     public function setDescription(string $description): static
     {
+        if (empty($description))
+        {
+           throw new  \InvalidArgumentException("La description ne doit pas etre vide.");    
+        }        
         $this->description = $description;
 
         return $this;
@@ -116,6 +140,10 @@ class Product
 
     public function setPhoto(string $photo): static
     {
+        if (empty($photo) || $photo ===null)
+        {
+           throw new \InvalidArgumentException("Le chemin de la photo ne doit pas etre vide ou null.");    
+        }
         $this->photo = $photo;
 
         return $this;
