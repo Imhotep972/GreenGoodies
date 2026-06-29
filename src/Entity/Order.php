@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Enum\OrderStatut;
 use App\Repository\OrderRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: 'orders')]
@@ -20,14 +21,16 @@ class Order
 
     #[ORM\Column]
     #[Assert\Type(\DateTimeImmutable::class)] 
+    #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true,enumType: OrderStatut::class)]
     #[Assert\NotBlank()]
     private ? OrderStatut $status = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
     #[Assert\NotNull()]
+    #[Assert\PositiveOrZero()]
     private ?int $amount = null;
 
     #[ORM\Column(length: 20)]
@@ -85,8 +88,12 @@ class Order
         return $this->amount;
     }
 
-    public function setAmount(float $amount): static
+    public function setAmount(int $amount): static
     {
+        if ($amount < 0) 
+        {
+            throw new \InvalidArgumentException("Amount doit >= 0");   
+        }
         $this->amount = $amount;
 
         return $this;
@@ -99,6 +106,10 @@ class Order
 
     public function setReference(string $reference): static
     {
+        if (empty($reference) || $reference === null )
+        {
+            throw new \InvalidArgumentException("Reference ne peut etre null ou vide");       
+        }
         $this->reference = $reference;
 
         return $this;
