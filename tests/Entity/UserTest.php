@@ -146,4 +146,23 @@ class UserTest extends TestCase
         $this->assertCount(1,$user->getOrders(),'GetOrder apres 2 addOrder');        
         
     }
+
+    public function testRemoveOrder()
+    {
+        $user = new User();
+        $order = new Order();
+
+        // test de l'ajout d'un order
+        $user->addOrder($order);
+        // orders contient 1 order
+        $this->assertCount(1,$user->getOrders(),'GetOrder apres addOrder');        
+
+        // on supprime l'order
+        $user->removeOrder($order);
+         // orders contient 0 order
+        $this->assertCount(0,$user->getOrders(),'GetOrder apres addOrder');        
+        // order ne doit plus avoir d'user
+        $this->assertNull($order->getUser(),'GetUser');
+
+    }
 }
