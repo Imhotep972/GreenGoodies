@@ -16,10 +16,10 @@ class UserService
     {
         try
         {
-            $state = $user->getApiEnabled();
+            $state = $user->isApiEnabled();
             $newState = !$state;
             $statut = 'success';
-            $message = ($newState)? 'Accès API Activé' : 'Accès API désactivé';
+            $message = ($newState)? 'Accès API activé' : 'Accès API désactivé';
 
             $user->setApiEnabled($newState);
             $this->entityManager->flush();  
@@ -31,9 +31,10 @@ class UserService
         }
         catch (\Throwable $e) 
         {
+            $user->setApiEnabled(!$newState);
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de l\'activation/desactivation de l\'acces API.'
+                'message' => 'Un problème est survenu lors de l\'activation/desactivation de l\'acces API'
             ];
         }
     }
@@ -57,7 +58,7 @@ class UserService
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la suppression du compte.'
+                'message' => 'Un problème est survenu lors de la suppression du compte'
             ];        
         }
     }
@@ -74,7 +75,7 @@ class UserService
 
             return [
                 'statut' => 'success',
-                'message' => 'Vous etes inscrit sur le site, veuillez maintenant vous connecter.',
+                'message' => 'Vous etes inscrit sur le site, veuillez maintenant vous connecter',
             ];
 
         }
@@ -82,7 +83,7 @@ class UserService
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Une erreur a eu lieu lors de la création de votre compte.',
+                'message' => 'Une erreur a eu lieu lors de la création de votre compte',
             ];
         }
     }
