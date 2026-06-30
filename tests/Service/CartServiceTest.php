@@ -610,7 +610,9 @@ class CartServiceTest extends TestCase
             ->method('getNewReference')
             ->willReturn('FA20260052');
         $result = $this->service->getNewReference("FA2026");
-dump($result);
+
         $this->assertSame("FA20260053", $result, "Get New Reference");
     }
+
+    
 }
