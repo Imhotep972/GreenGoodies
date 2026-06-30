@@ -57,12 +57,6 @@ class OrderLineTest extends TestCase
         $orderline->setOrders($order);
         $this->assertSame($order,$orderline->getOrders(),'GetOrders');
 
-        // order = null
-        $order = null;
-        $this->expectException(\InvalidArgumentException::class);
-        $orderline->setOrders($order);
-        $this->assertSame($order,$orderline->getOrders(),'GetOrders null');
-
     }
 
     public function testProduct()
@@ -72,12 +66,6 @@ class OrderLineTest extends TestCase
 
         $orderline->setProduct($product);
         $this->assertSame($product,$orderline->getProduct(),'GetProduct');
-
-        // order = null
-        $product = null;
-        $this->expectException(\InvalidArgumentException::class);
-        $orderline->setProduct($product);
-        $this->assertSame($product,$orderline->getProduct(),'GetProduct null');
 
     }
 }

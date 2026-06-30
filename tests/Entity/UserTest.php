@@ -20,6 +20,8 @@ class UserTest extends TestCase
         $this->assertEquals(false, $user->isApiEnabled(),'ApiEnabled'); 
         // test si l'utilisateur a pour role ROLE_USER à la création
         $this->assertEquals(['ROLE_USER'], $user->getRoles(),'Role');  
+        // test date de creation
+        $this->assertInstanceOf(DateTimeImmutable::class, $user->getCreatedAt(),'CreatedAt');          
         // test si orders est une Collection
         $this->assertInstanceOf(Collection::class, $user->getOrders(),'Collection');          
         // test si orders est une arrayCollection
