@@ -75,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->orders = new ArrayCollection();
         $this->archive = false;
         $this->apiEnabled = false;
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
