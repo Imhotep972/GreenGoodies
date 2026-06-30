@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Order;
 use App\Entity\OrderLine;
+use App\Entity\Product;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,27 +19,31 @@ class CartService
     {
         $this->session = $requestStack->getSession();
     }
-    public function addQuantity($product): array
+
+    public function addQuantity(?Product $product): array
     {
         try
         {
+            $cart = $this->session->get('cart',[]);
             if (empty($product))
                 return [
                     'statut' => 'danger',
                     'message' => 'Panier : Le produit n\'existe pas',   
+                    'cart' => $cart,
                     ];
 
             // on recupere le panier de la session si il existe,  sinon on le cree ([])
-            $cart = $this->session->get('cart',[]);
             // on recupeère l'id du produit
             $id = $product->getId();
             if (empty($cart[$id]))
             {   // on ajoute le produit dans le panier
-                $cart[$id]['id'] = $id;
-                $cart[$id]['name'] = $product->getName();
-                $cart[$id]['price'] = $product->getPrice();
-                $cart[$id]['photo'] = $product->getPhoto();
-                $cart[$id]['quantity'] = 1;
+                $cart[$id] = [
+                    'id'       =>   $id,
+                    'name'     =>   $product->getName(),
+                    'price'    =>   $product->getPrice(),
+                    'photo'    =>   $product->getPhoto(),
+                    'quantity' =>   1,
+                ];
                 $message = 'Panier : Le produit a été ajouté';
             }
             else        // le produit est deja dans le panier
@@ -56,36 +61,46 @@ class CartService
             return [
                 'statut' => 'success',
                 'message' => $message,
+                'cart' => $cart
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Panier : Un problème est survenu lors de l\'ajout/modification du produit'
+                'message' => 'Panier : Un problème est survenu lors de l\'ajout/modification du produit',
+                'cart' => $cart,
             ];
         }
     }
 
-    public function removeQuantity($product): array
+    public function removeQuantity(?Product $product): array
     {
         try
         {
             // on recupere le panier de la session 
             $cart = $this->session->get('cart',[]);
-            if (empty($product) || empty($cart[$product->getId()])) 
+            if (empty($cart))
+                return [
+                    'statut' => 'danger',
+                    'message' => 'Panier : Le panier est vide',   
+                    'cart' => $cart
+                    ];        
+
+            if ( empty($product) || empty($cart[$product->getId()]) ) 
                 // le produit n'existe pas ou n'existe pas dans le panier
                 return [
                     'statut' => 'danger',
-                    'message' => 'Panier : Le produit n\'existe pas',   
-                    ];
+                    'message' => ( empty($product) )? "Panier : Le produit n'existe pas" : "Panier : Le produit n'est pas dans le panier",   
+                    'cart' => $cart,
+                    ];        
 
             // on recupeère l'id du produit
             $id = $product->getId();
             switch($cart[$id]['quantity'])
             {
                 case 1 :    unset($cart[$id]);
-                            $message = 'Panier : Le produit a été supprimé';
+                            $message = (empty($cart))? 'Panier : Le panier est vide' : 'Panier : Le produit a été supprimé';
                             break;
                 default :   $cart[$id]['quantity']--;
                             $cart[$id]['total'] = $cart[$id]['price']*$cart[$id]['quantity'];
@@ -98,19 +113,22 @@ class CartService
 
             return [
                 'statut' => 'success',
-                'message' => $message,
+                'message' => $message,                
+                'cart' => $cart
             ];
+
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Panier : Un problème est survenu lors de la suppression/modification du produit.'
+                'message' => 'Panier : Un problème est survenu lors de la suppression/modification du produit',
+                'cart' => $cart,
             ];
         }
     }
 
-    public function deleteProduct($product): array
+    public function deleteProduct(?Product $product): array
     {
         try
         {
@@ -121,7 +139,8 @@ class CartService
                 // le produit n'existe pas ou n'existe pas dans le panier
                 return [
                     'statut' => 'danger',
-                    'message' => 'Panier : Le produit n\'existe pas',   
+                    'message' => (empty($product))? 'Panier : Le produit n\'existe pas' : "Panier : Le produit n'est pas dans le panier",    
+                    'cart' => $cart,
                     ];
 
             // on recupere le panier de la session 
@@ -136,34 +155,44 @@ class CartService
             return [
                 'statut' => 'success',
                 'message' => 'Panier : Le produit a bien été supprimé',
+                'cart' => $cart,
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Panier : Un problème est survenu lors de la suppression du produit'
+                'message' => 'Panier : Un problème est survenu lors de la suppression du produit',
+                'cart' => $cart,
             ];
         }
     }
+
     public function emptyCart(): array
     {
+        // on recupere le panier de la session 
+        $cart = $this->session->get('cart',[]);
+
         try
         {
             $this->session->remove('cart');
             return [
                 'statut' => 'success',
-                'message' => 'Panier : Le panier a été vidé',
+                'message' => 'Panier : Le panier a été supprimé',
+                'cart' => [],
             ];
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Panier : Un problème est survenu lors de la suppression du panier'
+                'message' => 'Panier : Un problème est survenu lors de la suppression du panier',
+                'cart' => $cart,
+
             ];
         }
     }
+    
     public function getTotalCart(): int
     {
         $cart = $this->session->get('cart');
