@@ -33,7 +33,7 @@
 										<div class="d-flex">
 											<form action="{{ path('app_account_api') }}"  method="POST">
 												<input type="hidden" name="_token" value="{{ csrf_token('app_account_api') }}">
-												<button class="tn custom-btn custom2-btn">{{ (user.getApiEnabled)? "Désactivé l'accès API" : "Activer l'accès API" }}</button>
+												<button class="tn custom-btn custom2-btn">{{ (user.isApiEnabled)? "Désactivé l'accès API" : "Activer l'accès API" }}</button>
 											</form>
 										</div>
 									</div>
