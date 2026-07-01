@@ -41,7 +41,7 @@ class UserServiceTest extends TestCase
     {
         // on cree un user
         $user = $this->createUser();
-        $user->setApiEnabled(false);
+        $user->setApiEnabled(false);            // meme si apiEnabled est à false a la création
 
         // accès à l'entitymanager , on s'attend que la methode flush soit appelée une fois (maj de la table user)
         $this->entityManager
@@ -50,13 +50,16 @@ class UserServiceTest extends TestCase
 
         // on effectue l'appel à la fonction toggleApiAccess
         $result = $this->service->toogleApiAccess($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
 
         //  ['status'] ->  'success'
-        $this->assertEquals('success', $result['statut'],'Toggle ApiAccess Inactif-> Actif Statut success');
+        $this->assertEquals('success', $status,'Toggle ApiAccess Inactif-> Actif - Statut Success');
         // ['message'] -> 'Accès API Activé'
-        $this->assertEquals('Accès API activé', $result['message'],'Toggle ApiAccess Inactif-> Actif  Message Actif');
+        $this->assertEquals('Accès API activé', $message,'Toggle ApiAccess Inactif-> Actif - Message Success');
         // ApiAccess -> true
-        $this->assertTrue($user->isApiEnabled(),'Toggle ApiAccess Inactif-> Actif apiEnabled => true');
+        $this->assertTrue($user->isApiEnabled(),'Toggle ApiAccess Inactif-> Actif - apiEnabled true');
     }
 
     public function testToggleApiAccessDesactivateSuccess(): void
@@ -72,13 +75,16 @@ class UserServiceTest extends TestCase
 
         // on effectue l'appel à la fonction toggleApiAccess
         $result = $this->service->toogleApiAccess($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
 
         //  ['status'] ->  'success'
-        $this->assertEquals('success', $result['statut'],'Toggle ApiAccess Actif->Inactif Statut success');
+        $this->assertEquals('success', $status,'Toggle ApiAccess Actif->Inactif - Statut Success');
         // ['message'] -> 'Accès API Activé'
-        $this->assertEquals('Accès API désactivé', $result['message'],'Toggle ApiAccess Actif->Inactif  Message Inactif');
+        $this->assertEquals('Accès API désactivé', $message,'Toggle ApiAccess Actif->Inactif - Message Success');
         // ApiAccess -> false
-        $this->assertFalse($user->isApiEnabled(),'Toggle ApiAccess apiEnabled => false');
+        $this->assertFalse($user->isApiEnabled(),'Toggle ApiAccess Actif->Inactif - apiEnabled => false');
     }
 
     public function testToggleApiAccessError(): void
@@ -86,8 +92,7 @@ class UserServiceTest extends TestCase
         // on cree un user
         $user = $this->createUser();
 
-        // accès à l'entitymanager , on s'attend que la methode toggleApiAccess soit appelée une fois (maj de la table user)      
-        // on force une erreur de la methode flush 
+        // accès à l'entitymanager , on s'attend que la methode flush soit appelée une fois (maj de la table user) et on simule une erreur      
         $this->entityManager
              ->expects($this->once())
              ->method('flush')
@@ -95,13 +100,16 @@ class UserServiceTest extends TestCase
 
         // on effectue l'appel à la fonction toggleApiAccess
         $result = $this->service->toogleApiAccess($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
 
         //  ['status'] ->  'danger'
-        $this->assertEquals('danger', $result['statut'],'Toggle ApiAccess Erreur => Statut = danger');
+        $this->assertEquals('danger', $status,'Toggle ApiAccess Error - Statut Error');
         // ['message'] -> 'Un problème est survenu lors de l\'activation/desactivation de l\'acces API'
-        $this->assertEquals('Un problème est survenu lors de l\'activation/desactivation de l\'acces API', $result['message'],'Toggle ApiAccess Message Erreur');
-        // ApiAccess -> true
-        $this->assertFalse($user->isApiEnabled(),'Toggle ApiAccess apiEnabled => false');
+        $this->assertEquals('Un problème est survenu lors de l\'activation/desactivation de l\'acces API', $message,'Toggle ApiAccess Error - Message Error');
+        // ApiAccess -> false
+        $this->assertFalse($user->isApiEnabled(),'Toggle ApiAccess Error - apiEnabled false');
     }
 
     public function testDeleteAccount()
@@ -114,16 +122,20 @@ class UserServiceTest extends TestCase
              ->method('flush');
 
         $result = $this->service->deleteAccount($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
+
         //  ['status'] ->  'success'
-        $this->assertEquals('success', $result['statut'],'DeleteAccount Statut success');
+        $this->assertEquals('success', $status,'Delete Account - Statut Success');
         // ['message'] -> 'Compte supprimé avec succès'
-        $this->assertEquals('Compte supprimé avec succès', $result['message'],'DeleteAccount ok');
+        $this->assertEquals('Compte supprimé avec succès', $message,'Delete Account - Message Success');
         // archive -> true
-        $this->assertTrue($user->isArchive(),'DeleteAccount archive => true');
+        $this->assertTrue($user->isArchive(),'Delete Account - archive true');
         // ApiEnabled -> false
-        $this->assertFalse($user->isApiEnabled(),'DeleteAccount apienabled => false');
+        $this->assertFalse($user->isApiEnabled(),'Delete Account - apiEnabled false');
         // deletedAt
-        $this->assertInstanceOf(DateTimeImmutable::class,$user->getDeletedAt(),'DeleteAccount deletedAt => date actuelle');
+        $this->assertInstanceOf(DateTimeImmutable::class,$user->getDeletedAt(),'Delete Account - deletedAt => date actuelle');
     }
 
     public function testDeleteAccountError()
@@ -138,10 +150,14 @@ class UserServiceTest extends TestCase
              ->willThrowException(new \Exception('DB error'));
 
         $result = $this->service->deleteAccount($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
+
         //  ['status'] ->  'danger'
-        $this->assertEquals('danger', $result['statut'],'DeleteAccount Statut error');
-        // ['message'] -> 'Compte supprimé avec succès'
-        $this->assertEquals('Un problème est survenu lors de la suppression du compte', $result['message'],'DeleteAccount error');
+        $this->assertEquals('danger', $status,'Delete Account Force Error - Statut Error');
+        // ['message'] -> 'Un problème est survenu lors de la suppression du compte'
+        $this->assertEquals('Un problème est survenu lors de la suppression du compte', $message,'Delete Account Force Error - Message Error');
     }
 
     public function testCreateAccount()
@@ -153,24 +169,27 @@ class UserServiceTest extends TestCase
              ->method('flush');
 
         $result = $this->service->createAccount($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
+
         //  ['status'] ->  'success'
-        $this->assertEquals('success', $result['statut'],'CreateAccount Statut success');
+        $this->assertEquals('success', $status,'Create Account - Statut Success');
         // ['message'] -> 'Vous etes inscrit sur le site, veuillez maintenant vous connecter'
-        $this->assertEquals('Vous etes inscrit sur le site, veuillez maintenant vous connecter', $result['message'],'CreateAccount ok');
+        $this->assertEquals('Vous etes inscrit sur le site, veuillez maintenant vous connecter', $message,'Create Account - Message Success');
         // createdAt
-        $this->assertInstanceOf(DateTimeImmutable::class,$user->getCreatedAt(),'CreateAccount createdAt => date actuelle');
+        $this->assertInstanceOf(DateTimeImmutable::class,$user->getCreatedAt(),'Create Account - createdAt DateTimeImmutable');
         // archive -> false
-        $this->assertFalse($user->isArchive(),'CreateAccount archive => false');
+        $this->assertFalse($user->isArchive(),'Create Account - archive false');
         // ApiEnabled -> false
-        $this->assertFalse($user->isApiEnabled(),'CreateAccount apienabled => false');
+        $this->assertFalse($user->isApiEnabled(),'Create Account - apienabled false');
         // getRole [ROLE_USER]
-        $this->assertEquals(['ROLE_USER'], $user->getRoles(),'Role');  
+        $this->assertEquals(['ROLE_USER'], $user->getRoles(),'Create Account - Role ROLE_USER');  
     }    
     
     public function testCreateAccountError()
     {
         $user = $this->createUser();
-
         // accès à l'entitymanager , on s'attend que la methode flush soit appelée une fois (maj de la table user)
         // on force une erreur de la methode flush 
         $this->entityManager
@@ -179,9 +198,13 @@ class UserServiceTest extends TestCase
              ->willThrowException(new \Exception('DB error'));
 
         $result = $this->service->createAccount($user);
+        $status = $result['statut'];
+        $message = $result['message'];
+        $user = $result['user'];
+
         //  ['status'] ->  'danger'
-        $this->assertEquals('danger', $result['statut'],'CreateAccount Statut error');
-        // ['message'] -> 'Vous etes inscrit sur le site, veuillez maintenant vous connecter'
-        $this->assertEquals('Une erreur a eu lieu lors de la création de votre compte', $result['message'],'CreateAccount error');
+        $this->assertEquals('danger', $status,'Create Account Force Error - Statut Error');
+        // ['message'] -> 'Une erreur a eu lieu lors de la création de votre compte'
+        $this->assertEquals('Une erreur a eu lieu lors de la création de votre compte', $message,'Create Account Force Error - Message Error');
     }
 }

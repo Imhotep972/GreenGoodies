@@ -27,14 +27,16 @@ class UserService
             return [
                 'statut' => $statut,
                 'message' => $message,
+                'user' => $user,
             ];
         }
         catch (\Throwable $e) 
         {
-            $user->setApiEnabled(!$newState);
+            $user->setApiEnabled($state);
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de l\'activation/desactivation de l\'acces API'
+                'message' => 'Un problème est survenu lors de l\'activation/desactivation de l\'acces API',
+                'user' => $user,
             ];
         }
     }
@@ -43,7 +45,9 @@ class UserService
     {
         try
         {
-            // on indique que l'utilisateur n'est plus actif
+            $oldUser = $user;
+
+            // on efface logiquement l'utilisateur archive = true / apienabled = false, deletedAt  = DateTimeimmutable
             $user->setArchive(true);
             $user->setApiEnabled(false);
             $user->setDeletedAt(new DateTimeImmutable());
@@ -52,13 +56,15 @@ class UserService
             return [
                 'statut' => 'success',
                 'message' => 'Compte supprimé avec succès',
+                'user' => $user,
             ];
         }
         catch (\Throwable $e)
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Un problème est survenu lors de la suppression du compte'
+                'message' => 'Un problème est survenu lors de la suppression du compte',
+                'user' => $oldUser,
             ];        
         }
     }
@@ -76,6 +82,7 @@ class UserService
             return [
                 'statut' => 'success',
                 'message' => 'Vous etes inscrit sur le site, veuillez maintenant vous connecter',
+                'user' => $user,
             ];
 
         }
@@ -84,6 +91,7 @@ class UserService
             return [
                 'statut' => 'danger',
                 'message' => 'Une erreur a eu lieu lors de la création de votre compte',
+                'user' => $user,
             ];
         }
     }
