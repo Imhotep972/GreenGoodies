@@ -218,16 +218,17 @@ class CartService
     {
         try
         {
+            $order = New Order();
             $cart = $this->session->get('cart',[]);
 
             if (empty($cart))
                 return [
                     'statut' => 'danger',
                     'message' => 'Commande : Erreur pendant la génération de la commande, le panier est vide',
+                    'order' => $order,
                 ];
 
             // nouvelle instance de Order
-            $order = New Order();
 
             // reference commande 'FA<YYYY><0number>' max 9999 factur par an
             $newOrderReference = $this->getNewReference("FA".date("Y"));
@@ -262,14 +263,16 @@ class CartService
             // on affiche la page account avec la nouvelle commande
             return [
                 'statut' => 'success',
-                'message' => 'Commande : La commande a été générée sans erreur'
+                'message' => 'Commande : La commande a été générée sans erreur',
+                'order' => $order,
             ]; 
         }
         catch (\Throwable $e) 
         {
             return [
                 'statut' => 'danger',
-                'message' => 'Commande : Un problème est survenu lors de la génération de la commande'
+                'message' => 'Commande : Un problème est survenu lors de la génération de la commande',
+                'order' => $order,
             ];
         }
     }
