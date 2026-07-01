@@ -22,9 +22,9 @@
 										{% endfor %}
 									{% endfor %}   
 							{% if cart is not empty %}
-   		 							<a href="#" class="gg-cart-empty" onclick="event.preventDefault(); document.getElementById('form-empty-cart').submit();">× Vider le panier</a>
-									<form id="form-empty-cart" action="{{ path('app_cart_empty') }}" method="POST" style="display:none;">
-    									<input type="hidden" name="_token" value="{{ csrf_token('cart_action') }}">
+									<a href="#" class="gg-cart-empty" onclick="event.preventDefault(); document.getElementById('form-empty-cart').submit();">× Vider le panier</a>
+   		 							<form id="form-empty-cart" action="{{ path('app_cart_empty') }}" method="POST" style="display:none;">
+    									<input type="hidden" name="_token" value="{{ csrf_token('app_cart_empty') }}">
 									</form>
 								{% for product in cart %}
         							<div class="gg-cart-item d-flex">
