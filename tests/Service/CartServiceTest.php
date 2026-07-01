@@ -2,31 +2,26 @@
 
 namespace   App\Tests\Service;
 
+use App\Entity\Order;
 use App\Entity\Product;
+use App\Entity\User;
+use App\Enum\OrderStatut;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 #[AllowMockObjectsWithoutExpectations]
 class CartServiceTest extends TestCase
 {
-
-    /*
-        addQuantity(Product $product): array
-        removeQuantity(Product $product): array
-        deleteProduct(Product $product): array
-        emptyCart(): array
-        getTotalCart(): int
-        saveCart(array $cart): void
-        generateOrder() : array
-        getNewReference(String $motif) : string
-    */
     private $entityManager;
     private $service;
     private $requestStack;
@@ -56,12 +51,27 @@ class CartServiceTest extends TestCase
         $product->setName($name);
         $product->setPhoto($photo);
 
-        $class = new \ReflectionClass(($product));
+        $class = new \ReflectionClass($product);
         $property = $class->getProperty('id');
-        //$property->setAccessible(true);
         $property->setValue($product, $id);
 
         return $product;
+    }
+
+    private function createUser() : User
+    {
+        /** @var User $user */
+        $user = new User();
+        $user->setEmail('master.imhotep@gmail.com');
+        $user->setPassword('12345678');
+        $user->setPrenom('Master');
+        $user->setNom('Imhotep');
+        $user->setRoles(['ROLE_USER']);
+        $class = new \ReflectionClass($user);
+        $property = $class->getProperty('id');
+        $property->setValue($user, 21);
+
+        return $user;
     }
 
     // addQuantity(Product $product): array
@@ -555,7 +565,7 @@ class CartServiceTest extends TestCase
 
     public function testEmptyCartEmpty()
     {
-       $this->session->method('get')->willReturn([]);  
+        $this->session->method('get')->willReturn([]);  
 
         $this->session->expects($this->once())->method('remove');
 
@@ -614,5 +624,130 @@ class CartServiceTest extends TestCase
         $this->assertSame("FA20260053", $result, "Get New Reference");
     }
 
-    
+    public function testGetTotalCart()
+    {
+        $this->session->method('get')->willReturn([
+            1 => [
+                "id" => 1,
+                "name" => "Nécessaire, déodorant Bio",
+                "price" => 850,
+                "photo" => "produit_1.webp",
+                "quantity" => 1,
+                "total" => 1700
+            ],
+            2 => [
+                "id" => 1,
+                "name" => "Kit couvert en bois",
+                "price" => 1230,
+                "photo" => "produit_2.webp",
+                "quantity" => 1,
+                "total" => 1230
+            ]        
+        ]);  
+
+        $result = $this->service->getTotalCart();
+        
+        $this->assertEquals(2930,$result,'Get Total Cart - 2930');
+    }
+
+    public function testGetTotalEmptyCart()
+    {
+        $this->session->method('get')->willReturn([]);
+
+        $result = $this->service->getTotalCart();
+
+        $this->assertEquals(0,$result,'Get Total Empty Cart - 0');
+    }
+ 
+    public function testGenerateOrderEmptyCart()
+    {
+        $this->session->method('get')->willReturn([]);
+        $result = $this->service->generateOrder();
+
+        $status = $result['statut'];
+        $message = $result['message'];
+        $order = $result['order'];
+
+        $this->assertSame('danger',$status,'Generate Order Empty Cart - Status Error');
+        $this->assertSame('Commande : Erreur pendant la génération de la commande, le panier est vide',$message,'Generate Order Empty Cart - Message Error');
+        $this->assertInstanceOf(Order::class,$order,'Generate Order Empty Cart - Empty Order');
+    }
+
+    public function testGenerateOrderForcedError()
+    {
+        $this->session->method('get')->willReturn([])
+                                     ->willThrowException(new \Exception("Erreur volontaire")); 
+        
+        $result = $this->service->generateOrder();
+        $status = $result['statut'];
+        $message = $result['message'];
+        $order = $result['order'];
+
+        $this->assertSame('danger',$status,'Generate Order Empty Cart - Status Error');
+        $this->assertSame('Commande : Un problème est survenu lors de la génération de la commande',$message,'Generate Order Forced Error - Message Error');
+        $this->assertInstanceOf(Order::class,$order,'Generate Order Forced Error');
+    }
+    public function testGenerateOrderSuccess()
+    {
+        $this->session->method('get')->willReturn([
+            1 => [
+                "id" => 1,
+                "name" => "Nécessaire, déodorant Bio",
+                "price" => 850,
+                "photo" => "produit_1.webp",
+                "quantity" => 2,
+                "total" => 1700
+            ],
+            2 => [
+                "id" => 1,
+                "name" => "Kit couvert en bois",
+                "price" => 1230,
+                "photo" => "produit_2.webp",
+                "quantity" => 1,
+                "total" => 1230
+            ]        
+        ]);  
+
+        // on fake la nouvelle reference de la facture
+        $this->orderRepository
+                ->method('getNewReference')
+                ->willReturn('FA20260052');
+
+        // on fake le find des produits (id 1 et id 2)
+        $product1 = $this->createProduct(1,"Nécessaire, déodorant Bio",850,'Produit_1.webp');
+        $product2 = $this->createProduct(2,"Kit couvert en bois",1230,'Produit_2.webp');
+
+        $this->productRepository
+                ->method('find')
+                ->willReturnCallback(function($id) use ($product1, $product2) { return $id === 1 ? $product1 : $product2; } );
+
+        // on fake l'utilisateur
+        $this->security->method('getUser')->willReturn($this->createUser());
+
+        // entitymanager doit faire un persist et un flsuh
+        $this->entityManager->expects($this->once())->method('persist');
+        $this->entityManager->expects($this->once())->method('flush');        
+
+        $result = $this->service->generateOrder();
+        $status = $result['statut'];
+        $message = $result['message'];
+        $order = $result['order'];
+
+        $this->assertSame('success',$status,'Generate Order Success - Status Success');
+        $this->assertSame('Commande : La commande a été générée sans erreur',$message,'Generate Order Success - Message Success');
+        $this->assertInstanceOf(DateTimeImmutable::class,$order->getCreatedAt(),'Generate Order Success - createdAt DateTime');
+        $this->assertSame(OrderStatut::Pending,$order->getStatus(),'Generate Order Success - status OrderStatus::Pending');
+        $this->assertSame(2930,$order->getAmount(),'Generate Order Success - amount 2930');
+        $this->assertSame('FA20260053',$order->getReference(),'Generate Order Success - reference FA20260053');
+        $this->assertSame(21,$order->getUser()->getId(),'Generate Order Success - id user 21');
+        $this->assertInstanceOf(Collection::class,$order->getOrderLines(),'Generate Order Success - orderlines [orderline]');
+        $this->assertInstanceOf(ArrayCollection::class,$order->getOrderLines(),'Generate Order Success - orderlines [orderline]');
+        $this->assertCount(2,$order->getOrderLines(),'Generate Order Success - orderlines [2 orderlines]');
+        $this->assertEquals(2,$order->getOrderLines()[0]->getQuantity(),'Generate Order Success - orderline[0]->quantity = 2');
+        $this->assertEquals(850,$order->getOrderLines()[0]->getPrice(),'Generate Order Success - orderline[0]->price = 850');
+        $this->assertEquals(1,$order->getOrderLines()[0]->getProduct()->getId(),'Generate Order Success - orderline[0]->product->id = 1');
+        $this->assertEquals(1,$order->getOrderLines()[1]->getQuantity(),'Generate Order Success - orderline[1]->quantity = 1');
+        $this->assertEquals(1230,$order->getOrderLines()[1]->getPrice(),'Generate Order Success - orderline[1]->price = 1230');
+        $this->assertEquals(2,$order->getOrderLines()[1]->getProduct()->getId(),'Generate Order Success - orderline[1]->product->id = 2');
+    }
 }
