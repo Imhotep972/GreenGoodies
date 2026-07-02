@@ -13,7 +13,7 @@
 							<div class="col-10 col-lg-6 px-auto">
 								<div class="gg-account-container mx-auto">
 
-    								<h2 class="gg-account-title text-center">Mon compte {{ (user.archive) ? '(Supprimé)' }} </h2>
+    								<h2 class="gg-account-title text-center">Mon compte {{ (user.isarchive) ? '(Supprimé)' }} </h2>
 									{# On affiche les messages si il y en a #}
 									{% for label, messages in app.flashes(['account']) %}
 										{% for message in messages %}
@@ -33,7 +33,7 @@
 										<div class="d-flex">
 											<form action="{{ path('app_account_api') }}"  method="POST">
 												<input type="hidden" name="_token" value="{{ csrf_token('app_account_api') }}">
-												<button class="tn custom-btn custom2-btn">{{ (user.getApiEnabled)? "Désactivé l'accès API" : "Activer l'accès API" }}</button>
+												<button class="tn custom-btn custom2-btn">{{ (user.isApiEnabled)? "Désactivé l'accès API" : "Activer l'accès API" }}</button>
 											</form>
 										</div>
 									</div>
