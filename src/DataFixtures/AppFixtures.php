@@ -6,9 +6,15 @@ use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
-{
+{           
+    public function __construct(private UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $product = new Product();
@@ -22,7 +28,7 @@ Pratique et esthétique, ce kit s’intègre facilement dans une salle de bain �
         $manager->persist($product);
 
         $product = new Product();
-        $product->setPrice(4.50);
+        $product->setPrice(450);
         $product->setName("Shot Tropical");
         $product->setDescription("Ce shot énergisant associe la douceur de la mangue à la fraîcheur de l’ananas pour offrir un concentré naturel de vitamines. Grâce à la pression à froid, chaque gorgée préserve l’intégralité des nutriments, pour une boisson pure et intensément revitalisante.
 Riche en enzymes digestives et en antioxydants, l’ananas aide à stimuler la digestion tandis que la mangue apporte une énergie douce et durable. Ensemble, ces fruits créent une synergie idéale pour soutenir l’immunité et réveiller le métabolisme naturellement.
@@ -101,22 +107,42 @@ Idéal pour une routine plus responsable, ce savon solide réduit les déchets t
         $product->setShortdesc("Thé, Orange & Girofle");
         $product->setPhoto("produit_9.webp");
         $manager->persist($product);
-
     
         $manager->flush();
 
         $user = new User();
-        $user->setEmail('jean.peuplu@gmail.com');
-        $user->setPrenom('Jean');
-        $user->setNom('Peuplu');
+        $user->setEmail('master.imhotep@gmail.com');
+        $user->setPrenom('Master');
+        $user->setNom('Imhotep');
         $user->setPassword('12345678');
+        $user->setApiEnabled(true);
+        $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setEmail('jean.veuplus@gmail.com');
+        $user->setPrenom('Jean');
+        $user->setNom('Veuplus');
+        $user->setPassword('12345678');
+        $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
         $manager->persist($user);
 
         $user = new User();
         $user->setEmail('jean.cerien@gmail.com');
         $user->setPrenom('Jean');
         $user->setNom('Cérien');
+        $user->setArchive(true);
         $user->setPassword('12345678');
+        $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setEmail('jean.peuplu@gmail.com');
+        $user->setPrenom('Jean');
+        $user->setNom('Peuplu');
+        $user->setApiEnabled(true);
+        $user->setPassword('12345678');
+        $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
         $manager->persist($user);
 
         $manager->flush();

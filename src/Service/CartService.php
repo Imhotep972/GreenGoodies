@@ -1,5 +1,5 @@
 <?php
-// src/Service/UserTools.php
+
 namespace App\Service;
 
 use App\Entity\Order;
@@ -10,10 +10,11 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartService
 {
-    private $session = null;
+    private ?SessionInterface $session = null;
 
     public function __construct(private  Security $security,private EntityManagerInterface $entityManager, RequestStack  $requestStack, private OrderRepository $orderRepository,private ProductRepository $productRepository, )
     {
@@ -216,9 +217,9 @@ class CartService
 
     public function generateOrder() : array
     {
+        $order = New Order();
         try
         {
-            $order = New Order();
             $cart = $this->session->get('cart',[]);
 
             if (empty($cart))
@@ -277,7 +278,7 @@ class CartService
         }
     }
 
-    public function getNewReference($motif) : string
+    public function getNewReference(string $motif) : string
     {
         $lastReference = $this->orderRepository->getNewReference($motif);
         $newReference =($lastReference === null) ? $motif.\sprintf("%04d",\intval(1)) : $motif.\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
