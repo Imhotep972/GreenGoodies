@@ -1,7 +1,8 @@
 <?php
-// src/Service/UserTools.php
+
 namespace App\Service;
 
+use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -12,8 +13,10 @@ class UserService
     {
 
     }
-    public function toogleApiAccess($user): array
+
+    public function toogleApiAccess(?User $user): array
     {
+        $state = false;
         try
         {
             $state = $user->isApiEnabled();
@@ -41,8 +44,9 @@ class UserService
         }
     }
 
-    public function deleteAccount($user) : array
+    public function deleteAccount(?User $user) : array
     {
+        $oldUser = $user;
         try
         {
             $oldUser = $user;
@@ -69,7 +73,7 @@ class UserService
         }
     }
 
-    public function createAccount($user) : array
+    public function createAccount(?User $user) : array
     {
         try
         {
