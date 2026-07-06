@@ -51,12 +51,21 @@ class UserService
         {
             $oldUser = $user;
 
-            // on efface logiquement l'utilisateur archive = true / apienabled = false, deletedAt  = DateTimeimmutable
+            // on supprime logiquement l'utilisateur archive = true / apienabled = false, deletedAt  = DateTimeimmutable
             $user->setArchive(true);
             $user->setApiEnabled(false);
             $user->setDeletedAt(new DateTimeImmutable());
             $this->entityManager->flush();            
-            
+
+            // on supprime logiquement les commandes de l'utilisateur supprimé
+            $orders = $user->getOrders();
+
+            foreach($orders as $order)
+            {
+                $order->setArchive(true);
+                $this->entityManager->flush();      
+            }
+
             return [
                 'statut' => 'success',
                 'message' => 'Compte supprimé avec succès',
