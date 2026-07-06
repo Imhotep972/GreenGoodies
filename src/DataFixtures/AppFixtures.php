@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 Les matériaux durables et doux permettent un usage confortable, que ce soit pour nettoyer, exfolier ou prendre soin de la peau. Leur qualité assure une utilisation régulière sans compromis sur le bien‑être ni sur la performance.
 Pratique et esthétique, ce kit s’intègre facilement dans une salle de bain éco‑friendly. Léger, réutilisable et pensé pour durer, il accompagne chaque geste beauté vers une routine plus responsable et plus consciente.");
         $product->setShortdesc("Pour une salle de bain éco-friendly");
-        $product->setPhoto("produit_1.webp");
+        $product->setPicture("produit_1.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -34,7 +34,7 @@ Pratique et esthétique, ce kit s’intègre facilement dans une salle de bain �
 Riche en enzymes digestives et en antioxydants, l’ananas aide à stimuler la digestion tandis que la mangue apporte une énergie douce et durable. Ensemble, ces fruits créent une synergie idéale pour soutenir l’immunité et réveiller le métabolisme naturellement.
 Avec sa texture fluide et son goût tropical vibrant, ce shot devient un geste bien‑être simple et quotidien. Léger, naturel et sans additifs, il hydrate, dynamise et apporte un véritable coup de soleil à la journée.");
         $product->setShortdesc("Fruits frais, pressés à froid");
-        $product->setPhoto("produit_2.webp");
+        $product->setPicture("produit_2.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -44,7 +44,7 @@ Avec sa texture fluide et son goût tropical vibrant, ce shot devient un geste b
 Le bois d’olivier, reconnu pour sa résistance et ses propriétés naturellement antibactériennes, garantit une utilisation durable et hygiénique. Sa structure robuste et son isolation interne préservent la fraîcheur de vos boissons plus longtemps.
 Pensée pour réduire l’usage du plastique, cette gourde devient un geste éco‑responsable au quotidien. Agréable en main et durable, elle allie style, praticité et engagement pour un mode de vie plus respectueux de l’environnement.");
         $product->setShortdesc("50cl, bois d’olivier");
-        $product->setPhoto("produit_3.webp");
+        $product->setPicture("produit_3.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -54,7 +54,7 @@ Pensée pour réduire l’usage du plastique, cette gourde devient un geste éco
 Fabriqués à partir de fibres douces et durables, ils capturent maquillage, impuretés et excès de sébum en un seul geste. Leur structure absorbante optimise l’utilisation de vos produits démaquillants tout en respectant l’équilibre naturel de la peau.
 Lavables et conçus pour durer, ces disques s’intègrent facilement dans une routine beauté responsable. Légers, pratiques et agréables à utiliser, ils deviennent rapidement un indispensable pour un soin quotidien plus sain et plus respectueux de l’environnement.");
         $product->setShortdesc("Solution efficace pour vous démaquiller en douceur ");
-        $product->setPhoto("produit_4.webp");
+        $product->setPicture("produit_4.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -64,7 +64,7 @@ Lavables et conçus pour durer, ces disques s’intègrent facilement dans une r
 Grâce à son parfum équilibré, elle aide à détendre l’esprit tout en purifiant subtilement l’air ambiant. La lavande apporte une sensation de sérénité, tandis que le patchouli enveloppe la pièce d’une présence plus chaleureuse et enveloppante.
 Conçue pour offrir une combustion propre et durable, cette bougie devient un véritable rituel bien‑être. Élégante, naturelle et agréable au quotidien, elle transforme chaque moment en parenthèse de douceur.");
         $product->setShortdesc("Cire naturelle");
-        $product->setPhoto("produit_5.webp");
+        $product->setPicture("produit_5.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -74,7 +74,7 @@ Conçue pour offrir une combustion propre et durable, cette bougie devient un v�
 Fabriquée à partir de bois issu de forêts gérées durablement, elle allie respect de l’environnement et durabilité. Ses poils doux nettoient efficacement tout en préservant les gencives sensibles.
 Solide, esthétique et éco‑responsable, elle s’intègre parfaitement dans une routine d’hygiène plus consciente. Réduire les déchets devient un geste simple, tout en apportant une touche naturelle et chaleureuse à la salle de bain.");
         $product->setShortdesc("Bois de hêtre rouge issu de forêts gérées durablement");
-        $product->setPhoto("produit_6.webp");
+        $product->setPicture("produit_6.webp");
         $manager->persist($product);
 
 
@@ -85,7 +85,7 @@ Solide, esthétique et éco‑responsable, elle s’intègre parfaitement dans u
 Solides et durables, ces couverts accompagnent aussi bien les repas du quotidien que les sorties en extérieur. Leur finition lisse assure un confort d’utilisation tout en respectant la sensibilité du palais.
 Livré avec un sac de transport pratique, ce kit s’intègre parfaitement dans une démarche zéro déchet. Léger, réutilisable et esthétique, il permet d’adopter un mode de vie plus responsable tout en gardant ses essentiels toujours à portée de main.");
         $product->setShortdesc("Revêtement Bio en olivier & sac de transport");
-        $product->setPhoto("produit_7.webp");
+        $product->setPicture("produit_7.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -95,7 +95,7 @@ Livré avec un sac de transport pratique, ce kit s’intègre parfaitement dans 
 Chaque flacon de 50 ml renferme le secret d'une fraîcheur longue durée, sans compromettre votre bien-être ni l'environnement. Conçu avec soin, ce déodorant allie le pouvoir antibactérien des extraits de plantes aux vertus apaisantes des huiles essentielles, assurant une sensation de confort toute la journée. 
 Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire offre une alternative saine aux déodorants conventionnels, tout en préservant l'équilibre naturel de votre corps.");
         $product->setShortdesc("50ml déodorant à l’eucalyptus");
-        $product->setPhoto("produit_8.webp");
+        $product->setPicture("produit_8.webp");
         $manager->persist($product);
 
         $product = new Product();
@@ -105,7 +105,7 @@ Grâce à sa formule non irritante et respectueuse de votre peau, Nécessaire of
 Formulé avec des ingrédients naturels, il offre une expérience sensorielle agréable au quotidien. Ses arômes fruités et épicés apportent une touche d’énergie tout en enveloppant la peau d’une sensation de douceur.
 Idéal pour une routine plus responsable, ce savon solide réduit les déchets tout en offrant un soin authentique et durable. Pratique, parfumé et agréable à utiliser, il s’intègre facilement dans une salle de bain éco‑friendly et accompagne chaque geste beauté vers plus de naturel.");
         $product->setShortdesc("Thé, Orange & Girofle");
-        $product->setPhoto("produit_9.webp");
+        $product->setPicture("produit_9.webp");
         $manager->persist($product);
     
         $manager->flush();

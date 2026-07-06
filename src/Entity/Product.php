@@ -49,7 +49,7 @@ class Product
     #[Assert\NotBlank]
     #[Assert\NotNull()]
     #[Groups('getProduct')]
-    private ?string $photo = null;
+    private ?string $picture = null;
 
     /**
      * @var Collection<int, OrderLine>
@@ -133,18 +133,18 @@ class Product
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getPicture(): ?string
     {
-        return $this->photo;
+        return $this->picture;
     }
 
-    public function setPhoto(string $photo): static
+    public function setPicture(string $picture): static
     {
-        if (empty($photo) || $photo ===null)
+        if (empty($picture) || $picture ===null)
         {
            throw new \InvalidArgumentException("Le chemin de la photo ne doit pas etre vide ou null.");    
         }
-        $this->photo = $photo;
+        $this->picture = $picture;
 
         return $this;
     }
