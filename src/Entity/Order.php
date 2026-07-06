@@ -8,10 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: 'orders')]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_REFERENCE', fields: ['reference'])]
+#[UniqueEntity(fields: ['reference'], message: 'Une commande existe déjà avec cette référence')]
 class Order
 {
     #[ORM\Id]
@@ -36,6 +39,9 @@ class Order
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank()]
     private ?string $reference = null;
+
+    #[ORM\Column(nullable: false)]
+    private ?bool $archive = false;
     
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
@@ -114,6 +120,18 @@ class Order
 
         return $this;
     }    
+
+    public function isArchive(): ?bool
+    {
+        return $this->archive;
+    }
+
+    public function setArchive(bool $archive): static
+    {
+        $this->archive = $archive;
+
+        return $this;
+    }   
     
     public function getUser(): ?User
     {

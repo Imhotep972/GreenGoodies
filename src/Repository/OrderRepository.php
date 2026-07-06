@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\LockMode;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,18 +23,17 @@ class OrderRepository extends ServiceEntityRepository
     public function getNewReference($value): ?string
     { // $sql -> SELECT reference FROM orders where reference like "FA2026%" ORDER BY reference DESC Limite 1
         $qb = $this->createQueryBuilder('o')
-            ->select('o.reference')
             ->where('o.reference like :val')
             ->setParameter('val', $value.'%')
-            ->orderBy('o.reference', 'DESC')
+            ->orderBy('o.id', 'DESC')
             ->setMaxResults(1)
        ;
 
-        $query = $qb->getQuery();
+        $query = $qb->getQuery()->setLockMode(LockMode::PESSIMISTIC_WRITE);
         $result = $query->getOneOrNullResult();
 
 
-        if ($result===null)                     // premiere facture avec ce motif
+        if ($result === null)                     // premiere facture avec ce motif
             return null;
         else 
              return $result['reference'];       // il y a deja eu des factures

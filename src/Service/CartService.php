@@ -217,23 +217,25 @@ class CartService
 
     public function generateOrder() : array
     {
+
+        // nouvelle instance de Order
         $order = New Order();
+        // recuperation du panier dans la session
+        $cart = $this->session->get('cart',[]);
+
+        // test si le panier est vide
+        if (empty($cart))
+            return [
+                'statut' => 'danger',
+                'message' => 'Commande : Erreur pendant la génération de la commande, le panier est vide',
+                'order' => $order,
+            ];
+
+        $this->entityManager->beginTransaction(); // début du blocage pour eviter les doublons
         try
         {
-            $cart = $this->session->get('cart',[]);
-
-            if (empty($cart))
-                return [
-                    'statut' => 'danger',
-                    'message' => 'Commande : Erreur pendant la génération de la commande, le panier est vide',
-                    'order' => $order,
-                ];
-
-            // nouvelle instance de Order
-
             // reference commande 'FA<YYYY><0number>' max 9999 factur par an
-            $newOrderReference = $this->getNewReference("FA".date("Y"));
-            $order->setReference($newOrderReference);    
+            $order->setReference($this->calculateNewReference("FA".date("Y")));    
 
             // total de la facture
             $totalAmount = 0;
@@ -241,6 +243,12 @@ class CartService
             foreach($cart as $id => $item)
             {   // on boucle sur le contenu du panier , chaque entree correspond à une ligne de commande
                 $product = $this->productRepository->find($id);
+
+                if (!$product) 
+                { // si jamais le produit n'existe plus au momenent de la creation de la commande
+                    throw new \Exception("Le produit demandé n'existe plus.");
+                }
+
                 $orderLine = new OrderLine();
                 $orderLine->setQuantity($item['quantity']);
                 $orderLine->setProduct($product);
@@ -251,6 +259,8 @@ class CartService
 
                 // on ajoute la ligne de commande a la commande
                 $order->addOrderLine($orderLine);
+
+
             }
             // on sauvegarde la commande et les lignes de commande dans la base de donnees
             $order->setAmount($totalAmount);
@@ -261,6 +271,8 @@ class CartService
             // on efface le panier
             $this->emptyCart();
 
+            $this->entityManager->commit(); // Fin du blocage
+
             // on affiche la page account avec la nouvelle commande
             return [
                 'statut' => 'success',
@@ -270,6 +282,8 @@ class CartService
         }
         catch (\Throwable $e) 
         {
+             $this->entityManager->rollback(); // en cas d'erreur on annule la transaction
+
             return [
                 'statut' => 'danger',
                 'message' => 'Commande : Un problème est survenu lors de la génération de la commande',
@@ -278,11 +292,11 @@ class CartService
         }
     }
 
-    public function getNewReference(string $motif) : string
+    public function calculateNewReference(string $motif) : string
     {
         $lastReference = $this->orderRepository->getNewReference($motif);
-        $newReference =($lastReference === null) ? $motif.\sprintf("%04d",\intval(1)) : $motif.\sprintf("%04d",\intval(str_replace($motif,'',$lastReference),10)+1);
+        $newReference = ($lastReference === null) ? (int) 1 : substr($lastReference,\strlen($motif)) + 1;
 
-        return $newReference;
+        return $motif.str_pad($newReference,4,0, STR_PAD_LEFT);
     }
 }
