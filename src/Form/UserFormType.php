@@ -22,17 +22,20 @@ class UserFormType extends AbstractType
             ->add('prenom',TextType::class,[
                 'label'=> 'Prénom *',
                 'label_attr' => ['class'=>'form_label fs-6'],
-                 'attr' => ['class' => 'form-control customInput'],
+                'attr' => ['class' => 'form-control customInput'],
+                'invalid_message' => 'Veuillez indiquer un prénom valide.',
             ])
             ->add('nom',TextType::class,[
                 'label'=> 'Nom *',
                 'label_attr' => ['class'=>'form_label fs-6'],
                 'attr' => ['class' => 'form-control customInput'],
+                'invalid_message' => 'Veuillez indiquer un nom valide.',
             ])
             ->add('email',EmailType::class,[
                 'label'=> 'Adresse email *',
                 'label_attr' => ['class'=>'form_label fs-6'],
                 'attr' => ['class' => 'form-control customInput'],
+                'invalid_message' => 'Veuillez indiquer un email valide.',
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -57,6 +60,7 @@ class UserFormType extends AbstractType
                 'label'    => "J’accepte les CGU de Green Goodies *",
                 'label_attr' => ['class'=>'form-check-label fs-6 fw-normal'],
                 'attr' => ['class' => 'form-check-input custom-check'],
+                'invalid_message' => 'Veuillez accepter les CGU de Green Goodies',
                 'required' => true,
                 'mapped' => false,
                 ])
