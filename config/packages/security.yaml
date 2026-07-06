@@ -39,6 +39,8 @@ security:
                 enable_csrf: true
             logout:
                 path: app_account_logout
+            user_checker: App\Security\UserChecker
+            
                 # where to redirect after logout
                 # target: app_any_route
             # Activate different ways to authenticate:
