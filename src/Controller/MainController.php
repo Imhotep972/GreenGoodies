@@ -18,7 +18,7 @@ final class MainController extends AbstractController
     {
         // $session = $request->getSession();
         $products = $this->productRepository->findAll();
-        return $this->render('Main/Accueil.html.twig', [
+        return $this->render('Main/accueil.html.twig', [
             'products'=> $products,
         ]);
     }

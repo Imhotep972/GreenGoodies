@@ -21,7 +21,7 @@ final class ProductController extends AbstractController
     {
         $products = $this->productRepository->findAll();
 
-        return $this->render('Produit/ListeProduits.html.twig', [
+        return $this->render('Produit/listeproduits.html.twig', [
             'products' => $products,
         ]);
     }
@@ -42,7 +42,7 @@ final class ProductController extends AbstractController
             $tabDesc = explode("\n",$description);
             
             //$session->remove('cart');
-            return $this->render('Produit/Produit.html.twig', [
+            return $this->render('Produit/produit.html.twig', [
             'product' => $product,
             'tabDesc' => $tabDesc,
             ]);

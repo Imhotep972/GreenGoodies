@@ -57,7 +57,7 @@ final class UserController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('User/Login.html.twig', [
+        return $this->render('User/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
@@ -79,7 +79,7 @@ final class UserController extends AbstractController
         $user = $this->getUser();
         $orders = $orderRepository->findBy(['user'=> $user->getId()]);
 
-        return $this->render('User/Compte.html.twig', [
+        return $this->render('User/compte.html.twig', [
             'orders' => $orders,
             'user' =>  $user,
         ]);         
