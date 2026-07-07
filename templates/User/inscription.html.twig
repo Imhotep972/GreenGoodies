@@ -14,24 +14,29 @@
 							</div>
 							<div class="col-12 col-md-6 mt-4 d-flex justify-content-center">
 								{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-									<div id="jsError" class="invisible alert alert-danger"><p></p></div>
 								 	{{ form_errors(form) }} 
 									<h2 class="mt-5 fs-3 fw-bold">Inscription</h2>
 									<div class="mb-3">
 									{{ form_row(form.prenom)}}
+									<div class="invisible fs-6" id="prenom_error"></div>
 									</div>
 									<div class="mb-3">
 										{{form_row(form.nom)}}
+										<div class="invisible fs-6" id="nom_error"></div>
 									</div>
 									<div class="mb-3">
 										{{form_row(form.email)}}
+										<div class="invisible fs-6" id="email_error"></div>
 									</div>  
 									<div class="mb-3">
 										{{form_row(form.password)}}
+										<div class="invisible fs-6" id="password1_error"></div>
+										<div class="invisible fs-6" id="password2_error"></div>
 									</div>
 									<div class="form-check">
 										{{ form_widget(form.CGU)}}
 										{{ form_label(form.CGU) }}
+										<div class="invisible fs-6" id="cgu_error"></div>
 									</div>									
 									<p class="text-center">Les champs avec un * sont obligatoires</p>
 									<button type="submit" class="btn custom-btn mt-3 fs-6 fw-normal ">S'inscrire</button>
