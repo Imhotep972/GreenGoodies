@@ -120,9 +120,13 @@ final class UserController extends AbstractController
         {
 
             $result = $userService->deleteAccount($user);
-            $this->addFlash($result['statut'],$result['message']);
+            if ($result['statut'] == 'success')
+            {   // on deconnecte l'utilisateur
+                $this->addFlash($result['statut'],$result['message']);
+                return $this->redirectToRoute('app_account_logout');       
+            }
         }
-
+        $this->addFlash($result['statut'],$result['message']);
         return $this->redirectToRoute('app_account_index');         
     }
 }
