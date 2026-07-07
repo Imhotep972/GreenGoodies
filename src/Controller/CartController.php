@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductFormType;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +31,32 @@ final class CartController extends AbstractController
             'cart' => $cart,
             'totalamount' => $totalAmount,
         ]);
+    }
+
+    #[Route('/addproduct/',name: 'add_from_product', methods: ['POST'])]
+    public function addFromProduct(CartService $cartService, Request $request)
+    {   // ajoute 1 au produit selectionné dans le panier ou le cree si il n'existe pas
+        if (!$this->isCsrfTokenValid('app_cart_add_from_product', $request->request->get('_token'))) 
+        {
+            throw $this->createAccessDeniedException();
+        }
+        else
+        {
+            // récupération des données envoyées par le formulaire
+            $form = $this->createForm(ProductFormType::class, null,[]);
+            $form->handleRequest($request);
+            $quantity = $form->get('quantity')->getData();
+            $product = $this->productRepository->find($form->get('product_id')->getData());
+            $result = ($quantity)? $cartService->addQuantityFromProduct($product,$quantity) : $result = $cartService->deleteProduct($product);
+            $this->addFlash($result['statut'],$result['message']);
+
+            // redirection vers le panier si pas d'erreur , vers la page produit sinon
+            switch ($result['statut'])
+            {
+                case 'success' : return $this->redirectToRoute('app_cart_index');
+                default : return $this->redirectToRoute('app_product_show',['id' =>  $product->getId()]);
+            }
+        }
     }
 
     #[Route('/add/{id}',name: 'add',requirements: ['id' => '\d+'], methods: ['POST'])]

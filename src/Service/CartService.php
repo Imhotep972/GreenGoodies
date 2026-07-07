@@ -75,6 +75,58 @@ class CartService
         }
     }
 
+    public function addQuantityFromProduct(?Product $product, int $quantity = 0): array
+    {
+        try
+        {
+            $cart = $this->session->get('cart',[]);
+            if (empty($product))
+                return [
+                    'statut' => 'danger',
+                    'message' => 'Panier : Le produit n\'existe pas',   
+                    'cart' => $cart,
+                    ];
+
+            // on recupere le panier de la session si il existe,  sinon on le cree ([])
+            // on recupeère l'id du produit
+            $id = $product->getId();
+            if (empty($cart[$id]))
+            {   // on ajoute le produit dans le panier
+                $cart[$id] = [
+                    'id'       =>   $id,
+                    'name'     =>   $product->getName(),
+                    'price'    =>   $product->getPrice(),
+                    'photo'    =>   $product->getPicture(),
+                ];
+                $message = 'Panier : Le produit a été ajouté';
+            }
+            else        // le produit est deja dans le panier
+                $message = 'Panier : La quantité du produit a été modifiée';
+
+            // mise a jour/affectation de la quantité
+            $cart[$id]['quantity'] = $quantity;
+            
+            // on met à jour le sous total pour le produit
+            $cart[$id]['total'] = $cart[$id]['price']*$cart[$id]['quantity'];
+
+            // on met à jour le panier dans la session
+            $this->saveCart($cart);
+
+            return [
+                'statut' => 'success',
+                'message' => $message,
+                'cart' => $cart
+            ];
+        }
+        catch (\Throwable $e) 
+        {
+            return [
+                'statut' => 'danger',
+                'message' => 'Panier : Un problème est survenu lors de l\'ajout/modification du produit',
+                'cart' => $cart,
+            ];
+        }
+    }
     public function removeQuantity(?Product $product): array
     {
         try

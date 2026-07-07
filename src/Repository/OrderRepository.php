@@ -32,11 +32,10 @@ class OrderRepository extends ServiceEntityRepository
         $query = $qb->getQuery()->setLockMode(LockMode::PESSIMISTIC_WRITE);
         $result = $query->getOneOrNullResult();
 
-
         if ($result === null)                     // premiere facture avec ce motif
             return null;
         else 
-             return $result['reference'];       // il y a deja eu des factures
+             return $result->getReference();       // il y a deja eu des factures
             
     }
 

@@ -37,13 +37,13 @@ class Product
     #[Assert\NotBlank]
     #[Assert\NotNull()]
     #[Groups('getProduct')]
-    private ?string $shortdesc = null;
+    private ?string $shortDescription = null;
 
     #[ORM\Column(length: 1500)]
     #[Assert\NotBlank]
     #[Assert\NotNull()]
     #[Groups('getProduct')]
-    private ?string $description = null;
+    private ?string $fullDescription = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
@@ -101,34 +101,34 @@ class Product
         return $this;
     }
 
-    public function getShortdesc(): ?string
+    public function getShortDescription(): ?string
     {
-        return $this->shortdesc;
+        return $this->shortDescription;
     }
 
-    public function setShortdesc(string $shortdesc): static
+    public function setShortDescription(string $shortDescription): static
     {
-        if (empty($shortdesc))
+        if (empty($shortDescription))
         {
            throw new \InvalidArgumentException("La description courte ne doit pas etre vide.");    
         }
-        $this->shortdesc = $shortdesc;
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getFullDescription(): ?string
     {
-        return $this->description;
+        return $this->fullDescription;
     }
 
-    public function setDescription(string $description): static
+    public function setFullDescription(string $fullDescription): static
     {
-        if (empty($description))
+        if (empty($fullDescription))
         {
            throw new  \InvalidArgumentException("La description ne doit pas etre vide.");    
         }        
-        $this->description = $description;
+        $this->fullDescription = $fullDescription;
 
         return $this;
     }
@@ -142,7 +142,7 @@ class Product
     {
         if (empty($picture) || $picture ===null)
         {
-           throw new \InvalidArgumentException("Le chemin de la photo ne doit pas etre vide ou null.");    
+           throw new \InvalidArgumentException("Le chemin de l'image ne doit pas etre vide ou null.");    
         }
         $this->picture = $picture;
 
