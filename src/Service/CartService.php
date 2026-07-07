@@ -12,6 +12,58 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
+/******************************************* 
+    addQuantity(?Product $product): array
+        Incrémente de 1 la quantité d'un produit spécifique dans le panier. 
+        Si le produit n'est pas présent, il est initialisé avec une quantité de 1. 
+        Calcule automatiquement le sous-total "produit" du panier.
+        Cette methode est utilisée pour traiter la modification du panier depuis la page panier
+		Traite les éventuelles erreurs : Produit inexistant dans la base
+		Sauvegarde à la fin du panier dans la session
+
+    addQuantityFromProduct(?Product $product, int $quantity = 0): array
+        Cette methode est utilisée pour traiter la modification du panier depuis la page d'un produit.
+        Assigne la valeur passée en paramètre ($quantity) à la quantité de ce produit dans le panier.
+		Calcule automatiquement le sous-total "produit" du panier.
+		Traite les éventuelles erreurs : Produit inexistant dans la base
+		Sauvegarde à la fin du panier dans la session
+
+    removeQuantity(?Product $product): array
+        Décrémente de 1 la quantité d'un produit spécifique dans le panier.  
+        Si la quantité actuelle est égale à 1, le produit est supprimé du panier.
+        Recalcule le sous-total si le produit reste dans le panier.
+		Traite les éventuelles erreurs : Produit inexistant dans la base/panier, Panier vide
+		Sauvegarde à la fin du panier dans la session
+
+    deleteProduct(?Product $product): array
+        Supprime définitivement un produit du panier, peu importe sa quantité restante.
+		Traite les éventuelles erreurs : Produit inexistant dans la base/panier, Panier vide
+		Sauvegarde à la fin du panier dans la session		
+		
+	emptyCart(): array
+		Supprime le panier de la session de l'utilisateur.
+		Traite les éventuelles erreurs
+
+	getTotalCart(): int
+		Calcule le montant total du panier.
+
+	saveCart(array $cart): void
+		Sauvegarde le panier en session avec le tableau mis à jour.
+		
+	calculateNewReference(string $motif): string
+		Génère de manière incrémentale la référence de la commande.
+	
+	generateOrder(): array
+		Cette méthode transforme le panier en une commande sauvegardée dans la base de données.
+		Fonctionnement :
+			Sécurisation : Démarre une transaction de base de données (beginTransaction) pour éviter les conflits et écritures concurrentes.
+			Génération de la Référence : Appelle calculateNewReference() pour créer un numéro unique.
+			Vérification validation et conversion du panier pour créer les lignes de commandes
+			Calcul & Attribution : Calcule le montant total final, lie avec l'utilisateur connecté et sauvegarde la commande, les lignes de commandes dans la base de donéées.
+			Nettoyage : Vide le panier en cas de succès et valide la transaction (commit).
+			Sécurité d'Échec : En cas d'exception (\Throwable), un rollback() est exécuté pour annuler toutes les insertions en BDD.
+
+*******************************************/
 class CartService
 {
     private ?SessionInterface $session = null;
@@ -127,8 +179,7 @@ class CartService
             ];
         }
     }
-    public function removeQuantity(?Product $product): array
-    {
+    public function removeQuantity(?Product $product): array    {
         try
         {
             // on recupere le panier de la session 

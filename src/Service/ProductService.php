@@ -3,7 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Product;
-
+/******************************************* 
+    cleanDescription(?Product $product) : string
+        Nettoye la description d'un produit, pour récupère proprement chaque éventuel paragraphe
+        Puis insère chaque paragraphe des balises <p></p>
+*******************************************/
 
 class ProductService
 {
