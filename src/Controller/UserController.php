@@ -87,7 +87,7 @@ final class UserController extends AbstractController
  
     #[IsGranted('ROLE_USER')]
     #[Route(path: '/api/', name: 'api', methods: ['POST'])] 
-    public function toogleApiAccess(Request $request, UserService $userService): Response
+    public function toggleApiAccess(Request $request, UserService $userService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -98,7 +98,7 @@ final class UserController extends AbstractController
         }
         else
         {
-            $result = $userService->toogleApiAccess($user);
+            $result = $userService->toggleApiAccess($user);
             $this->addFlash($result['statut'],$result['message']);
         }
 
