@@ -16,7 +16,7 @@ security:
             pattern: ^/api/login
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /api/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             user_checker: App\Security\ApiUserChecker
@@ -39,6 +39,7 @@ security:
                 enable_csrf: true
             logout:
                 path: app_account_logout
+                target: app_home
             user_checker: App\Security\UserChecker
             
                 # where to redirect after logout
