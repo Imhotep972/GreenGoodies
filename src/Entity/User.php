@@ -76,6 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->archive = false;
         $this->apiEnabled = false;
         $this->createdAt = new DateTimeImmutable();
+        $this->setRoles(['ROLE_USER']);
     }
 
     public function getId(): ?int
