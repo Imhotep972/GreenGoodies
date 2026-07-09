@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,7 +24,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/inscription', name: 'register')]
-    public function register(Request $request, UserService $userService): Response
+    public function register(Request $request, UserService $userService, Security $security): Response
     {
         // nouvel utilisateur
         $user = new User();
@@ -39,6 +40,8 @@ final class UserController extends AbstractController
         {
             $result = $userService->createAccount($user);
             $this->addFlash($result['statut'],$result['message']);
+
+            $security->login($user);
 
             return $this->redirectToRoute('app_home');
         }

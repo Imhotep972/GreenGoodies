@@ -120,7 +120,7 @@ class UserService
 
             return [
                 'statut' => 'success',
-                'message' => 'Vous etes inscrit sur le site, veuillez maintenant vous connecter',
+                'message' => 'Vous etes inscrit sur le site',
                 'user' => $user,
             ];
 
