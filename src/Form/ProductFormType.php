@@ -43,8 +43,8 @@ class ProductFormType extends AbstractType
     {
         $resolver->setDefaults([
             'submitLabel' => 'Ajouter au panier',           // label par défaut du bouton submit
-            'initialQuantity' => 0,       // quantité initiale 0
-            'product_id' => null,       // quantité initiale 0
+            'initialQuantity' => 1,                         // quantité initiale 0
+            'product_id' => null,                           // product null par defaut
         ]);
     }
 }
