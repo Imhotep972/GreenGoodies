@@ -111,7 +111,7 @@ Idéal pour une routine plus responsable, ce savon solide réduit les déchets t
         $manager->flush();
 
         $user = new User();
-        $user->setCreatedAt(new \DateTimeImmutable('2026-05-18 12:00:00'));
+        $user->setCreatedAt(new \DateTimeImmutable('2026-05-08 12:00:00'));
         $user->setEmail('master.imhotep@gmail.com');
         $user->setPrenom('Master');
         $user->setNom('Imhotep');
@@ -135,7 +135,7 @@ Idéal pour une routine plus responsable, ce savon solide réduit les déchets t
         $user->setPrenom('Jean');
         $user->setNom('Cérien');
         $user->setArchive(true);
-        $user->setDeletedAt(new \DateTimeImmutable('2026-06-18 12:00:00'));
+        $user->setDeletedAt(new \DateTimeImmutable('2026-07-07 12:00:00'));
         $user->setPassword('12345678');
         $user->setPassword($this->hasher->hashPassword($user, $user->getPassword()));
         $manager->persist($user);
