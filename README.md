@@ -30,6 +30,7 @@
 # symfony console doctrine:fixtures:load (chargment d'un jeu de donnees, ici produits et utilisateur avec differentes configurations)
 #
 # Utilisation de Asset Mapper pour la gestion des CSS / JS / Images
+##  - Regeneration des fichiers dans public/asset par symfony console asset-map:compile
 #
 # Rajout des composants suivants (en plus de l'installation par defaut, avec --webapp): 
 ##  - Asset Mapper
