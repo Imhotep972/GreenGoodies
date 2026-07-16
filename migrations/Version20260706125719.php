@@ -22,6 +22,8 @@ final class Version20260706125719 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `users` ADD api_enabled TINYINT NOT NULL, DROP api, CHANGE archive archive TINYINT NOT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_REFERENCE ON `orders` (reference)');
+        $this->addSql('ALTER TABLE orderlines CHANGE price price INT NOT NULL');
+        $this->addSql('ALTER TABLE orders CHANGE amount amount INT NOT NULL');
         $this->addSql('ALTER TABLE `orders` ADD archive TINYINT NOT NULL');
         $this->addSql('ALTER TABLE `products` CHANGE shortdesc short_description VARCHAR(70) NOT NULL, CHANGE description full_description VARCHAR(1500) NOT NULL');
         $this->addSql('ALTER TABLE `products` CHANGE photo picture VARCHAR(255) NOT NULL');
@@ -32,6 +34,8 @@ final class Version20260706125719 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `products` CHANGE picture photo VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE `products` CHANGE short_description shortdesc VARCHAR(70) NOT NULL, CHANGE full_description description VARCHAR(1500) NOT NULL');
+        $this->addSql('ALTER TABLE `orderlines` CHANGE price price DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE orders CHANGE amount amount DOUBLE PRECISION NOT NULL');
         $this->addSql('ALTER TABLE `orders` DROP archive');
         $this->addSql('DROP INDEX UNIQ_IDENTIFIER_REFERENCE ON `orders`');
         $this->addSql('ALTER TABLE `users` ADD api INT DEFAULT NULL, DROP api_enabled, CHANGE archive archive INT DEFAULT NULL');
